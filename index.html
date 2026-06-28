@@ -1,11 +1,322 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alexis Rey — UI / UX Designer</title>
+  <meta name="description" content="Portfolio d'Alexis Rey, UI/UX Designer. Conception d'interfaces sur mesure adaptées à votre identité de marque.">
+
+  <!-- Fonts : chargement optimisé -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@300;400;500;600&family=Oswald:wght@400;700&family=Poppins:wght@400;600&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>On vit dans une saucisse</h1>
+
+  <!-- ═══════════════════════════════
+       NAVIGATION
+  ═══════════════════════════════ -->
+  <header class="nav" role="banner">
+    <div class="nav__inner">
+      <a href="#hero" class="nav__logo" aria-label="Alexis Rey — Retour en haut">Alexis Rey</a>
+
+      <nav aria-label="Navigation principale">
+        <ul class="nav__links">
+          <li><a href="#realisations" class="nav__link">Mes réalisations</a></li>
+          <li><a href="#contact"      class="nav__link">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav__actions">
+        <label class="anim-toggle" title="Activer / désactiver les animations">
+          <input type="checkbox" id="animToggle" aria-label="Animations">
+          <span class="anim-toggle__track"><span class="anim-toggle__thumb"></span></span>
+          <span class="anim-toggle__label">Animations</span>
+        </label>
+        <button class="lang-btn" aria-label="Langue">Français <span aria-hidden="true">▾</span></button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ═══════════════════════════════
+         HERO
+    ═══════════════════════════════ -->
+    <section class="hero" id="hero" aria-label="Présentation">
+      <div class="hero__inner">
+
+        <!-- Colonne gauche -->
+        <div class="hero__left">
+          <div class="hero__top-row">
+
+            <!-- Photo -->
+            <div class="hero__photo-block">
+              <div class="hero__avatar">
+                <!-- Remplacer par votre photo : assets/photo-alexis.jpg -->
+                <img src="assets/photo-alexis.jpg" alt="Photo d'Alexis Rey"
+                     width="150" height="150"
+                     onerror="this.style.opacity='0'">
+              </div>
+              <span class="hero__status">
+                <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 2l10 10M12 2v10H2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Disponible pour designer !
+              </span>
+            </div>
+
+            <!-- Titre -->
+            <h1 class="hero__name" aria-label="Rey Alexis, UI / UX Designer">
+              <span class="hero__name-rey"   aria-hidden="true">Rey</span>
+              <span class="hero__name-alexis" aria-hidden="true">Alexis</span>
+              <span class="hero__name-role">UI / UX Designer</span>
+            </h1>
+
+          </div><!-- /.hero__top-row -->
+
+          <p class="hero__tagline">
+            Je m'accompagne de votre identité de marque et je conçois une interface sur mesure et à votre image.
+          </p>
+
+          <div class="hero__actions">
+            <a href="#realisations" class="btn btn--filled">Voir mes réalisations</a>
+            <a href="#contact"      class="btn btn--outline">Me contacter</a>
+          </div>
+        </div><!-- /.hero__left -->
+
+        <!-- Colonne droite : mockup -->
+        <div class="hero__right" aria-hidden="true">
+          <div class="hero__mockup">
+            <!-- Remplacer par : assets/mockup-hero.png -->
+            <img src="assets/mockup-hero.png" alt=""
+                 width="580" height="380" loading="eager"
+                 onerror="this.style.opacity='0'">
+          </div>
+        </div>
+
+      </div><!-- /.hero__inner -->
+
+      <!-- Indicateur de défilement -->
+      <div class="hero__scroll" aria-hidden="true">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+          <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════
+         RÉALISATIONS
+    ═══════════════════════════════ -->
+    <section class="projects" id="realisations" aria-label="Mes réalisations">
+
+      <!-- ───── EKE-DEKA ───── -->
+      <article class="card reveal" style="--card-accent:#E07B39" aria-label="Projet EKE-DEKA">
+
+        <div class="card__top">
+          <div class="card__intro">
+            <h2 class="card__title">
+              <span class="card__dot" aria-hidden="true"></span>
+              EKE-DEKA
+            </h2>
+            <p class="card__desc">
+              Créée en 2019 par de jeunes togolais, l'association togolaise Eke-Deka a pour objectif
+              de participer à l'amélioration du cadre de vie des populations du pays, notamment par la
+              promotion du tourisme durable et de l'agroécologie. Afin d'appuyer l'association togolaise
+              dans la poursuite de ces missions, l'association Eke-Deka France a été créée en 2020.
+              J'ai pu rencontrer les membres de cette association et bénévolement proposer une refonte
+              de leur site Internet.
+            </p>
+          </div>
+
+          <dl class="card__meta">
+            <div class="card__meta-group">
+              <dt>Role</dt>
+              <dd>Identité graphique</dd>
+              <dd>UX Design</dd>
+              <dd>UI Design</dd>
+            </div>
+            <div class="card__meta-group">
+              <dt>Sujet</dt>
+              <dd>Association Eke-Deka</dd>
+            </div>
+            <div class="card__meta-group">
+              <dt>Date</dt>
+              <dd>28 mars 2025</dd>
+            </div>
+          </dl>
+
+          <div class="card__timeline" aria-hidden="true">
+            <span class="card__timeline-dot"></span>
+            <span class="card__timeline-line"></span>
+          </div>
+        </div><!-- /.card__top -->
+
+        <div class="card__mockup">
+          <!-- Remplacer par : assets/mockup-eke-deka.png -->
+          <img src="assets/mockup-eke-deka.png" alt="Aperçu du site EKE-DEKA"
+               loading="lazy" width="1100" height="580"
+               onerror="this.style.opacity='0'">
+        </div>
+
+        <div class="card__footer">
+          <div class="card__typo">
+            <span class="card__section-label">Typographie</span>
+            <p class="card__font card__font--primary" style="font-family:'Oswald',sans-serif">
+              Oswald<br><span style="font-weight:400">Aa123</span>
+            </p>
+            <p class="card__font card__font--secondary" style="font-family:'Poppins',sans-serif">
+              Poppins<br>Aa123
+            </p>
+          </div>
+          <div class="card__palette">
+            <span class="card__section-label">Couleurs</span>
+            <div class="card__swatches">
+              <span class="swatch" style="background:#5C3A1E" title="Brun"></span>
+              <span class="swatch" style="background:#E07B39" title="Orange"></span>
+              <span class="swatch" style="background:#AFAFAF" title="Gris"></span>
+              <span class="swatch" style="background:#F0ECE4;border:1px solid #ddd5c8" title="Crème"></span>
+            </div>
+          </div>
+        </div>
+
+      </article><!-- /EKE-DEKA -->
+
+
+      <!-- ───── ELMY ───── -->
+      <article class="card reveal" style="--card-accent:#2EBD8A" aria-label="Projet ELMY">
+
+        <div class="card__top">
+          <div class="card__intro">
+            <h2 class="card__title">
+              <span class="card__dot" aria-hidden="true"></span>
+              ELMY
+            </h2>
+            <p class="card__desc">
+              elmy est un fournisseur et producteur d'énergie verte basé principalement sur Lyon.
+              Voici la refonte que j'ai eu l'occasion de faire sur l'espace client B2B, suite notamment
+              à une évolution de l'identité graphique.
+            </p>
+          </div>
+
+          <dl class="card__meta">
+            <div class="card__meta-group">
+              <dt>Role</dt>
+              <dd>UX Design</dd>
+              <dd>UI Design</dd>
+            </div>
+            <div class="card__meta-group">
+              <dt>Sujet</dt>
+              <dd>Refonte espace B2B</dd>
+            </div>
+            <div class="card__meta-group">
+              <dt>Date</dt>
+              <dd>28 mars 2025</dd>
+            </div>
+          </dl>
+
+          <div class="card__timeline" aria-hidden="true">
+            <span class="card__timeline-dot"></span>
+            <span class="card__timeline-line"></span>
+          </div>
+        </div>
+
+        <div class="card__mockup">
+          <!-- Remplacer par : assets/mockup-elmy.png -->
+          <img src="assets/mockup-elmy.png" alt="Aperçu de l'interface ELMY"
+               loading="lazy" width="1100" height="580"
+               onerror="this.style.opacity='0'">
+        </div>
+
+        <div class="card__footer">
+          <div class="card__typo">
+            <span class="card__section-label">Typographie</span>
+            <p class="card__font card__font--primary" style="font-family:'Space Grotesk',sans-serif">
+              Strawford<br><span style="font-weight:400">Aa123</span>
+            </p>
+            <p class="card__font card__font--secondary" style="font-family:'Space Grotesk',sans-serif">
+              Strawford<br>Aa123
+            </p>
+          </div>
+          <div class="card__palette">
+            <span class="card__section-label">Couleurs</span>
+            <div class="card__swatches">
+              <span class="swatch" style="background:#0D4F3C" title="Vert très foncé"></span>
+              <span class="swatch" style="background:#1A7A5E" title="Vert foncé"></span>
+              <span class="swatch" style="background:#2EBD8A" title="Vert moyen"></span>
+              <span class="swatch" style="background:#C5EDD8;border:1px solid #aee0cb" title="Vert clair"></span>
+            </div>
+          </div>
+        </div>
+
+      </article><!-- /ELMY -->
+
+    </section><!-- /projects -->
+
+
+    <!-- ═══════════════════════════════
+         AUTRES PROJETS
+    ═══════════════════════════════ -->
+    <section class="other reveal" id="autres-projets">
+      <div class="other__inner">
+        <div class="other__header">
+          <h2 class="other__title">Autres projets</h2>
+          <span class="other__arrow" aria-hidden="true">▶</span>
+        </div>
+        <p class="other__text">
+          Non, on ne vit pas dans une saucisse — mais c'est une image amusante pour parler de notre
+          perception limitée du monde. En réalité, on vit dans un univers immense, en expansion,
+          structuré par des lois physiques complexes comme la gravité et la relativité. L'idée de la
+          "saucisse" pourrait venir d'une métaphore.
+        </p>
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════
+         CONTACT
+    ═══════════════════════════════ -->
+    <section class="contact reveal" id="contact" aria-label="Me contacter">
+      <div class="contact__inner">
+        <h2 class="contact__title">Contactez moi !</h2>
+        <p class="contact__sub">Un projet ? Besoin d'un designer pour votre interface ?</p>
+
+        <form class="contact__form" id="contactForm" novalidate>
+          <div class="field">
+            <label class="field__label" for="fname">Nom et Prénom</label>
+            <input class="field__input" type="text" id="fname" name="name"
+                   autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label class="field__label" for="femail">Adresse email</label>
+            <input class="field__input" type="email" id="femail" name="email"
+                   autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label class="field__label" for="fmessage">Objet de la demande</label>
+            <textarea class="field__input field__textarea" id="fmessage"
+                      name="message" rows="5" required></textarea>
+          </div>
+          <button type="submit" class="btn btn--filled btn--send">Envoyer</button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- ═══════════════════════════════
+       FOOTER
+  ═══════════════════════════════ -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer__inner">
+      <a href="tel:+33635454725"          class="footer__link">06 35 45 47 25</a>
+      <a href="mailto:alexis.rey705@gmail.com" class="footer__link">alexis.rey705@gmail.com</a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
