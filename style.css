@@ -325,7 +325,7 @@ button { font-family: var(--f-body); cursor: pointer; }
   grid-template-columns: auto 1fr;
   grid-template-rows: 1fr auto;
   gap: 2rem;
-  align-items: center;
+  align-items: start;
 }
 
 .hero__photo-wrap { grid-column: 1; grid-row: 1; }
