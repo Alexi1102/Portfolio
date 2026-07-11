@@ -330,7 +330,7 @@ button { font-family: var(--f-body); cursor: pointer; }
 
 .hero__hero-row {
   display: flex;
-  align-items: flex-start;
+  align-items: flex-end;
   gap: 2rem;
   width: 100%;
 }
@@ -340,8 +340,9 @@ button { font-family: var(--f-body); cursor: pointer; }
 .hero__hero-title {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-self: start;
+  justify-content: flex-end;
+  align-items: flex-end;
+  align-self: flex-end;
   min-width: 0;
 }
 
@@ -1238,7 +1239,7 @@ button { font-family: var(--f-body); cursor: pointer; }
 
   /* 50 % gauche : photo */
   .hero__photo-wrap  { flex: 1; min-width: 0; }
-  .hero__hero-row { display: flex; flex-direction: row; align-items: center; gap: 1rem; }
+  .hero__hero-row { display: flex; flex-direction: row; align-items: flex-end; gap: 1rem; }
   .hero__photo-wrap { flex: 0 0 auto; width: auto; }
   .hero__hero-title { flex: 1; min-width: 0; }
   .hero__photo-frame { width: 145px; }
