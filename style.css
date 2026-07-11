@@ -328,11 +328,13 @@ button { font-family: var(--f-body); cursor: pointer; }
   align-items: start;
 }
 
-.hero__photo-wrap { grid-column: 1; grid-row: 1; }
+.hero__photo-wrap { grid-column: 1; grid-row: 1 / span 2; justify-self: start; align-self: start; }
 
 .hero__text {
   grid-column: 2;
   grid-row: 1;
+  align-self: start;
+  justify-self: start;
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -341,6 +343,7 @@ button { font-family: var(--f-body); cursor: pointer; }
 .hero__actions {
   grid-column: 2;
   grid-row: 2;
+  justify-self: start;
 }
 
 /* ── Photo + blob + badge ── */
