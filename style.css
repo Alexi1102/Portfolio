@@ -1208,15 +1208,15 @@ button { font-family: var(--f-body); cursor: pointer; }
   .hero         { padding: 2rem var(--px) 2.5rem; }
   .hero__inner  { gap: 2rem; }
   .hero__left {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
     align-items: flex-start;
     gap: 1rem;
   }
   .hero__photo-wrap { grid-column: 1; grid-row: 1; }
-  .hero__text       { grid-column: 2; grid-row: 1; }
-  .hero__actions    { grid-column: 1 / -1; grid-row: 2; }
-  .hero__right        { display: none; }
+  .hero__text       { grid-column: 1; grid-row: 2; width: 100%; }
+  .hero__actions    { grid-column: 1; grid-row: 3; }
+  .hero__right      { display: none; }
 
   /* 50 % gauche : photo */
   .hero__photo-wrap  { flex: 1; min-width: 0; }
@@ -1246,7 +1246,7 @@ button { font-family: var(--f-body); cursor: pointer; }
   .hero__rey-img     { height: 1.4rem; }
   .hero__letter      { height: 1.4rem; }
   .hero__role        { font-size: 1rem; }
-  .hero__tagline  { max-width: 100%; }
+  .hero__tagline     { max-width: 100%; width: 100%; }
 
   /* Boutons pleine largeur sous le 50/50 */
   .hero__actions  { gap: .5rem; }
