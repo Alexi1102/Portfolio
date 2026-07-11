@@ -328,11 +328,26 @@ button { font-family: var(--f-body); cursor: pointer; }
   align-items: start;
 }
 
+.hero__hero-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  width: 100%;
+}
+
 .hero__photo-wrap { grid-column: 1; grid-row: 1 / span 2; justify-self: start; align-self: start; }
+
+.hero__hero-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-self: start;
+  min-width: 0;
+}
 
 .hero__text {
   grid-column: 2;
-  grid-row: 1;
+  grid-row: 2;
   align-self: start;
   justify-self: start;
   display: flex;
@@ -342,7 +357,7 @@ button { font-family: var(--f-body); cursor: pointer; }
 
 .hero__actions {
   grid-column: 2;
-  grid-row: 2;
+  grid-row: 3;
   justify-self: start;
 }
 
@@ -1223,7 +1238,10 @@ button { font-family: var(--f-body); cursor: pointer; }
 
   /* 50 % gauche : photo */
   .hero__photo-wrap  { flex: 1; min-width: 0; }
-  .hero__photo-frame { width: 100%; }
+  .hero__hero-row { display: flex; flex-direction: row; align-items: center; gap: 1rem; }
+  .hero__photo-wrap { flex: 0 0 auto; width: auto; }
+  .hero__hero-title { flex: 1; min-width: 0; }
+  .hero__photo-frame { width: 145px; }
   .hero__photo {
     height: 145px;
     border-radius: 12px 12px 28px 28px;
