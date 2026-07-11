@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alexis Rey — UI / UX Designer</title>
+  <meta name="description" content="Portfolio d'Alexis Rey, UI/UX Designer. Conception d'interfaces sur mesure adaptées à votre identité de marque.">
+
+  <!-- Fonts : chargement optimisé -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@300;400;500;600&family=Oswald:wght@400;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page-bg" aria-hidden="true">
+    <span class="blob blob--1"></span>
+    <span class="blob blob--2"></span>
+    <span class="blob blob--5"></span>
+    <span class="blob blob--6"></span>
+    <!-- Mood blobs : s'activent selon la card visible -->
+    <span class="mood mood--eke-deka mood--a"></span>
+    <span class="mood mood--eke-deka mood--b"></span>
+    <span class="mood mood--elmy mood--a"></span>
+    <span class="mood mood--elmy mood--b"></span>
+    <span class="mood mood--adn mood--a"></span>
+    <span class="mood mood--adn mood--b"></span>
+    <span class="mood mood--projet-4 mood--a"></span>
+    <span class="mood mood--projet-4 mood--b"></span>
+  </div>
+
+  <!-- ═══════════════════════════════
+       NAVIGATION
+  ═══════════════════════════════ -->
+  <header class="nav" role="banner">
+    <div class="nav__inner">
+      <a href="#hero" class="nav__logo" aria-label="Alexis Rey — Retour en haut">Alexis Rey</a>
+
+      <nav aria-label="Navigation principale">
+        <ul class="nav__links">
+          <li><a href="#realisations" class="nav__link" data-i18n="nav.realisations">Mes réalisations</a></li>
+          <li><a href="#contact"      class="nav__link">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav__actions">
+        <label class="anim-toggle" title="Activer / désactiver les animations">
+          <input type="checkbox" id="animToggle" aria-label="Animations">
+          <span class="anim-toggle__track"><span class="anim-toggle__thumb"></span></span>
+          <span class="anim-toggle__label">Animations</span>
+        </label>
+        <div class="lang-dropdown">
+          <button class="lang-btn" aria-label="Choisir la langue" aria-expanded="false">
+            <span class="lang-btn__text" data-i18n="lang.current">Français</span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="lang-btn__icon" aria-hidden="true">
+              <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+            </svg>
+          </button>
+          <div class="lang-dropdown__menu" role="listbox">
+            <button class="lang-btn lang-btn--option" role="option" data-i18n="lang.option">Anglais</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ═══════════════════════════════
+         HERO
+    ═══════════════════════════════ -->
+    <section class="hero" id="hero" aria-label="Présentation">
+      <div class="hero__inner">
+
+        <!-- ① Gauche : photo + texte -->
+        <div class="hero__left">
+
+        <div class="hero__photo-wrap">
+          <div class="hero__photo-frame">
+            <div class="hero__photo-blob"></div>
+            <img src="images/alexis_rey.png" alt="Alexis Rey"
+                 class="hero__photo" width="190" height="255">
+            <p class="hero__badge">
+              <span class="hero__badge-dot" aria-hidden="true"></span>
+              <span data-i18n="hero.badge">Disponible pour designer !</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- ② Texte : titre + tagline + CTA -->
+        <div class="hero__text">
+
+          <h1 class="hero__title-block" aria-label="Rey Alexis, UI / UX Designer">
+            <!-- REY + pointillés -->
+            <span class="hero__rey-row">
+              <img src="images/REY.svg" alt="REY" class="hero__rey-img">
+              <span class="hero__dots-wrap">
+                <img src="images/pointillés.svg" class="hero__dots" aria-hidden="true" alt="">
+              </span>
+              <img src="images/Figma Cursor.svg" alt="" class="hero__cursor" aria-hidden="true">
+            </span>
+            <!-- Lettres ALEXIS -->
+            <span class="hero__alexis-row">
+              <img src="images/ALEXIS-1.svg"   alt="A" class="hero__letter">
+              <img src="images/ALEXIS-2.svg" alt="L" class="hero__letter">
+              <img src="images/ALEXIS-3.svg" alt="E" class="hero__letter">
+              <img src="images/ALEXIS-4.svg" alt="X" class="hero__letter">
+              <img src="images/ALEXIS-5.svg" alt="I" class="hero__letter">
+              <img src="images/ALEXIS-6.svg" alt="S" class="hero__letter">
+            </span>
+            <!-- Rôle -->
+            <span class="hero__role">UI / UX DESIGNER</span>
+          </h1>
+
+          <p class="hero__tagline" data-i18n="hero.tagline">
+            Je m'imprègne de votre identité de marque et je conçois une interface
+            sur mesure et à votre image.
+          </p>
+
+        </div><!-- /.hero__text -->
+
+          <div class="hero__actions">
+            <a href="#realisations" class="btn btn--filled" data-i18n="hero.cta1">Voir mes réalisations</a>
+            <a href="#contact"      class="btn btn--outline" data-i18n="hero.cta2">Me contacter</a>
+          </div>
+        </div><!-- /.hero__left -->
+
+        <!-- ③ Mockups -->
+        <div class="hero__right" aria-hidden="true">
+          <div class="hero__mockups">
+            <div class="hero__rect hero__rect--1"><img src="images/eke-deka-apercu-suite.png" alt=""></div>
+            <div class="hero__rect hero__rect--2"><img src="images/adn-apercu.png" alt=""></div>
+            <div class="hero__rect hero__rect--3"><img src="images/adn-apercu-suite.png" alt=""></div>
+            <div class="hero__rect hero__rect--4"><img src="images/eke-deka-apercu.png" alt=""></div>
+            <div class="hero__rect hero__rect--5"><img src="images/elmy-apercu.png" alt=""></div>
+          </div>
+        </div>
+
+      </div><!-- /.hero__inner -->
+
+      <!-- Chevron de défilement -->
+      <a href="#eke-deka" class="hero__scroll" aria-label="Voir les projets">
+        <svg width="36" height="22" viewBox="0 0 36 22" fill="none">
+          <path d="M2 2L18 20L34 2" stroke="#1a1a1a" stroke-width="3.5"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </section>
+
+
+    <!-- ═══════════════════════════════
+         RÉALISATIONS
+    ═══════════════════════════════ -->
+    <section class="projects" id="realisations" aria-label="Mes réalisations">
+      <div class="projects__inner">
+      <div class="projects__cards">
+
+      <!-- ───── EKE-DEKA ───── -->
+      <article class="card reveal" id="eke-deka" style="--card-accent:#E07B39" aria-label="Projet EKE-DEKA">
+
+        <div class="card__top">
+          <div class="card__intro">
+            <h2 class="card__title">
+              <span class="card__dot" aria-hidden="true"></span>
+              EKE-DEKA
+            </h2>
+            <p class="card__desc" data-i18n="eke.desc">
+              Créée en 2019 par de jeunes togolais, l'association togolaise Eke-Deka a pour objectif
+              de participer à l'amélioration du cadre de vie des populations du pays, notamment par la
+              promotion du tourisme durable et de l'agroécologie. Afin d'appuyer l'association togolaise
+              dans la poursuite de ces missions, l'association Eke-Deka France a été créée en 2020.
+              J'ai pu rencontrer les membres de cette association et bénévolement proposer une refonte
+              de leur site Internet.
+            </p>
+          </div>
+
+          <dl class="card__meta">
+            <div class="card__meta-group">
+              <dt>Role</dt>
+              <dd data-i18n="eke.role1">Identité graphique</dd>
+              <dd>UX Design</dd>
+              <dd>UI Design</dd>
+            </div>
+            <div class="card__meta-group">
+              <dt data-i18n="dt.subject">Sujet</dt>
+              <dd data-i18n="eke.subject">Association Eke-Deka</dd>
+            </div>
+            <div class="card__meta-group">
+              <dt>Date</dt>
+              <dd data-i18n="eke.date">28 mars 2025</dd>
+            </div>
+          </dl>
+
+        </div><!-- /.card__top -->
+
+        <div class="card__gallery" data-card="eke-deka">
+          <div class="gallery__main"><img src="images/eke_deka_banner.png" alt="EKE-DEKA banner" class="gallery__img"></div>
+          <div class="gallery__grid">
+            <div class="gallery__thumb"><img src="images/eke_deka_faces.png" alt="" class="gallery__img"></div>
+            <div class="gallery__thumb"><img src="images/eke_deka_history.png" alt="" class="gallery__img"></div>
+            <div class="gallery__thumb"><img src="images/eke_deka_donations.png" alt="" class="gallery__img"></div>
+            <div class="gallery__thumb gallery__thumb--more" data-more="4">
+              <img src="images/eke_deka_form.png" alt="" class="gallery__img">
+              <div class="gallery__more-overlay"><span>+4</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card__footer">
+          <div class="card__typo">
+            <span class="card__section-label" data-i18n="card.typo">Typographie</span>
+            <p class="card__font card__font--primary" style="font-family:'Oswald',sans-serif">
+              Oswald<br><span style="font-weight:400">Aa123</span>
+            </p>
+            <p class="card__font card__font--secondary" style="font-family:'Poppins',sans-serif">
+              Poppins<br>Aa123
+            </p>
+          </div>
+          <div class="card__palette">
+            <span class="card__section-label" data-i18n="card.colors">Couleurs</span>
+            <div class="card__swatches">
+              <span class="swatch" style="background:#5C3A1E" data-hex="#5C3A1E"></span>
+              <span class="swatch" style="background:#E07B39" data-hex="#E07B39"></span>
+              <span class="swatch" style="background:#AFAFAF" data-hex="#AFAFAF"></span>
+              <span class="swatch" style="background:#F0ECE4;border:1px solid #ddd5c8" data-hex="#F0ECE4"></span>
+            </div>
+          </div>
+        </div>
+
+      </article><!-- /EKE-DEKA -->
+
+
+      <!-- ───── ELMY ───── -->
+      <article class="card reveal" id="elmy" style="--card-accent:#2EBD8A" aria-label="Projet ELMY">
+
+        <div class="card__top">
+          <div class="card__intro">
+            <h2 class="card__title">
+              <span class="card__dot" aria-hidden="true"></span>
+              ELMY
+            </h2>
+            <p class="card__desc" data-i18n="elmy.desc">
+              elmy est un fournisseur et producteur d'énergie verte basé principalement sur Lyon.
+              Voici la refonte que j'ai eu l'occasion de faire sur l'espace client B2B, suite notamment
+              à une évolution de l'identité graphique.
+            </p>
+          </div>
+
+          <dl class="card__meta">
+            <div class="card__meta-group">
+              <dt>Role</dt>
+              <dd>UX Design</dd>
+              <dd>UI Design</dd>
+            </div>
+            <div class="card__meta-group">
+              <dt data-i18n="dt.subject">Sujet</dt>
+              <dd data-i18n="elmy.subject">Refonte espace B2B</dd>
+            </div>
+            <div class="card__meta-group">
+              <dt>Date</dt>
+              <dd data-i18n="elmy.date">28 mars 2025</dd>
+            </div>
+          </dl>
+
+        </div>
+
+        <div class="card__gallery" data-card="elmy">
+          <div class="gallery__main"><div class="gallery__ph"></div></div>
+          <div class="gallery__grid">
+            <div class="gallery__thumb"><div class="gallery__ph"></div></div>
+            <div class="gallery__thumb"><div class="gallery__ph"></div></div>
+            <div class="gallery__thumb"><div class="gallery__ph"></div></div>
+            <div class="gallery__thumb gallery__thumb--more" data-more="4">
+              <div class="gallery__ph"></div>
+              <div class="gallery__more-overlay"><span>+4</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card__footer">
+          <div class="card__typo">
+            <span class="card__section-label" data-i18n="card.typo">Typographie</span>
+            <p class="card__font card__font--primary" style="font-family:'Space Grotesk',sans-serif">
+              Strawford<br><span style="font-weight:400">Aa123</span>
+            </p>
+            <p class="card__font card__font--secondary" style="font-family:'Space Grotesk',sans-serif">
+              Strawford<br>Aa123
+            </p>
+          </div>
+          <div class="card__palette">
+            <span class="card__section-label" data-i18n="card.colors">Couleurs</span>
+            <div class="card__swatches">
+              <span class="swatch" style="background:#0D4F3C" data-hex="#0D4F3C"></span>
+              <span class="swatch" style="background:#1A7A5E" data-hex="#1A7A5E"></span>
+              <span class="swatch" style="background:#2EBD8A" data-hex="#2EBD8A"></span>
+              <span class="swatch" style="background:#C5EDD8;border:1px solid #aee0cb" data-hex="#C5EDD8"></span>
+            </div>
+          </div>
+        </div>
+
+      </article><!-- /ELMY -->
+
+
+      <!-- ───── ADN ───── -->
+      <article class="card reveal" id="adn" style="--card-accent:#4B6EF5" aria-label="Projet ADN">
+
+        <div class="card__top">
+          <div class="card__intro">
+            <h2 class="card__title">
+              <span class="card__dot" aria-hidden="true"></span>
+              ADN
+            </h2>
+            <p class="card__desc">
+              Description du projet ADN à compléter.
+            </p>
+          </div>
+
+          <dl class="card__meta">
+            <div class="card__meta-group">
+              <dt>Role</dt>
+              <dd>UX Design</dd>
+              <dd>UI Design</dd>
+            </div>
+            <div class="card__meta-group">
+              <dt>Sujet</dt>
+              <dd>À compléter</dd>
+            </div>
+            <div class="card__meta-group">
+              <dt>Date</dt>
+              <dd>2025</dd>
+            </div>
+          </dl>
+
+        </div>
+
+        <div class="card__gallery" data-card="adn">
+          <div class="gallery__main"><div class="gallery__ph"></div></div>
+          <div class="gallery__grid">
+            <div class="gallery__thumb"><div class="gallery__ph"></div></div>
+            <div class="gallery__thumb"><div class="gallery__ph"></div></div>
+            <div class="gallery__thumb"><div class="gallery__ph"></div></div>
+            <div class="gallery__thumb gallery__thumb--more" data-more="4">
+              <div class="gallery__ph"></div>
+              <div class="gallery__more-overlay"><span>+4</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card__footer">
+          <div class="card__typo">
+            <span class="card__section-label">Typographie</span>
+            <p class="card__font card__font--primary" style="font-family:'Poppins',sans-serif">
+              Poppins<br><span style="font-weight:400">Aa123</span>
+            </p>
+            <p class="card__font card__font--secondary" style="font-family:'Poppins',sans-serif">
+              Poppins<br>Aa123
+            </p>
+          </div>
+          <div class="card__palette">
+            <span class="card__section-label">Couleurs</span>
+            <div class="card__swatches">
+              <span class="swatch" style="background:#1A237E" data-hex="#1A237E"></span>
+              <span class="swatch" style="background:#4B6EF5" data-hex="#4B6EF5"></span>
+              <span class="swatch" style="background:#90CAF9" data-hex="#90CAF9"></span>
+              <span class="swatch" style="background:#E8EAF6;border:1px solid #c5cae9" data-hex="#E8EAF6"></span>
+            </div>
+          </div>
+        </div>
+
+      </article><!-- /ADN -->
+
+
+      <!-- ───── PROJET 4 ───── -->
+      <article class="card reveal" id="projet-4" style="--card-accent:#8C56D3" aria-label="Projet 4">
+
+        <div class="card__top">
+          <div class="card__intro">
+            <h2 class="card__title">
+              <span class="card__dot" aria-hidden="true"></span>
+              PROJET 4
+            </h2>
+            <p class="card__desc">
+              Description du projet 4 à compléter.
+            </p>
+          </div>
+
+          <dl class="card__meta">
+            <div class="card__meta-group">
+              <dt>Role</dt>
+              <dd>UX Design</dd>
+              <dd>UI Design</dd>
+            </div>
+            <div class="card__meta-group">
+              <dt>Sujet</dt>
+              <dd>À compléter</dd>
+            </div>
+            <div class="card__meta-group">
+              <dt>Date</dt>
+              <dd>2025</dd>
+            </div>
+          </dl>
+
+        </div>
+
+        <div class="card__gallery" data-card="projet4">
+          <div class="gallery__main"><div class="gallery__ph"></div></div>
+          <div class="gallery__grid">
+            <div class="gallery__thumb"><div class="gallery__ph"></div></div>
+            <div class="gallery__thumb"><div class="gallery__ph"></div></div>
+            <div class="gallery__thumb"><div class="gallery__ph"></div></div>
+            <div class="gallery__thumb gallery__thumb--more" data-more="4">
+              <div class="gallery__ph"></div>
+              <div class="gallery__more-overlay"><span>+4</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card__footer">
+          <div class="card__typo">
+            <span class="card__section-label">Typographie</span>
+            <p class="card__font card__font--primary" style="font-family:'Poppins',sans-serif">
+              Poppins<br><span style="font-weight:400">Aa123</span>
+            </p>
+            <p class="card__font card__font--secondary" style="font-family:'Poppins',sans-serif">
+              Poppins<br>Aa123
+            </p>
+          </div>
+          <div class="card__palette">
+            <span class="card__section-label">Couleurs</span>
+            <div class="card__swatches">
+              <span class="swatch" style="background:#4A148C" data-hex="#4A148C"></span>
+              <span class="swatch" style="background:#8C56D3" data-hex="#8C56D3"></span>
+              <span class="swatch" style="background:#CE93D8" data-hex="#CE93D8"></span>
+              <span class="swatch" style="background:#F3E5F5;border:1px solid #e1bee7" data-hex="#F3E5F5"></span>
+            </div>
+          </div>
+        </div>
+
+      </article><!-- /PROJET 4 -->
+
+      </div><!-- /.projects__cards -->
+
+      <aside class="scroll-nav" id="scrollNav" aria-hidden="true">
+        <div class="scroll-nav__track">
+          <span class="scroll-nav__dot"></span>
+          <span class="scroll-nav__dot"></span>
+          <span class="scroll-nav__dot"></span>
+          <span class="scroll-nav__dot"></span>
+          <svg class="scroll-nav__cursor" width="54" height="58" viewBox="0 0 54 58" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <g filter="url(#cursorShadow)">
+              <path d="M5.56774 4.41348C5.32053 3.25875 6.57676 2.36675 7.62406 2.95336L47.3611 25.2106C48.4264 25.8073 48.2592 27.3568 47.0917 27.7078L27.8343 33.4973C27.5234 33.5908 27.2564 33.7878 27.0793 34.0545L17.4547 48.5443C16.7762 49.5658 15.1693 49.2625 14.9128 48.0644L5.56774 4.41348Z" fill="currentColor"/>
+              <path d="M46.6732 26.3989L27.4156 32.1879C26.794 32.3748 26.2599 32.7688 25.9057 33.302L16.281 47.7924L6.93634 4.14072L46.6732 26.3989Z" stroke="white" stroke-width="2.7679"/>
+            </g>
+            <defs>
+              <filter id="cursorShadow" x="0.000330448" y="4.31538e-05" width="53.6068" height="57.466" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                <feOffset dy="2.7679"/>
+                <feGaussianBlur stdDeviation="2.7679"/>
+                <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.28 0"/>
+                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+              </filter>
+            </defs>
+          </svg>
+        </div>
+      </aside>
+
+      </div><!-- /.projects__inner -->
+    </section><!-- /projects -->
+
+
+    <!-- ═══════════════════════════════
+         AUTRES PROJETS
+    ═══════════════════════════════ -->
+    <section class="other reveal" id="autres-projets">
+      <div class="other__inner">
+        <div class="other__header">
+          <h2 class="other__title" data-i18n="other.title">Autres projets</h2>
+        </div>
+        <p class="other__text" data-i18n="other.text">
+          Non, on ne vit pas dans une saucisse — mais c'est une image amusante pour parler de notre
+          perception limitée du monde. En réalité, on vit dans un univers immense, en expansion,
+          structuré par des lois physiques complexes comme la gravité et la relativité. L'idée de la
+          "saucisse" pourrait venir d'une métaphore.
+        </p>
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════
+         CONTACT
+    ═══════════════════════════════ -->
+    <section class="contact reveal" id="contact" aria-label="Me contacter">
+      <div class="contact__inner">
+        <h2 class="contact__title" data-i18n="contact.title">Contactez moi !</h2>
+        <p class="contact__sub" data-i18n="contact.sub">Un projet ? Besoin d'un designer pour votre interface ?</p>
+
+        <form class="contact__form" id="contactForm" novalidate>
+          <div class="field">
+            <label class="field__label" for="fname" data-i18n="contact.name">Nom et Prénom</label>
+            <input class="field__input" type="text" id="fname" name="name"
+                   autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label class="field__label" for="femail" data-i18n="contact.email">Adresse email</label>
+            <input class="field__input" type="email" id="femail" name="email"
+                   autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label class="field__label" for="fmessage" data-i18n="contact.msg">Objet de la demande</label>
+            <textarea class="field__input field__textarea" id="fmessage"
+                      name="message" rows="5" required></textarea>
+          </div>
+          <button type="submit" class="btn btn--filled btn--send" data-i18n="contact.send">Envoyer</button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── Modal galerie ── -->
+  <div class="gallery-modal" id="galleryModal" role="dialog" aria-modal="true" aria-label="Galerie photos" hidden>
+    <div class="gallery-modal__backdrop"></div>
+    <div class="gallery-modal__inner">
+      <button class="gallery-modal__close" aria-label="Fermer">&#x2715;</button>
+      <button class="gallery-modal__prev" aria-label="Image précédente">&#x2039;</button>
+      <button class="gallery-modal__next" aria-label="Image suivante">&#x203a;</button>
+      <div class="gallery-modal__track" id="modalTrack"></div>
+      <div class="gallery-modal__dots" id="modalDots"></div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════
+       FOOTER
+  ═══════════════════════════════ -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer__inner">
+      <a href="tel:+33635454725"          class="footer__link">06 35 45 47 25</a>
+      <a href="mailto:alexis.rey705@gmail.com" class="footer__link">alexis.rey705@gmail.com</a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
