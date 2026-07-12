@@ -180,7 +180,7 @@ button { font-family: var(--f-body); cursor: pointer; }
 .nav__logo {
   font-family: var(--f-ui);
   font-weight: 400;
-  font-size: .78rem;
+  font-size: 1.2rem;
   color: #464646;
   text-transform: uppercase;
   letter-spacing: .02em;
@@ -515,6 +515,7 @@ button { font-family: var(--f-body); cursor: pointer; }
   color: #464646;
   margin-top: .5rem;
   transform-origin: center center;
+  width: clamp(160px, 20vw, 300px);
 }
 
 .anim-on .hero__role {
