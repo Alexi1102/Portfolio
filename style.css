@@ -35,6 +35,7 @@ body  {
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
   position: relative;
+  transition: background 1.6s cubic-bezier(.4,0,.2,1);
 }
 
 /* ── Blobs de fond (défilent avec la page) ── */
@@ -87,7 +88,7 @@ body.show-end-gradient .blob--6 { opacity: 1; }
   border-radius: 50%;
   filter: blur(120px);
   opacity: 0;
-  transition: opacity 1.2s ease;
+  transition: opacity 2.2s cubic-bezier(.4,0,.2,1);
   pointer-events: none;
   z-index: 0;
 }
@@ -99,35 +100,49 @@ body.show-end-gradient .blob--6 { opacity: 1; }
 /* EKE-DEKA : orange #E07B39 + brun #5C3A1E */
 .mood--eke-deka.mood--a { background: radial-gradient(circle, rgba(224,123,57,.28) 0%, transparent 65%); }
 .mood--eke-deka.mood--b { background: radial-gradient(circle, rgba(92,58,30,.45) 0%, transparent 65%); }
-/* ELMY : vert émeraude #2EBD8A + vert forêt #1A7A5E */
-.mood--elmy.mood--a     { background: radial-gradient(circle, rgba(46,189,138,.28) 0%, transparent 65%); }
-.mood--elmy.mood--b     { background: radial-gradient(circle, rgba(26,122,94,.45) 0%, transparent 65%); }
-/* ADN : bleu #4B6EF5 + bleu nuit #1A237E */
-.mood--adn.mood--a      { background: radial-gradient(circle, rgba(75,110,245,.28) 0%, transparent 65%); }
-.mood--adn.mood--b      { background: radial-gradient(circle, rgba(26,35,126,.45) 0%, transparent 65%); }
-/* PROJET 4 : violet #8C56D3 + violet foncé #4A148C */
-.mood--projet-4.mood--a { background: radial-gradient(circle, rgba(140,86,211,.28) 0%, transparent 65%); }
-.mood--projet-4.mood--b { background: radial-gradient(circle, rgba(74,20,140,.45) 0%, transparent 65%); }
+/* ELMY : vert #1B8C70 + vert foncé #0E634E */
+.mood--elmy.mood--a         { background: radial-gradient(circle, rgba(27,140,112,.55) 0%, transparent 65%); }
+.mood--elmy.mood--b         { background: radial-gradient(circle, rgba(14,99,78,.75) 0%, transparent 65%); }
+/* GAME'N CHILL : lavande #BF90DA + violet nuit #12001B */
+.mood--game-n-chill.mood--a { background: radial-gradient(circle, rgba(191,144,218,.55) 0%, transparent 65%); }
+.mood--game-n-chill.mood--b { background: radial-gradient(circle, rgba(18,0,27,.75) 0%, transparent 65%); }
+/* AMELIORAMA 3 : sable #DCC28E + brun #544A36 */
+.mood--ameliorama-3.mood--a { background: radial-gradient(circle, rgba(220,194,142,.55) 0%, transparent 65%); }
+.mood--ameliorama-3.mood--b { background: radial-gradient(circle, rgba(84,74,54,.75) 0%, transparent 65%); }
 
 /* Activation via classe sur <body> */
-body.mood-eke-deka .mood--eke-deka,
-body.mood-elmy     .mood--elmy,
-body.mood-adn      .mood--adn,
-body.mood-projet-4 .mood--projet-4 { opacity: 1; }
+body.mood-eke-deka     .mood--eke-deka,
+body.mood-elmy         .mood--elmy,
+body.mood-game-n-chill .mood--game-n-chill,
+body.mood-ameliorama-3 .mood--ameliorama-3 { opacity: 1; }
 
 /* Couleur de la scrollbar selon le mood */
-body.mood-eke-deka .scroll-nav__dot           { background: #EAB088; }
-body.mood-eke-deka .scroll-nav__dot.is-active { background: #E07B39; }
-body.mood-eke-deka .scroll-nav__track::before { background: rgba(224,123,57,.5); }
-body.mood-elmy     .scroll-nav__dot           { background: #7FD7B8; }
-body.mood-elmy     .scroll-nav__dot.is-active { background: #2EBD8A; }
-body.mood-elmy     .scroll-nav__track::before { background: rgba(46,189,138,.5); }
-body.mood-adn      .scroll-nav__dot           { background: #90A8F9; }
-body.mood-adn      .scroll-nav__dot.is-active { background: #4B6EF5; }
-body.mood-adn      .scroll-nav__track::before { background: rgba(75,110,245,.5); }
-body.mood-projet-4 .scroll-nav__dot           { background: #B79AE4; }
-body.mood-projet-4 .scroll-nav__dot.is-active { background: #8C56D3; }
-body.mood-projet-4 .scroll-nav__track::before { background: rgba(140,86,211,.5); }
+body.mood-eke-deka     .scroll-nav__dot           { background: #EAB088; }
+body.mood-eke-deka     .scroll-nav__dot.is-active { background: #E07B39; }
+body.mood-eke-deka     .scroll-nav__track::before { background: rgba(224,123,57,.5); }
+body.mood-elmy         .scroll-nav__dot           { background: #74B9A8; }
+body.mood-elmy         .scroll-nav__dot.is-active { background: #1B8C70; }
+body.mood-elmy         .scroll-nav__track::before { background: rgba(27,140,112,.5); }
+body.mood-game-n-chill .scroll-nav__dot           { background: #D8BBE8; }
+body.mood-game-n-chill .scroll-nav__dot.is-active { background: #BF90DA; }
+body.mood-game-n-chill .scroll-nav__track::before { background: rgba(191,144,218,.5); }
+body.mood-ameliorama-3 .scroll-nav__dot           { background: #EADABA; }
+body.mood-ameliorama-3 .scroll-nav__dot.is-active { background: #DCC28E; }
+body.mood-ameliorama-3 .scroll-nav__track::before { background: rgba(220,194,142,.5); }
+
+/* ── Dark mode : Game'N Chill + Ameliorama 3 ── */
+body.mood-game-n-chill,
+body.mood-ameliorama-3 {
+  background: #0e0c14;
+  --c-text:   #f2f0f5;
+  --c-muted:  #a89fb3;
+  --c-border: rgba(255,255,255,.12);
+}
+body.mood-game-n-chill .card,
+body.mood-ameliorama-3 .card {
+  background: rgba(255,255,255,.06);
+  box-shadow: 0 4px 28px rgba(0,0,0,.4);
+}
 
 img    { display: block; max-width: 100%; }
 ul     { list-style: none; }
@@ -180,7 +195,7 @@ button { font-family: var(--f-body); cursor: pointer; }
 .nav__logo {
   font-family: var(--f-ui);
   font-weight: 400;
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: #464646;
   text-transform: uppercase;
   letter-spacing: .02em;
@@ -359,7 +374,7 @@ button { font-family: var(--f-body); cursor: pointer; }
 .hero__actions {
   grid-column: 1 / -1;
   grid-row: 3;
-  justify-self: start;
+  justify-self: stretch;
 }
 
 /* ── Photo + blob + badge ── */
@@ -432,7 +447,7 @@ button { font-family: var(--f-body); cursor: pointer; }
   flex-direction: column;
   gap: 0;
   line-height: 1;
-  width: 305px;
+  width: fit-content;
   flex-shrink: 0;
 }
 
@@ -509,13 +524,13 @@ button { font-family: var(--f-body); cursor: pointer; }
   display: block;
   font-family: var(--f-ui);
   font-weight: 400;
-  font-size: clamp(0.9rem, 1.8vw, 1.5rem);
+  font-size: clamp(1.45rem, 2.91vw, 2.38rem);
   text-transform: uppercase;
-  letter-spacing: .02em;
+  letter-spacing: .03rem;
   color: #464646;
   margin-top: .5rem;
   transform-origin: center center;
-  width: clamp(160px, 20vw, 300px);
+  width: 100%;
 }
 
 .anim-on .hero__role {
@@ -535,7 +550,7 @@ button { font-family: var(--f-body); cursor: pointer; }
   font-weight: 500;
   line-height: 1.65;
   color: #2f2f2f;
-  max-width: 460px;
+  max-width: 100%;
 }
 .hero__actions {
   display: flex;
@@ -706,6 +721,7 @@ button { font-family: var(--f-body); cursor: pointer; }
   border-radius: var(--r-card);
   box-shadow: 0 4px 28px rgba(0, 0, 0, 0.09);
   overflow: hidden;
+  transition: background 1.6s cubic-bezier(.4,0,.2,1), box-shadow 1.6s cubic-bezier(.4,0,.2,1);
 }
 
 /* En-tête : intro + meta + timeline */
@@ -744,6 +760,7 @@ button { font-family: var(--f-body); cursor: pointer; }
   font-weight: 400;
   line-height: 1.8;
   color: var(--c-text);
+  transition: color 1.6s cubic-bezier(.4,0,.2,1);
 }
 
 /* Méta */
@@ -761,6 +778,7 @@ button { font-family: var(--f-body); cursor: pointer; }
   letter-spacing: .1em;
   color: var(--c-muted);
   margin-bottom: .2rem;
+  transition: color 1.6s cubic-bezier(.4,0,.2,1);
 }
 .card__meta-group dd {
   font-size: .82rem;
@@ -768,6 +786,7 @@ button { font-family: var(--f-body); cursor: pointer; }
   color: var(--c-text);
   margin: 0;
   line-height: 1.5;
+  transition: color 1.6s cubic-bezier(.4,0,.2,1);
 }
 
 
@@ -779,7 +798,7 @@ button { font-family: var(--f-body); cursor: pointer; }
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.14);
 }
 .gallery__main {
-  flex: 1.6;
+  flex: 2;
   min-width: 0;
   overflow: hidden;
   aspect-ratio: 16 / 9;
@@ -788,7 +807,7 @@ button { font-family: var(--f-body); cursor: pointer; }
   flex: 1;
   min-width: 0;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   grid-template-rows: 1fr 1fr;
   gap: 3px;
 }
@@ -964,6 +983,7 @@ button { font-family: var(--f-body); cursor: pointer; }
   align-items: flex-start;
   padding: 54px;
   border-top: 1px solid var(--c-border);
+  transition: border-color 1.6s cubic-bezier(.4,0,.2,1);
 }
 .card__section-label {
   display: block;
@@ -973,6 +993,7 @@ button { font-family: var(--f-body); cursor: pointer; }
   letter-spacing: .12em;
   color: var(--c-muted);
   margin-bottom: .875rem;
+  transition: color 1.6s cubic-bezier(.4,0,.2,1);
 }
 
 /* Échantillons de typographie */
@@ -982,12 +1003,14 @@ button { font-family: var(--f-body); cursor: pointer; }
   font-size: clamp(1.8rem, 2.5vw, 2.5rem);
   font-weight: 700;
   color: var(--c-text);
+  transition: color 1.6s cubic-bezier(.4,0,.2,1);
 }
 .card__font--secondary {
   font-size: clamp(1.1rem, 1.6vw, 1.5rem);
   font-weight: 400;
   color: var(--c-text);
   margin-top: .5rem;
+  transition: color 1.6s cubic-bezier(.4,0,.2,1);
 }
 
 /* Swatches couleurs — grille 2×2 */
@@ -1006,6 +1029,7 @@ button { font-family: var(--f-body); cursor: pointer; }
   align-items: center;
   justify-content: center;
   position: relative;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.22);
   transition: border-radius .2s ease;
 }
 .swatch:hover {
@@ -1163,10 +1187,10 @@ button { font-family: var(--f-body); cursor: pointer; }
   /* Blobs mood plus grands + plus intenses pour couvrir les cards élargies */
   .mood--a { width: 1100px; height: 1100px; }
   .mood--b { width: 950px;  height: 950px;  }
-  .mood--eke-deka.mood--a { background: radial-gradient(circle, rgba(224,123,57,.42) 0%, transparent 65%); }
-  .mood--elmy.mood--a     { background: radial-gradient(circle, rgba(46,189,138,.42)  0%, transparent 65%); }
-  .mood--adn.mood--a      { background: radial-gradient(circle, rgba(75,110,245,.42)  0%, transparent 65%); }
-  .mood--projet-4.mood--a { background: radial-gradient(circle, rgba(140,86,211,.42)  0%, transparent 65%); }
+  .mood--eke-deka.mood--a     { background: radial-gradient(circle, rgba(224,123,57,.42) 0%, transparent 65%); }
+  .mood--elmy.mood--a         { background: radial-gradient(circle, rgba(27,140,112,.65) 0%, transparent 65%); }
+  .mood--game-n-chill.mood--a { background: radial-gradient(circle, rgba(191,144,218,.65) 0%, transparent 65%); }
+  .mood--ameliorama-3.mood--a { background: radial-gradient(circle, rgba(220,194,142,.65) 0%, transparent 65%); }
 }
 
 /* ── PC portable (≤ 1280px) ─────────────────────────── */

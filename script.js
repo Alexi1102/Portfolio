@@ -364,9 +364,14 @@
         visibleImages.push(img ? { src: img.src, alt: img.alt } : { src: null });
       });
 
-      // Ajouter les slides extra (+N) comme placeholders
+      // Ajouter les slides extra (+N) : vraies images si fournies, sinon placeholders
       const allImages = [...visibleImages];
-      for (let i = 0; i < moreCount; i++) allImages.push({ src: null });
+      const moreImages = (moreEl?.dataset.moreImages ?? '').split(',').map(s => s.trim()).filter(Boolean);
+      if (moreImages.length) {
+        moreImages.forEach(src => allImages.push({ src, alt: '' }));
+      } else {
+        for (let i = 0; i < moreCount; i++) allImages.push({ src: null });
+      }
 
       // Clic sur l'image principale
       const mainEl = gallery.querySelector('.gallery__main');
@@ -415,20 +420,20 @@
     }
   }
 
-  const projet4 = document.getElementById('projet-4');
-  if (projet4 && 'IntersectionObserver' in window) {
+  const lastCardEl = document.getElementById('ameliorama-3');
+  if (lastCardEl && 'IntersectionObserver' in window) {
     new IntersectionObserver(
       ([entry]) => {
         const pastCard = !entry.isIntersecting && entry.boundingClientRect.bottom < 0;
         body.classList.toggle('show-end-gradient', pastCard);
       },
       { threshold: 0 }
-    ).observe(projet4);
+    ).observe(lastCardEl);
   }
 
   /* ── Scroll nav + scrollspy URL ────────────────────── */
   const scrollNav = document.getElementById('scrollNav');
-  const MOOD_CLASSES = ['mood-eke-deka', 'mood-elmy', 'mood-adn', 'mood-projet-4'];
+  const MOOD_CLASSES = ['mood-eke-deka', 'mood-elmy', 'mood-game-n-chill', 'mood-ameliorama-3'];
   if (scrollNav) {
     const projectCards = document.querySelectorAll('#realisations .card');
     const navDots      = scrollNav.querySelectorAll('.scroll-nav__dot');

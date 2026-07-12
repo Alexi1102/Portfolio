@@ -9,7 +9,7 @@
   <!-- Fonts : chargement optimisé -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@300;400;500;600&family=Oswald:wght@400;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@300;400;500;600&family=Oswald:wght@400;700&family=Space+Grotesk:wght@400;600;700&family=Rajdhani:wght@600;700&family=Nunito:wght@400;600&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
   <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
 
   <link rel="stylesheet" href="style.css">
@@ -25,10 +25,10 @@
     <span class="mood mood--eke-deka mood--b"></span>
     <span class="mood mood--elmy mood--a"></span>
     <span class="mood mood--elmy mood--b"></span>
-    <span class="mood mood--adn mood--a"></span>
-    <span class="mood mood--adn mood--b"></span>
-    <span class="mood mood--projet-4 mood--a"></span>
-    <span class="mood mood--projet-4 mood--b"></span>
+    <span class="mood mood--game-n-chill mood--a"></span>
+    <span class="mood mood--game-n-chill mood--b"></span>
+    <span class="mood mood--ameliorama-3 mood--a"></span>
+    <span class="mood mood--ameliorama-3 mood--b"></span>
   </div>
 
   <!-- ═══════════════════════════════
@@ -198,14 +198,12 @@
         </div><!-- /.card__top -->
 
         <div class="card__gallery" data-card="eke-deka">
-          <div class="gallery__main"><img src="images/eke_deka_banner.png" alt="EKE-DEKA banner" class="gallery__img"></div>
+          <div class="gallery__main"><img src="images/eke_deka/eke_deka_hero.png" alt="EKE-DEKA" class="gallery__img"></div>
           <div class="gallery__grid">
-            <div class="gallery__thumb"><img src="images/eke_deka_faces.png" alt="" class="gallery__img"></div>
-            <div class="gallery__thumb"><img src="images/eke_deka_history.png" alt="" class="gallery__img"></div>
-            <div class="gallery__thumb"><img src="images/eke_deka_donations.png" alt="" class="gallery__img"></div>
-            <div class="gallery__thumb gallery__thumb--more" data-more="4">
-              <img src="images/eke_deka_form.png" alt="" class="gallery__img">
-              <div class="gallery__more-overlay"><span>+4</span></div>
+            <div class="gallery__thumb"><img src="images/eke_deka/eke_deka_history.png" alt="" class="gallery__img"></div>
+            <div class="gallery__thumb gallery__thumb--more" data-more="5" data-more-images="images/eke_deka/eke_deka_context.png,images/eke_deka/eke_deka_biala.png,images/eke_deka/eke_deka_presentation.png,images/eke_deka/eke_deka_donations.png,images/eke_deka/eke_deka_contact.png">
+              <img src="images/eke_deka/eke_deka_faces.png" alt="" class="gallery__img">
+              <div class="gallery__more-overlay"><span>+5</span></div>
             </div>
           </div>
         </div>
@@ -235,7 +233,7 @@
 
 
       <!-- ───── ELMY ───── -->
-      <article class="card reveal" id="elmy" style="--card-accent:#2EBD8A" aria-label="Projet ELMY">
+      <article class="card reveal" id="elmy" style="--card-accent:#1B8C70" aria-label="Projet ELMY">
 
         <div class="card__top">
           <div class="card__intro">
@@ -269,14 +267,12 @@
         </div>
 
         <div class="card__gallery" data-card="elmy">
-          <div class="gallery__main"><div class="gallery__ph"></div></div>
+          <div class="gallery__main"><img src="images/elmy/elmy_dashboard.png" alt="ELMY" class="gallery__img"></div>
           <div class="gallery__grid">
-            <div class="gallery__thumb"><div class="gallery__ph"></div></div>
-            <div class="gallery__thumb"><div class="gallery__ph"></div></div>
-            <div class="gallery__thumb"><div class="gallery__ph"></div></div>
-            <div class="gallery__thumb gallery__thumb--more" data-more="4">
-              <div class="gallery__ph"></div>
-              <div class="gallery__more-overlay"><span>+4</span></div>
+            <div class="gallery__thumb"><img src="images/elmy/elmy_choix_contrats.png" alt="" class="gallery__img"></div>
+            <div class="gallery__thumb gallery__thumb--more" data-more="3" data-more-images="images/elmy/elmy_consommation.png,images/elmy/elmy_connexion.png,images/elmy/elmy_404.png">
+              <img src="images/elmy/elmy_factures.png" alt="" class="gallery__img">
+              <div class="gallery__more-overlay"><span>+3</span></div>
             </div>
           </div>
         </div>
@@ -294,10 +290,10 @@
           <div class="card__palette">
             <span class="card__section-label" data-i18n="card.colors">Couleurs</span>
             <div class="card__swatches">
-              <span class="swatch" style="background:#0D4F3C" data-hex="#0D4F3C"></span>
-              <span class="swatch" style="background:#1A7A5E" data-hex="#1A7A5E"></span>
-              <span class="swatch" style="background:#2EBD8A" data-hex="#2EBD8A"></span>
-              <span class="swatch" style="background:#C5EDD8;border:1px solid #aee0cb" data-hex="#C5EDD8"></span>
+              <span class="swatch" style="background:#0E634E" data-hex="#0E634E"></span>
+              <span class="swatch" style="background:#1B8C70" data-hex="#1B8C70"></span>
+              <span class="swatch" style="background:#ECFFFD;border:1px solid #d9ece9" data-hex="#ECFFFD"></span>
+              <span class="swatch" style="background:#36423D" data-hex="#36423D"></span>
             </div>
           </div>
         </div>
@@ -305,17 +301,19 @@
       </article><!-- /ELMY -->
 
 
-      <!-- ───── ADN ───── -->
-      <article class="card reveal" id="adn" style="--card-accent:#4B6EF5" aria-label="Projet ADN">
+      <!-- ───── Game'N Chill ───── -->
+      <article class="card reveal" id="game-n-chill" style="--card-accent:#BF90DA" aria-label="Projet Game'N Chill">
 
         <div class="card__top">
           <div class="card__intro">
             <h2 class="card__title">
               <span class="card__dot" aria-hidden="true"></span>
-              ADN
+              Game'N Chill
             </h2>
             <p class="card__desc">
-              Description du projet ADN à compléter.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt
+              ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+              ullamco laboris nisi ut aliquip ex ea commodo consequat.
             </p>
           </div>
 
@@ -337,14 +335,12 @@
 
         </div>
 
-        <div class="card__gallery" data-card="adn">
-          <div class="gallery__main"><div class="gallery__ph"></div></div>
+        <div class="card__gallery" data-card="game-n-chill">
+          <div class="gallery__main"><img src="images/game_n_chill/game_n_chill_hero.png" alt="Game'N Chill" class="gallery__img"></div>
           <div class="gallery__grid">
-            <div class="gallery__thumb"><div class="gallery__ph"></div></div>
-            <div class="gallery__thumb"><div class="gallery__ph"></div></div>
-            <div class="gallery__thumb"><div class="gallery__ph"></div></div>
-            <div class="gallery__thumb gallery__thumb--more" data-more="4">
-              <div class="gallery__ph"></div>
+            <div class="gallery__thumb"><img src="images/game_n_chill/game_n_chill_events.png" alt="" class="gallery__img"></div>
+            <div class="gallery__thumb gallery__thumb--more" data-more="4" data-more-images="images/game_n_chill/game_n_chill_scores.png,images/game_n_chill/game_n_chill_randomizer.png,images/game_n_chill/game_n_chill_punchline.png,images/game_n_chill/game_n_chill_event.png">
+              <img src="images/game_n_chill/game_n_chill_gallery.png" alt="" class="gallery__img">
               <div class="gallery__more-overlay"><span>+4</span></div>
             </div>
           </div>
@@ -353,38 +349,40 @@
         <div class="card__footer">
           <div class="card__typo">
             <span class="card__section-label">Typographie</span>
-            <p class="card__font card__font--primary" style="font-family:'Poppins',sans-serif">
-              Poppins<br><span style="font-weight:400">Aa123</span>
+            <p class="card__font card__font--primary" style="font-family:'Rajdhani',sans-serif;font-weight:600">
+              Rajdhani<br><span style="font-weight:400">Aa123</span>
             </p>
-            <p class="card__font card__font--secondary" style="font-family:'Poppins',sans-serif">
-              Poppins<br>Aa123
+            <p class="card__font card__font--secondary" style="font-family:'Nunito',sans-serif">
+              Nunito<br>Aa123
             </p>
           </div>
           <div class="card__palette">
             <span class="card__section-label">Couleurs</span>
             <div class="card__swatches">
-              <span class="swatch" style="background:#1A237E" data-hex="#1A237E"></span>
-              <span class="swatch" style="background:#4B6EF5" data-hex="#4B6EF5"></span>
-              <span class="swatch" style="background:#90CAF9" data-hex="#90CAF9"></span>
-              <span class="swatch" style="background:#E8EAF6;border:1px solid #c5cae9" data-hex="#E8EAF6"></span>
+              <span class="swatch" style="background:#12001B" data-hex="#12001B"></span>
+              <span class="swatch" style="background:#BF90DA" data-hex="#BF90DA"></span>
+              <span class="swatch" style="background:#FFE887" data-hex="#FFE887"></span>
+              <span class="swatch" style="background:#F4EFFF;border:1px solid #e2d9f2" data-hex="#F4EFFF"></span>
             </div>
           </div>
         </div>
 
-      </article><!-- /ADN -->
+      </article><!-- /Game'N Chill -->
 
 
-      <!-- ───── PROJET 4 ───── -->
-      <article class="card reveal" id="projet-4" style="--card-accent:#8C56D3" aria-label="Projet 4">
+      <!-- ───── AMELIORAMA 3 ───── -->
+      <article class="card reveal" id="ameliorama-3" style="--card-accent:#DCC28E" aria-label="Projet Ameliorama 3">
 
         <div class="card__top">
           <div class="card__intro">
             <h2 class="card__title">
               <span class="card__dot" aria-hidden="true"></span>
-              PROJET 4
+              AMELIORAMA 3
             </h2>
             <p class="card__desc">
-              Description du projet 4 à compléter.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt
+              ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+              ullamco laboris nisi ut aliquip ex ea commodo consequat.
             </p>
           </div>
 
@@ -406,15 +404,13 @@
 
         </div>
 
-        <div class="card__gallery" data-card="projet4">
-          <div class="gallery__main"><div class="gallery__ph"></div></div>
+        <div class="card__gallery" data-card="ameliorama-3">
+          <div class="gallery__main"><img src="images/ameliorama_3/ameliorama_3_menu.png" alt="AMELIORAMA 3" class="gallery__img"></div>
           <div class="gallery__grid">
-            <div class="gallery__thumb"><div class="gallery__ph"></div></div>
-            <div class="gallery__thumb"><div class="gallery__ph"></div></div>
-            <div class="gallery__thumb"><div class="gallery__ph"></div></div>
-            <div class="gallery__thumb gallery__thumb--more" data-more="4">
-              <div class="gallery__ph"></div>
-              <div class="gallery__more-overlay"><span>+4</span></div>
+            <div class="gallery__thumb"><img src="images/ameliorama_3/ameliorama_3_map.png" alt="" class="gallery__img"></div>
+            <div class="gallery__thumb gallery__thumb--more" data-more="2" data-more-images="images/ameliorama_3/ameliorama_3_weapon.png,images/ameliorama_3/ameliorama_3_death.png">
+              <img src="images/ameliorama_3/ameliorama_3_skill.png" alt="" class="gallery__img">
+              <div class="gallery__more-overlay"><span>+2</span></div>
             </div>
           </div>
         </div>
@@ -422,25 +418,24 @@
         <div class="card__footer">
           <div class="card__typo">
             <span class="card__section-label">Typographie</span>
-            <p class="card__font card__font--primary" style="font-family:'Poppins',sans-serif">
-              Poppins<br><span style="font-weight:400">Aa123</span>
+            <p class="card__font card__font--primary" style="font-family:'Montserrat',sans-serif">
+              Montserrat<br><span style="font-weight:400">Aa123</span>
             </p>
-            <p class="card__font card__font--secondary" style="font-family:'Poppins',sans-serif">
-              Poppins<br>Aa123
+            <p class="card__font card__font--secondary" style="font-family:'Montserrat',sans-serif">
+              Montserrat<br>Aa123
             </p>
           </div>
           <div class="card__palette">
             <span class="card__section-label">Couleurs</span>
             <div class="card__swatches">
-              <span class="swatch" style="background:#4A148C" data-hex="#4A148C"></span>
-              <span class="swatch" style="background:#8C56D3" data-hex="#8C56D3"></span>
-              <span class="swatch" style="background:#CE93D8" data-hex="#CE93D8"></span>
-              <span class="swatch" style="background:#F3E5F5;border:1px solid #e1bee7" data-hex="#F3E5F5"></span>
+              <span class="swatch" style="background:#DCC28E" data-hex="#DCC28E"></span>
+              <span class="swatch" style="background:#544A36" data-hex="#544A36"></span>
+              <span class="swatch" style="background:#C8C8C8" data-hex="#C8C8C8"></span>
             </div>
           </div>
         </div>
 
-      </article><!-- /PROJET 4 -->
+      </article><!-- /AMELIORAMA 3 -->
 
       </div><!-- /.projects__cards -->
 
