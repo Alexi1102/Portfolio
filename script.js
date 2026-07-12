@@ -11,10 +11,6 @@
 
   const ROUTE_MAP = {
     '/': { sectionId: 'hero' },
-    '/eke-deka': { sectionId: 'eke-deka' },
-    '/elmy': { sectionId: 'elmy' },
-    '/projet-3': { sectionId: 'adn' },
-    '/projet-4': { sectionId: 'projet-4' },
     '/contact': { sectionId: 'contact' },
   };
 
@@ -397,10 +393,10 @@
     });
   }
 
-  /* ── Gestion de l'URL au scroll : racine pour hero+projets, /contact pour contact ── */
+  /* ── Gestion de l'URL au scroll : racine pour hero+projets, /contact à partir de autres projets ── */
   if ('IntersectionObserver' in window) {
-    const contactSection = document.getElementById('contact');
-    if (contactSection) {
+    const autresProjets = document.getElementById('autres-projets');
+    if (autresProjets) {
       new IntersectionObserver(
         ([entry]) => {
           if (entry.isIntersecting) {
@@ -408,14 +404,14 @@
               history.replaceState(null, '', '/contact');
             }
           } else if (entry.boundingClientRect.top > 0) {
-            // Contact section est au-dessus de l'écran, revenir à la racine
+            // Section autres projets est au-dessus de l'écran, revenir à la racine
             if (location.pathname !== '/') {
               history.replaceState(null, '', '/');
             }
           }
         },
         { threshold: 0.1, rootMargin: '0px 0px -50% 0px' }
-      ).observe(contactSection);
+      ).observe(autresProjets);
     }
   }
 
