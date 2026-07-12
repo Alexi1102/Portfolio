@@ -11,10 +11,6 @@
 
   const ROUTE_MAP = {
     '/': { sectionId: 'hero' },
-    '/eke-deka': { sectionId: 'eke-deka' },
-    '/elmy': { sectionId: 'elmy' },
-    '/projet-3': { sectionId: 'adn' },
-    '/projet-4': { sectionId: 'projet-4' },
     '/contact': { sectionId: 'contact' },
   };
 
@@ -397,7 +393,28 @@
     });
   }
 
-  /* ── Dégradé fin de page (après projet-4) ──────────── */
+  /* ── Gestion de l'URL au scroll : racine pour hero+projets, /contact pour contact ── */
+  if ('IntersectionObserver' in window) {
+    const contactSection = document.getElementById('contact');
+    if (contactSection) {
+      new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            if (location.pathname !== '/contact') {
+              history.replaceState(null, '', '/contact');
+            }
+          } else if (entry.boundingClientRect.top > 0) {
+            // Contact section est au-dessus de l'écran, revenir à la racine
+            if (location.pathname !== '/') {
+              history.replaceState(null, '', '/');
+            }
+          }
+        },
+        { threshold: 0.1, rootMargin: '0px 0px -50% 0px' }
+      ).observe(contactSection);
+    }
+  }
+
   const projet4 = document.getElementById('projet-4');
   if (projet4 && 'IntersectionObserver' in window) {
     new IntersectionObserver(
@@ -412,12 +429,6 @@
   /* ── Scroll nav + scrollspy URL ────────────────────── */
   const scrollNav = document.getElementById('scrollNav');
   const MOOD_CLASSES = ['mood-eke-deka', 'mood-elmy', 'mood-adn', 'mood-projet-4'];
-  const CARD_ROUTE_MAP = {
-    'eke-deka': '/eke-deka',
-    'elmy': '/elmy',
-    'adn': '/projet-3',
-    'projet-4': '/projet-4',
-  };
   if (scrollNav) {
     const projectCards = document.querySelectorAll('#realisations .card');
     const navDots      = scrollNav.querySelectorAll('.scroll-nav__dot');
@@ -448,7 +459,7 @@
 
       const activeCard = projectCards[activeIdx];
       if (activeCard?.id) {
-        const nextRoute = CARD_ROUTE_MAP[activeCard.id] || '/';
+        const nextRoute = '/';
         if (nextRoute !== lastHash) {
           lastHash = nextRoute;
           history.replaceState(null, '', nextRoute);
