@@ -11,6 +11,10 @@
 
   const ROUTE_MAP = {
     '/': { sectionId: 'hero' },
+    '/eke-deka': { sectionId: 'eke-deka' },
+    '/elmy': { sectionId: 'elmy' },
+    '/projet-3': { sectionId: 'adn' },
+    '/projet-4': { sectionId: 'projet-4' },
     '/contact': { sectionId: 'contact' },
   };
 
@@ -459,12 +463,6 @@
 
       const activeCard = projectCards[activeIdx];
       if (activeCard?.id) {
-        const nextRoute = '/';
-        if (nextRoute !== lastHash) {
-          lastHash = nextRoute;
-          history.replaceState(null, '', nextRoute);
-        }
-
         // Mood : disparaît quand plus de la moitié de la dernière card est sortie par le haut
         const lastCard      = projectCards[projectCards.length - 1];
         const lastCardRect  = lastCard.getBoundingClientRect();
