@@ -181,9 +181,9 @@ button { font-family: var(--f-body); cursor: pointer; }
   font-family: var(--f-ui);
   font-weight: 400;
   font-size: .78rem;
-  color: var(--c-text);
+  color: #464646;
   text-transform: uppercase;
-  letter-spacing: .14em;
+  letter-spacing: .02em;
   flex: 1;
 }
 
@@ -509,7 +509,7 @@ button { font-family: var(--f-body); cursor: pointer; }
   display: block;
   font-family: var(--f-ui);
   font-weight: 400;
-  font-size: clamp(1.5rem, 2.78vw, 2.5rem);
+  font-size: clamp(0.9rem, 1.8vw, 1.5rem);
   text-transform: uppercase;
   letter-spacing: .02em;
   color: #464646;
