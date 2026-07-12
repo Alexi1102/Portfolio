@@ -9,6 +9,59 @@
   const body        = document.body;
   const toggle      = document.getElementById('animToggle');
 
+  const ROUTE_MAP = {
+    '/': { sectionId: 'hero' },
+    '/eke-deka': { sectionId: 'eke-deka' },
+    '/elmy': { sectionId: 'elmy' },
+    '/projet-3': { sectionId: 'adn' },
+    '/projet-4': { sectionId: 'projet-4' },
+    '/contact': { sectionId: 'contact' },
+  };
+
+  function normalizeRoute(pathname) {
+    if (!pathname || pathname === '#') return '/';
+    const [path] = pathname.split('?');
+    const clean = path.replace(/\/+$/, '') || '/';
+    return clean.startsWith('/') ? clean : `/${clean}`;
+  }
+
+  function resolveRoute(pathname) {
+    const route = normalizeRoute(pathname);
+    return ROUTE_MAP[route] ? route : '/';
+  }
+
+  function scrollToSection(target, offset = 0, behavior = 'smooth') {
+    if (!target) return;
+    const top = target.getBoundingClientRect().top + window.scrollY - offset;
+    window.scrollTo({ top, behavior });
+  }
+
+  function goToRoute(pathname, { behavior = 'smooth', push = true } = {}) {
+    const route = resolveRoute(pathname);
+    const target = document.getElementById(ROUTE_MAP[route].sectionId);
+    if (push && location.pathname !== route) {
+      history.pushState(null, '', route);
+    }
+    if (target) {
+      setTimeout(() => scrollToSection(target, document.querySelector('.nav')?.offsetHeight + 16 || 0, behavior), 40);
+    }
+  }
+
+  document.querySelectorAll('a[data-route]').forEach((link) => {
+    link.addEventListener('click', (e) => {
+      const route = link.getAttribute('href');
+      if (!route || !route.startsWith('/')) return;
+      e.preventDefault();
+      goToRoute(route, { behavior: 'smooth', push: true });
+    });
+  });
+
+  window.addEventListener('popstate', () => {
+    goToRoute(location.pathname, { behavior: 'smooth', push: false });
+  });
+
+  goToRoute(location.pathname, { behavior: 'auto', push: false });
+
   /* ── Toggle animations ─────────────────────────────── */
   function setAnim(on) {
     body.classList.toggle('anim-on', on);
@@ -359,6 +412,12 @@
   /* ── Scroll nav + scrollspy URL ────────────────────── */
   const scrollNav = document.getElementById('scrollNav');
   const MOOD_CLASSES = ['mood-eke-deka', 'mood-elmy', 'mood-adn', 'mood-projet-4'];
+  const CARD_ROUTE_MAP = {
+    'eke-deka': '/eke-deka',
+    'elmy': '/elmy',
+    'adn': '/projet-3',
+    'projet-4': '/projet-4',
+  };
   if (scrollNav) {
     const projectCards = document.querySelectorAll('#realisations .card');
     const navDots      = scrollNav.querySelectorAll('.scroll-nav__dot');
@@ -387,13 +446,12 @@
         navCursor.style.top = Math.max(0, top) + 'px';
       }
 
-      // Mettre à jour le hash de l'URL sans créer d'entrée dans l'historique
       const activeCard = projectCards[activeIdx];
       if (activeCard?.id) {
-        const newHash = '#' + activeCard.id;
-        if (newHash !== lastHash) {
-          lastHash = newHash;
-          history.replaceState(null, '', newHash);
+        const nextRoute = CARD_ROUTE_MAP[activeCard.id] || '/';
+        if (nextRoute !== lastHash) {
+          lastHash = nextRoute;
+          history.replaceState(null, '', nextRoute);
         }
 
         // Mood : disparaît quand plus de la moitié de la dernière card est sortie par le haut

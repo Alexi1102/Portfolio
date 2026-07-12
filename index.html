@@ -36,12 +36,12 @@
   ═══════════════════════════════ -->
   <header class="nav" role="banner">
     <div class="nav__inner">
-      <a href="#hero" class="nav__logo" aria-label="Alexis Rey — Retour en haut">Alexis Rey</a>
+      <a href="/" class="nav__logo" data-route="/" aria-label="Alexis Rey — Retour en haut">Alexis Rey</a>
 
       <nav aria-label="Navigation principale">
         <ul class="nav__links">
-          <li><a href="#realisations" class="nav__link" data-i18n="nav.realisations">Mes réalisations</a></li>
-          <li><a href="#contact"      class="nav__link">Contact</a></li>
+          <li><a href="/eke-deka" class="nav__link" data-route="/eke-deka" data-i18n="nav.realisations">Mes réalisations</a></li>
+          <li><a href="/contact" class="nav__link" data-route="/contact">Contact</a></li>
         </ul>
       </nav>
 
@@ -124,8 +124,8 @@
         </div><!-- /.hero__text -->
 
           <div class="hero__actions">
-            <a href="#realisations" class="btn btn--filled" data-i18n="hero.cta1">Voir mes réalisations</a>
-            <a href="#contact"      class="btn btn--outline" data-i18n="hero.cta2">Me contacter</a>
+            <a href="/eke-deka" class="btn btn--filled" data-route="/eke-deka" data-i18n="hero.cta1">Voir mes réalisations</a>
+            <a href="/contact" class="btn btn--outline" data-route="/contact" data-i18n="hero.cta2">Me contacter</a>
           </div>
         </div><!-- /.hero__left -->
 
@@ -143,7 +143,7 @@
       </div><!-- /.hero__inner -->
 
       <!-- Chevron de défilement -->
-      <a href="#eke-deka" class="hero__scroll" aria-label="Voir les projets">
+      <a href="/eke-deka" class="hero__scroll" data-route="/eke-deka" aria-label="Voir les projets">
         <svg width="36" height="22" viewBox="0 0 36 22" fill="none">
           <path d="M2 2L18 20L34 2" stroke="#1a1a1a" stroke-width="3.5"
                 stroke-linecap="round" stroke-linejoin="round"/>
