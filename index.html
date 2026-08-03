@@ -1,6 +1,19 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+  <script>
+    // Un hash vers une carte projet (ex: "#eke-deka") déclenche le scroll
+    // natif du navigateur vers cette ancre avant même que le reste du site
+    // ne s'exécute — ce qui produit un "saut" brut et mal positionné (pas
+    // d'offset pour la nav, etc). On neutralise ce scroll natif ici, le plus
+    // tôt possible, et c'est script.js qui se charge ensuite de scroller
+    // proprement (instantané, avec le bon offset) vers la bonne carte.
+    if (location.hash) {
+      const hash = location.hash;
+      history.replaceState(null, '', location.pathname + location.search);
+      window.__initHash = hash;
+    }
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Alexis Rey — UI / UX Designer</title>
@@ -66,7 +79,7 @@
     </div>
   </header>
 
-  <main>
+  <main id="welcome">
 
     <!-- ═══════════════════════════════
          HERO

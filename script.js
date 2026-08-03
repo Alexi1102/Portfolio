@@ -5,6 +5,12 @@
 (function () {
   'use strict';
 
+  // Le site met à jour l'URL en scrollant (pushState/replaceState). Sans ça,
+  // le navigateur restaure de lui-même le dernier scroll connu pour cette
+  // page à chaque arrivée/rechargement (ex : atterrir sur la carte projet
+  // "eke-deka" si c'est là qu'on était la dernière fois).
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
   const STORAGE_KEY = 'ar-anim';
   const body        = document.body;
   const toggle      = document.getElementById('animToggle');
@@ -29,7 +35,18 @@
   function scrollToSection(target, offset = 0, behavior = 'smooth') {
     if (!target) return;
     const top = target.getBoundingClientRect().top + window.scrollY - offset;
-    window.scrollTo({ top, behavior });
+    if (behavior === 'auto') {
+      // Le CSS force `scroll-behavior: smooth` globalement : on le désactive
+      // ponctuellement pour qu'un scroll de synchronisation (chargement de
+      // page) soit vraiment instantané, sans faire "descendre" la page.
+      const root = document.documentElement;
+      const prevBehavior = root.style.scrollBehavior;
+      root.style.scrollBehavior = 'auto';
+      window.scrollTo(0, top);
+      root.style.scrollBehavior = prevBehavior;
+    } else {
+      window.scrollTo({ top, behavior });
+    }
   }
 
   function goToRoute(pathname, { behavior = 'smooth', push = true } = {}) {
@@ -406,12 +423,12 @@
         ([entry]) => {
           if (entry.isIntersecting) {
             if (location.pathname !== '/contact') {
-              history.replaceState(null, '', '/contact');
+              history.replaceState(null, '', '/contact' + location.hash);
             }
           } else if (entry.boundingClientRect.top > 0) {
             // Section autres projets est au-dessus de l'écran, revenir à la racine
             if (location.pathname !== '/') {
-              history.replaceState(null, '', '/');
+              history.replaceState(null, '', '/' + location.hash);
             }
           }
         },
@@ -486,21 +503,24 @@
       });
     });
 
-    // Scroll direct vers la card si l'URL contient déjà un hash valide
-    const initHash = location.hash;
-    if (initHash) {
-      const target = document.querySelector(initHash);
-      if (target?.closest('#realisations')) {
-        setTimeout(() => {
-          const navH = document.querySelector('.nav')?.offsetHeight ?? 0;
-          window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - navH - 24, behavior: 'smooth' });
-        }, 150);
-      }
-    }
-
     window.addEventListener('scroll', updateScrollNav, { passive: true });
     window.addEventListener('resize', updateScrollNav, { passive: true });
     setTimeout(updateScrollNav, 120);
+  }
+
+  // Scroll vers l'ancre demandée dans l'URL au chargement (carte projet,
+  // #welcome...). Le hash a été retiré de l'URL tout en haut de index.html
+  // pour éviter le saut brut du navigateur ; on scrolle ici nous-mêmes,
+  // instantanément et avec le bon offset de nav.
+  if (window.__initHash) {
+    const target = document.querySelector(window.__initHash);
+    if (target) {
+      const navH = document.querySelector('.nav')?.offsetHeight ?? 0;
+      scrollToSection(target, navH + 24, 'auto');
+      // Remettre le hash dans l'URL une fois bien positionné (pour que le
+      // lien reste partageable/rechargeable tel quel).
+      history.replaceState(null, '', location.pathname + location.search + window.__initHash);
+    }
   }
 
 })();
