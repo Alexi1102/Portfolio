@@ -2,6 +2,27 @@
    STYLE.CSS — Alexis Rey Portfolio
    ========================================================== */
 
+/* ── Enregistrement des variables de couleur (clair/sombre) ──
+   Sans ça, une custom property qui change de valeur bascule
+   instantanément (pas d'interpolation), même si les propriétés
+   qui l'utilisent (color, border-color...) ont une transition :
+   d'où le "mélange" visible pendant la transition dark/light. */
+@property --c-text {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #111118;
+}
+@property --c-muted {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #6b7a86;
+}
+@property --c-border {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #e0eae6;
+}
+
 /* ── Variables ─────────────────────────────────────────── */
 :root {
   --c-bg:     #e8f5f0;
@@ -35,7 +56,7 @@ body  {
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
   position: relative;
-  transition: background 1.6s cubic-bezier(.4,0,.2,1);
+  transition: background 1.1s cubic-bezier(.4,0,.2,1), color 1.1s cubic-bezier(.4,0,.2,1);
 }
 
 /* ── Blobs de fond (défilent avec la page) ── */
@@ -88,7 +109,7 @@ body.show-end-gradient .blob--6 { opacity: 1; }
   border-radius: 50%;
   filter: blur(120px);
   opacity: 0;
-  transition: opacity 2.2s cubic-bezier(.4,0,.2,1);
+  transition: opacity 1.5s cubic-bezier(.4,0,.2,1);
   pointer-events: none;
   z-index: 0;
 }
@@ -117,10 +138,10 @@ body.mood-game-n-chill .mood--game-n-chill,
 body.mood-ameliorama-3 .mood--ameliorama-3 { opacity: 1; }
 
 /* Couleur de la scrollbar selon le mood */
-body.mood-eke-deka     .scroll-nav__dot           { background: #EAB088; }
+body.mood-eke-deka     .scroll-nav__dot           { background: #D89860; }
 body.mood-eke-deka     .scroll-nav__dot.is-active { background: #E07B39; }
 body.mood-eke-deka     .scroll-nav__track::before { background: rgba(224,123,57,.5); }
-body.mood-elmy         .scroll-nav__dot           { background: #74B9A8; }
+body.mood-elmy         .scroll-nav__dot           { background: #5DA391; }
 body.mood-elmy         .scroll-nav__dot.is-active { background: #1B8C70; }
 body.mood-elmy         .scroll-nav__track::before { background: rgba(27,140,112,.5); }
 body.mood-game-n-chill .scroll-nav__dot           { background: #D8BBE8; }
@@ -585,6 +606,7 @@ button { font-family: var(--f-body); cursor: pointer; }
   min-width: 0;
   min-height: 0;
   object-fit: cover;
+  object-position: top;
   display: block;
 }
 /* Positions en % du conteneur 661×360px (pixel-perfect Figma) */
@@ -682,10 +704,14 @@ button { font-family: var(--f-body); cursor: pointer; }
   right: 26px;
   height: 28px;
   width: auto;
-  animation: cursor-float 1.8s linear infinite alternate;
   transform-origin: center center;
   top: 0;
   transition: top 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* Pose figée = même position/inclinaison que le repos de l'animation */
+  transform: scaleX(-1) translateY(15px) translate(-1px, -1px);
+}
+.anim-on .scroll-nav__cursor {
+  animation: cursor-float 1.8s linear infinite alternate;
 }
 @keyframes cursor-float {
   0%, 100% { transform: scaleX(-1) translateY(15px) translate(-1px, -1px); }
@@ -721,7 +747,7 @@ button { font-family: var(--f-body); cursor: pointer; }
   border-radius: var(--r-card);
   box-shadow: 0 4px 28px rgba(0, 0, 0, 0.09);
   overflow: hidden;
-  transition: background 1.6s cubic-bezier(.4,0,.2,1), box-shadow 1.6s cubic-bezier(.4,0,.2,1);
+  transition: background 1.1s cubic-bezier(.4,0,.2,1), box-shadow 1.1s cubic-bezier(.4,0,.2,1);
 }
 
 /* En-tête : intro + meta + timeline */
@@ -760,7 +786,7 @@ button { font-family: var(--f-body); cursor: pointer; }
   font-weight: 400;
   line-height: 1.8;
   color: var(--c-text);
-  transition: color 1.6s cubic-bezier(.4,0,.2,1);
+  transition: color 1.1s cubic-bezier(.4,0,.2,1);
 }
 
 /* Méta */
@@ -778,7 +804,7 @@ button { font-family: var(--f-body); cursor: pointer; }
   letter-spacing: .1em;
   color: var(--c-muted);
   margin-bottom: .2rem;
-  transition: color 1.6s cubic-bezier(.4,0,.2,1);
+  transition: color 1.1s cubic-bezier(.4,0,.2,1);
 }
 .card__meta-group dd {
   font-size: .82rem;
@@ -786,7 +812,7 @@ button { font-family: var(--f-body); cursor: pointer; }
   color: var(--c-text);
   margin: 0;
   line-height: 1.5;
-  transition: color 1.6s cubic-bezier(.4,0,.2,1);
+  transition: color 1.1s cubic-bezier(.4,0,.2,1);
 }
 
 
@@ -983,7 +1009,7 @@ button { font-family: var(--f-body); cursor: pointer; }
   align-items: flex-start;
   padding: 54px;
   border-top: 1px solid var(--c-border);
-  transition: border-color 1.6s cubic-bezier(.4,0,.2,1);
+  transition: border-color 1.1s cubic-bezier(.4,0,.2,1);
 }
 .card__section-label {
   display: block;
@@ -993,7 +1019,7 @@ button { font-family: var(--f-body); cursor: pointer; }
   letter-spacing: .12em;
   color: var(--c-muted);
   margin-bottom: .875rem;
-  transition: color 1.6s cubic-bezier(.4,0,.2,1);
+  transition: color 1.1s cubic-bezier(.4,0,.2,1);
 }
 
 /* Échantillons de typographie */
@@ -1003,14 +1029,14 @@ button { font-family: var(--f-body); cursor: pointer; }
   font-size: clamp(1.8rem, 2.5vw, 2.5rem);
   font-weight: 700;
   color: var(--c-text);
-  transition: color 1.6s cubic-bezier(.4,0,.2,1);
+  transition: color 1.1s cubic-bezier(.4,0,.2,1);
 }
 .card__font--secondary {
   font-size: clamp(1.1rem, 1.6vw, 1.5rem);
   font-weight: 400;
   color: var(--c-text);
   margin-top: .5rem;
-  transition: color 1.6s cubic-bezier(.4,0,.2,1);
+  transition: color 1.1s cubic-bezier(.4,0,.2,1);
 }
 
 /* Swatches couleurs — grille 2×2 */
@@ -1029,6 +1055,7 @@ button { font-family: var(--f-body); cursor: pointer; }
   align-items: center;
   justify-content: center;
   position: relative;
+  overflow: hidden;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.22);
   transition: border-radius .2s ease;
 }
@@ -1037,17 +1064,22 @@ button { font-family: var(--f-body); cursor: pointer; }
 }
 .swatch::after {
   content: attr(data-hex);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: 'Poppins', sans-serif;
   font-size: 14px;
   font-weight: 400;
   color: var(--swatch-text, #111118);
   padding: 8px;
+  box-sizing: border-box;
   opacity: 0;
   transition: opacity .2s ease;
   pointer-events: none;
   text-align: center;
   line-height: 1.2;
-  max-width: 100%;
 }
 .swatch:hover::after {
   opacity: 1;
@@ -1191,6 +1223,17 @@ button { font-family: var(--f-body); cursor: pointer; }
   .mood--elmy.mood--a         { background: radial-gradient(circle, rgba(27,140,112,.65) 0%, transparent 65%); }
   .mood--game-n-chill.mood--a { background: radial-gradient(circle, rgba(191,144,218,.65) 0%, transparent 65%); }
   .mood--ameliorama-3.mood--a { background: radial-gradient(circle, rgba(220,194,142,.65) 0%, transparent 65%); }
+}
+
+/* ── Desktop (> 1024px) : petits titres + paragraphes +2px ── */
+@media (min-width: 1025px) {
+  .hero__tagline          { font-size: calc(.875rem + 2px); }
+  .card__desc,
+  .card__meta-group dd,
+  .other__text            { font-size: calc(.82rem + 2px); }
+  .contact__sub           { font-size: calc(.9rem + 2px); }
+  .card__meta-group dt    { font-size: calc(.67rem + 2px); }
+  .other__title           { font-size: 22px; }
 }
 
 /* ── PC portable (≤ 1280px) ─────────────────────────── */

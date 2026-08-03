@@ -415,28 +415,6 @@
     });
   }
 
-  /* ── Gestion de l'URL au scroll : racine pour hero+projets, /contact à partir de autres projets ── */
-  if ('IntersectionObserver' in window) {
-    const autresProjets = document.getElementById('autres-projets');
-    if (autresProjets) {
-      new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            if (location.pathname !== '/contact') {
-              history.replaceState(null, '', '/contact' + location.hash);
-            }
-          } else if (entry.boundingClientRect.top > 0) {
-            // Section autres projets est au-dessus de l'écran, revenir à la racine
-            if (location.pathname !== '/') {
-              history.replaceState(null, '', '/' + location.hash);
-            }
-          }
-        },
-        { threshold: 0.1, rootMargin: '0px 0px -50% 0px' }
-      ).observe(autresProjets);
-    }
-  }
-
   const lastCardEl = document.getElementById('ameliorama-3');
   if (lastCardEl && 'IntersectionObserver' in window) {
     new IntersectionObserver(
@@ -456,7 +434,6 @@
     const navDots      = scrollNav.querySelectorAll('.scroll-nav__dot');
     const navCursor    = scrollNav.querySelector('.scroll-nav__cursor');
     const navTrack     = scrollNav.querySelector('.scroll-nav__track');
-    let lastHash       = '';
 
     function updateScrollNav() {
       if (!projectCards.length) return;
@@ -506,6 +483,39 @@
     window.addEventListener('scroll', updateScrollNav, { passive: true });
     window.addEventListener('resize', updateScrollNav, { passive: true });
     setTimeout(updateScrollNav, 120);
+  }
+
+  /* ── Hash d'URL synchronisé sur la section visible ─── */
+  const hashSections = [
+    { hash: 'welcome',      el: document.getElementById('hero') },
+    { hash: 'eke-deka',     el: document.getElementById('eke-deka') },
+    { hash: 'elmy',         el: document.getElementById('elmy') },
+    { hash: 'game-n-chill', el: document.getElementById('game-n-chill') },
+    { hash: 'ameliorama-3', el: document.getElementById('ameliorama-3') },
+    { hash: 'contact',      el: document.getElementById('contact') },
+  ].filter((s) => s.el);
+
+  if (hashSections.length) {
+    let lastHash = '';
+
+    function updateHashSpy() {
+      const vh = window.innerHeight;
+      let active = hashSections[0];
+      hashSections.forEach((s) => {
+        if (s.el.getBoundingClientRect().top < vh * 0.5) active = s;
+      });
+      if (active.hash !== lastHash) {
+        lastHash = active.hash;
+        // On ne touche qu'au hash : changer le chemin vers une URL absolue
+        // ("/", "/contact"...) lève une SecurityError si le site est ouvert
+        // en local (file://) plutôt que via un serveur.
+        history.replaceState(null, '', location.pathname + location.search + '#' + active.hash);
+      }
+    }
+
+    window.addEventListener('scroll', updateHashSpy, { passive: true });
+    window.addEventListener('resize', updateHashSpy, { passive: true });
+    setTimeout(updateHashSpy, 150);
   }
 
   // Scroll vers l'ancre demandée dans l'URL au chargement (carte projet,
