@@ -15,6 +15,9 @@
   const body        = document.body;
   const toggle      = document.getElementById('animToggle');
 
+  const footerYear = document.getElementById('footerYear');
+  if (footerYear) footerYear.textContent = new Date().getFullYear();
+
   const ROUTE_MAP = {
     '/': { sectionId: 'hero' },
     '/contact': { sectionId: 'contact' },
@@ -111,6 +114,20 @@
     swatch.style.setProperty('--swatch-text', L > 0.179 ? '#111118' : '#F3FEFF');
   });
 
+  /* ── Codes hexa : affichage au scroll sur mobile/tablette ──
+     Le survol n'existe pas au tactile ; on affiche le code hexa
+     quand le swatch est visible à l'écran (voir CSS pour le gate
+     par largeur d'écran). */
+  if ('IntersectionObserver' in window) {
+    const swatchIO = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => e.target.classList.toggle('swatch--visible', e.isIntersecting));
+      },
+      { threshold: 0.6 }
+    );
+    document.querySelectorAll('.swatch[data-hex]').forEach((s) => swatchIO.observe(s));
+  }
+
   /* ── Scroll reveal — IntersectionObserver ──────────── */
   const revealEls = document.querySelectorAll('.reveal');
 
@@ -170,10 +187,11 @@
     form.addEventListener('submit', (e) => {
       e.preventDefault();
 
-      const fname   = form.querySelector('#fname');
-      const femail  = form.querySelector('#femail');
-      const fmsg    = form.querySelector('#fmessage');
-      const btn     = form.querySelector('[type="submit"]');
+      const fname    = form.querySelector('#fname');
+      const femail   = form.querySelector('#femail');
+      const fmsg     = form.querySelector('#fmessage');
+      const fconsent = form.querySelector('#fconsent');
+      const btn      = form.querySelector('[type="submit"]');
 
       // Validation minimale côté client
       [fname, femail, fmsg].forEach((f) => {
@@ -184,6 +202,7 @@
         femail.style.borderColor = '#ef4444';
         return;
       }
+      if (!fconsent.checked) return;
 
       // Feedback visuel d'envoi
       const original = btn.textContent;
@@ -233,7 +252,15 @@
       'contact.name':   'Nom et Prénom',
       'contact.email':  'Adresse email',
       'contact.msg':    'Objet de la demande',
+      'contact.consentPre': "J'accepte que mes données soient utilisées pour me recontacter, conformément à la",
       'contact.send':   'Envoyer',
+      'footer.baseline': 'UI / UX Designer',
+      'footer.location': 'Lyon, France',
+      'footer.legal':    'Mentions légales',
+      'footer.privacy':  'Politique de confidentialité',
+      'footer.privacyLower': 'politique de confidentialité',
+      'footer.linkedinAria':  "Profil LinkedIn d'Alexis Rey",
+      'footer.instagramAria': "Profil Instagram d'Alexis Rey",
     },
     en: {
       'lang.current':   'English',
@@ -260,7 +287,15 @@
       'contact.name':   'Full name',
       'contact.email':  'Email address',
       'contact.msg':    'Subject',
+      'contact.consentPre': 'I agree that my data will be used to reply to me, in accordance with the',
       'contact.send':   'Send',
+      'footer.baseline': 'UI / UX Designer',
+      'footer.location': 'Lyon, France',
+      'footer.legal':    'Legal notice',
+      'footer.privacy':  'Privacy policy',
+      'footer.privacyLower': 'privacy policy',
+      'footer.linkedinAria':  "Alexis Rey's LinkedIn profile",
+      'footer.instagramAria': "Alexis Rey's Instagram profile",
     },
   };
 
@@ -270,6 +305,10 @@
     document.querySelectorAll('[data-i18n]').forEach((el) => {
       const key = el.dataset.i18n;
       if (t[key] !== undefined) el.textContent = t[key];
+    });
+    document.querySelectorAll('[data-i18n-aria]').forEach((el) => {
+      const key = el.dataset.i18nAria;
+      if (t[key] !== undefined) el.setAttribute('aria-label', t[key]);
     });
     try { localStorage.setItem('ar-lang', lang); } catch (_) {}
   }

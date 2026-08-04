@@ -528,6 +528,12 @@
             <textarea class="field__input field__textarea" id="fmessage"
                       name="message" rows="5" required></textarea>
           </div>
+          <div class="field field--consent">
+            <label class="field__consent">
+              <input type="checkbox" id="fconsent" name="consent" required>
+              <span><span data-i18n="contact.consentPre">J'accepte que mes données soient utilisées pour me recontacter, conformément à la</span> <a href="/politique-de-confidentialite" data-i18n="footer.privacyLower">politique de confidentialité</a>.</span>
+            </label>
+          </div>
           <button type="submit" class="btn btn--filled btn--send" data-i18n="contact.send">Envoyer</button>
         </form>
       </div>
@@ -553,8 +559,45 @@
   ═══════════════════════════════ -->
   <footer class="footer" role="contentinfo">
     <div class="footer__inner">
-      <a href="tel:+33635454725"          class="footer__link">06 35 45 47 25</a>
-      <a href="mailto:alexis.rey705@gmail.com" class="footer__link">alexis.rey705@gmail.com</a>
+
+      <div class="footer__col footer__brand">
+        <span class="footer__name">REY ALEXIS</span>
+        <span class="footer__baseline" data-i18n="footer.baseline">UI / UX Designer</span>
+        <span class="footer__location" data-i18n="footer.location">Lyon, France</span>
+      </div>
+
+      <div class="footer__col footer__contact">
+        <a href="mailto:alexis.rey705@gmail.com" class="footer__link">alexis.rey705@gmail.com</a>
+        <a href="tel:+33635454725" class="footer__link">06 35 45 47 25</a>
+      </div>
+
+      <div class="footer__col footer__social">
+        <!-- TODO : remplacer par l'URL réelle du profil LinkedIn -->
+        <a href="#" class="footer__social-link" target="_blank" rel="noopener noreferrer" aria-label="Profil LinkedIn d'Alexis Rey" data-i18n-aria="footer.linkedinAria">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+            <rect x="2" y="9" width="4" height="12"></rect>
+            <circle cx="4" cy="4" r="2"></circle>
+          </svg>
+        </a>
+        <!-- TODO : remplacer par l'URL réelle du profil Instagram -->
+        <a href="#" class="footer__social-link" target="_blank" rel="noopener noreferrer" aria-label="Profil Instagram d'Alexis Rey" data-i18n-aria="footer.instagramAria">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+          </svg>
+        </a>
+      </div>
+
+    </div>
+
+    <div class="footer__bottom">
+      <span class="footer__copyright">© <span id="footerYear">2026</span> Alexis Rey</span>
+      <nav class="footer__legal" aria-label="Mentions légales et confidentialité">
+        <a href="/mentions-legales" class="footer__legal-link" data-i18n="footer.legal">Mentions légales</a>
+        <a href="/politique-de-confidentialite" class="footer__legal-link" data-i18n="footer.privacy">Politique de confidentialité</a>
+      </nav>
     </div>
   </footer>
 
