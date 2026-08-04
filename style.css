@@ -609,6 +609,8 @@ button { font-family: var(--f-body); cursor: pointer; }
   object-position: top;
   display: block;
 }
+.hero__rect--1 img { object-position: left; }
+
 /* Positions en % du conteneur 661×360px (pixel-perfect Figma) */
 .hero__rect--1 { width: 39.94%; height: 46.39%; left: 0%;     top: 30.28%; }
 .hero__rect--2 { width: 39.79%; height: 46.39%; left: 60.21%; top: 30.28%; }
