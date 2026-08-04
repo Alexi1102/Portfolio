@@ -1011,6 +1011,16 @@ button { font-family: var(--f-body); cursor: pointer; }
   border-top: 1px solid var(--c-border);
   transition: border-color 1.1s cubic-bezier(.4,0,.2,1);
 }
+.card__note {
+  flex: 1 1 300px;
+  max-width: 380px;
+  margin-left: auto;
+  font-size: .92rem;
+  font-style: italic;
+  line-height: 1.7;
+  color: var(--c-muted);
+  transition: color 1.1s cubic-bezier(.4,0,.2,1);
+}
 .card__section-label {
   display: block;
   font-size: .68rem;
