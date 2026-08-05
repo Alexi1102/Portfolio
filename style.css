@@ -1242,9 +1242,13 @@ button { font-family: var(--f-body); cursor: pointer; }
 
 /* Zone réseaux */
 .footer__social {
+  display: flex;
   flex-direction: row;
   align-items: center;
   gap: 1rem;
+  /* Le bouton (34px) est plus large que l'icône (20px) : décaler pour
+     aligner le bord gauche visible de l'icône sur celui du mail/numéro. */
+  margin-left: -7px;
 }
 .footer__social-link {
   display: flex;
@@ -1257,6 +1261,11 @@ button { font-family: var(--f-body); cursor: pointer; }
 }
 .footer__social-link:hover { color: var(--c-accent); }
 .footer__social-link svg { width: 20px; height: 20px; }
+.footer__contact {
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+}
 
 /* Barre du bas */
 .footer__bottom {
