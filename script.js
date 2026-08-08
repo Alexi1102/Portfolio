@@ -231,6 +231,8 @@
       'lang.current':   'Français',
       'lang.option':    'Anglais',
       'nav.realisations': 'Mes réalisations',
+      'nav.realisationsAria': 'Lien vers mes réalisations',
+      'nav.contactAria': 'Lien vers contact',
       'hero.badge':     'Disponible pour designer !',
       'hero.tagline':   "Je m'imprègne de votre identité de marque et je conçois une interface sur mesure et à votre image.",
       'hero.cta1':      'Voir mes réalisations',
@@ -273,6 +275,8 @@
       'lang.current':   'English',
       'lang.option':    'Français',
       'nav.realisations': 'My work',
+      'nav.realisationsAria': 'Link to my work',
+      'nav.contactAria': 'Link to contact',
       'hero.badge':     'Available to design!',
       'hero.tagline':   'I immerse myself in your brand identity and design a tailor-made interface that reflects your image.',
       'hero.cta1':      'See my work',
@@ -330,18 +334,25 @@
   /* ── Dropdown langue ───────────────────────────────── */
   const langDropdown = document.querySelector('.lang-dropdown');
   const langBtn      = langDropdown?.querySelector('.lang-btn');
+  const langMenu     = langDropdown?.querySelector('.lang-dropdown__menu');
   const langOption   = langDropdown?.querySelector('.lang-btn--option');
+
+  // Le menu fermé doit être totalement inatteignable au clavier (inert),
+  // pas seulement invisible/non-cliquable à la souris (opacity+pointer-events).
+  function setLangMenuOpen(open) {
+    langDropdown.classList.toggle('is-open', open);
+    langBtn.setAttribute('aria-expanded', open);
+    if (langMenu) langMenu.toggleAttribute('inert', !open);
+  }
 
   if (langBtn) {
     langBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      const open = langDropdown.classList.toggle('is-open');
-      langBtn.setAttribute('aria-expanded', open);
+      setLangMenuOpen(!langDropdown.classList.contains('is-open'));
     });
 
     document.addEventListener('click', () => {
-      langDropdown.classList.remove('is-open');
-      langBtn.setAttribute('aria-expanded', 'false');
+      setLangMenuOpen(false);
     });
   }
 
@@ -349,8 +360,7 @@
     langOption.addEventListener('click', () => {
       const newLang = document.documentElement.lang === 'en' ? 'fr' : 'en';
       setLang(newLang);
-      langDropdown.classList.remove('is-open');
-      langBtn.setAttribute('aria-expanded', 'false');
+      setLangMenuOpen(false);
     });
   }
 
