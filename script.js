@@ -11,6 +11,16 @@
   // "eke-deka" si c'est là qu'on était la dernière fois).
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
+  // Polices "spécimen" (affichées à titre décoratif dans les cards projet,
+  // ex : "Oswald Aa123") : chargées seulement après le premier rendu, pour
+  // ne pas peser sur la chaîne de requêtes critiques du chargement initial.
+  window.addEventListener('load', () => {
+    const link = document.createElement('link');
+    link.rel  = 'stylesheet';
+    link.href = 'https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Space+Grotesk:wght@400;600;700&family=Rajdhani:wght@600;700&family=Nunito:wght@400;600&family=Montserrat:wght@400;600&display=swap';
+    document.head.appendChild(link);
+  });
+
   const STORAGE_KEY = 'ar-anim';
   const body        = document.body;
   const toggle      = document.getElementById('animToggle');

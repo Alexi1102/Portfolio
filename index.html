@@ -19,18 +19,19 @@
   <title>Alexis Rey — UI / UX Designer</title>
   <meta name="description" content="Portfolio d'Alexis Rey, UI/UX Designer. Conception d'interfaces sur mesure adaptées à votre identité de marque.">
 
-  <!-- Fonts : chargement optimisé — la feuille de style Google Fonts est
-       chargée en asynchrone (preload + media=print puis bascule en onload)
-       pour sortir du chemin critique de rendu ; sans ça, le navigateur doit
-       attendre cette feuille (puis découvrir 8 fichiers woff2) avant de
-       pouvoir peindre la page (cf. "Évitez les chaînes de requêtes
-       critiques" sur PageSpeed). font-display:swap affiche déjà le texte
-       avec une police de secours pendant le chargement. -->
+  <!-- Fonts : seules les polices réellement utilisées pour le texte du site
+       (Anton = --f-ui, Poppins = --f-body) sont chargées ici, en asynchrone
+       (preload + media=print puis bascule en onload) pour sortir du chemin
+       critique de rendu. Les polices "spécimen" affichées à titre décoratif
+       dans les cards projet (Oswald, Space Grotesk, Rajdhani, Nunito,
+       Montserrat) ne sont pas nécessaires au premier rendu : elles sont
+       chargées après coup par script.js (voir la fin du fichier), pour ne
+       plus peser sur la chaîne de requêtes critiques. -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@300;400;500;600&family=Oswald:wght@400;700&family=Space+Grotesk:wght@400;600;700&family=Rajdhani:wght@600;700&family=Nunito:wght@400;600&family=Montserrat:wght@400;600&display=swap">
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@300;400;500;600&family=Oswald:wght@400;700&family=Space+Grotesk:wght@400;600;700&family=Rajdhani:wght@600;700&family=Nunito:wght@400;600&family=Montserrat:wght@400;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@300;400;500;600&family=Oswald:wght@400;700&family=Space+Grotesk:wght@400;600;700&family=Rajdhani:wght@600;700&family=Nunito:wght@400;600&family=Montserrat:wght@400;600&display=swap" rel="stylesheet"></noscript>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;500;600&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
   <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
   <!-- Image LCP (mockup central de la bannière) : preload en priorité haute
        pour que la requête démarre dès le head, sans attendre que le
