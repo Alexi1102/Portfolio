@@ -19,19 +19,17 @@
   <title>Alexis Rey — UI / UX Designer</title>
   <meta name="description" content="Portfolio d'Alexis Rey, UI/UX Designer. Conception d'interfaces sur mesure adaptées à votre identité de marque.">
 
-  <!-- Fonts : seules les polices réellement utilisées pour le texte du site
-       (Anton = --f-ui, Poppins = --f-body) sont chargées ici, en asynchrone
-       (preload + media=print puis bascule en onload) pour sortir du chemin
-       critique de rendu. Les polices "spécimen" affichées à titre décoratif
-       dans les cards projet (Oswald, Space Grotesk, Rajdhani, Nunito,
-       Montserrat) ne sont pas nécessaires au premier rendu : elles sont
-       chargées après coup par script.js (voir la fin du fichier), pour ne
-       plus peser sur la chaîne de requêtes critiques. -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;500;600&display=swap">
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+  <!-- Fonts : Anton et Poppins (--f-ui / --f-body) sont auto-hébergées
+       (voir /fonts et les @font-face en haut de style.css) au lieu de
+       Google Fonts, pour supprimer les requêtes vers fonts.googleapis.com
+       / fonts.gstatic.com du chemin critique. On précharge ici les 3
+       fichiers utilisés au-dessus de la ligne de flottaison (logo, tagline).
+       Les polices "spécimen" décoratives des cards projet (Oswald, Space
+       Grotesk, Rajdhani, Nunito, Montserrat) restent chargées depuis Google
+       Fonts, mais après coup par script.js — hors chemin critique. -->
+  <link rel="preload" as="font" type="font/woff2" href="fonts/anton-400-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="fonts/poppins-400-latin.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="fonts/poppins-500-latin.woff2" crossorigin>
   <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
   <!-- Image LCP (mockup central de la bannière) : preload en priorité haute
        pour que la requête démarre dès le head, sans attendre que le
