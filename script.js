@@ -502,33 +502,44 @@
       if (!projectCards.length) return;
       const vh = window.innerHeight;
 
+      // Toutes les lectures géométriques d'abord, puis toutes les écritures
+      // à la fin : lire un getBoundingClientRect() juste après avoir modifié
+      // une classe force un reflow synchrone (layout thrashing). L'ordre ne
+      // change rien au résultat ici : un scale() centré ne déplace pas le
+      // centre du dot, donc la position du curseur est la même avant/après.
+
       // Card active : la dernière dont le haut est dans la moitié supérieure de l'écran
       let activeIdx = 0;
       projectCards.forEach((card, i) => {
         if (card.getBoundingClientRect().top < vh * 0.5) activeIdx = i;
       });
 
-      navDots.forEach((dot, i) => dot.classList.toggle('is-active', i === activeIdx));
-
-      // Déplacer le curseur au centre du dot actif
+      let cursorTop = null;
       if (navCursor && navDots[activeIdx] && navTrack) {
         const trackRect = navTrack.getBoundingClientRect();
         const dotRect   = navDots[activeIdx].getBoundingClientRect();
         const cursorH   = navCursor.offsetHeight || 28;
-        const top       = dotRect.top - trackRect.top + (dotRect.height - cursorH) / 2;
-        navCursor.style.top = Math.max(0, top) + 'px';
+        cursorTop = Math.max(0, dotRect.top - trackRect.top + (dotRect.height - cursorH) / 2);
       }
 
       const activeCard = projectCards[activeIdx];
+      let moodClass = null, moodInView = false;
       if (activeCard?.id) {
         // Mood : disparaît quand plus de la moitié de la dernière card est sortie par le haut
         const lastCard      = projectCards[projectCards.length - 1];
         const lastCardRect  = lastCard.getBoundingClientRect();
         const lastCardGone  = lastCardRect.top < -(lastCard.offsetHeight / 2);
-        const moodClass     = 'mood-' + activeCard.id;
         const inView        = activeCard.getBoundingClientRect().top < vh * 0.8;
+        moodClass   = 'mood-' + activeCard.id;
+        moodInView  = inView && !lastCardGone;
+      }
+
+      // Écritures
+      navDots.forEach((dot, i) => dot.classList.toggle('is-active', i === activeIdx));
+      if (cursorTop !== null) navCursor.style.top = cursorTop + 'px';
+      if (moodClass) {
         MOOD_CLASSES.forEach(c => body.classList.remove(c));
-        if (inView && !lastCardGone) body.classList.add(moodClass);
+        if (moodInView) body.classList.add(moodClass);
       }
     }
 
