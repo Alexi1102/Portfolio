@@ -167,12 +167,17 @@
 
         <!-- ③ Mockups -->
         <div class="hero__right" aria-hidden="true">
+          <!-- .hero__right est display:none sous 600px (voir style.css) : ces
+               5 images ne sont jamais visibles sur mobile, mais un <img src>
+               classique serait quand même téléchargé. Le <source media> dans
+               chaque <picture> empêche le navigateur d'initier la requête
+               réseau tant que la largeur d'écran n'atteint pas le desktop. -->
           <div class="hero__mockups">
-            <div class="hero__rect hero__rect--1"><img src="images/banner/elmy_dashboard.webp" alt="" width="500" height="321"></div>
-            <div class="hero__rect hero__rect--2"><img src="images/banner/game_n_chill_gallery.webp" alt="" width="500" height="321"></div>
-            <div class="hero__rect hero__rect--3"><img src="images/banner/eke_deka_biala.webp" alt="" width="500" height="321"></div>
-            <div class="hero__rect hero__rect--4"><img src="images/banner/eke-deka-apercu.png" alt="" width="384" height="250" fetchpriority="high"></div>
-            <div class="hero__rect hero__rect--5"><img src="images/banner/game_n_chill_hero.webp" alt="" width="500" height="321"></div>
+            <div class="hero__rect hero__rect--1"><picture><source media="(min-width: 601px)" srcset="images/banner/elmy_dashboard.webp"><img alt="" width="500" height="321"></picture></div>
+            <div class="hero__rect hero__rect--2"><picture><source media="(min-width: 601px)" srcset="images/banner/game_n_chill_gallery.webp"><img alt="" width="500" height="321"></picture></div>
+            <div class="hero__rect hero__rect--3"><picture><source media="(min-width: 601px)" srcset="images/banner/eke_deka_biala.webp"><img alt="" width="500" height="321"></picture></div>
+            <div class="hero__rect hero__rect--4"><picture><source media="(min-width: 601px)" srcset="images/banner/eke-deka-apercu.png"><img alt="" width="384" height="250" fetchpriority="high"></picture></div>
+            <div class="hero__rect hero__rect--5"><picture><source media="(min-width: 601px)" srcset="images/banner/game_n_chill_hero.webp"><img alt="" width="500" height="321"></picture></div>
           </div>
         </div>
 

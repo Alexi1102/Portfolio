@@ -604,15 +604,23 @@ button { font-family: var(--f-body); cursor: pointer; }
   background: #d9d9d9;
   display: flex;
 }
+/* Le <picture> ajouté pour le chargement conditionnel par media ne doit pas
+   devenir lui-même l'élément flex (sinon .hero__rect img { flex:1 } ne
+   s'applique plus au bon élément) : display:contents le retire de l'arbre
+   de boîtes, l'<img> reste l'enfant flex direct comme avant. */
+.hero__rect picture { display: contents; }
 .hero__rect img {
   flex: 1;
   min-width: 0;
   min-height: 0;
-  object-fit: cover;
+  /* contain plutôt que cover : on garde 100% de la largeur de chaque
+     capture visible, quitte à laisser apparaître le fond du cadre
+     (background du .hero__rect) en haut/bas si le ratio ne correspond
+     pas exactement à la case. */
+  object-fit: contain;
   object-position: top;
   display: block;
 }
-.hero__rect--1 img { object-position: left; }
 
 /* Positions en % du conteneur 661×360px (pixel-perfect Figma) */
 .hero__rect--1 { width: 39.94%; height: 46.39%; left: 0%;     top: 30.28%; }
