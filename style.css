@@ -1473,6 +1473,13 @@ button { font-family: var(--f-body); cursor: pointer; }
 @media (max-width: 600px) {
   /* Nav */
 
+  /* Fond décoratif : un filter: blur() large coûte cher à peindre, encore
+     plus sur un GPU mobile que sur desktop. Rayon réduit ici uniquement
+     (aucun changement sur desktop) ; les blobs restent aussi doux à l'œil,
+     juste moins coûteux à recalculer. */
+  .blob { filter: blur(45px); }
+  .mood { filter: blur(40px); }
+
   /* Hero — photo + texte 50/50 en ligne */
   .hero         { padding: 2rem var(--px) 2.5rem; }
   .hero__inner  { gap: 2rem; }

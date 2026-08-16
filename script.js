@@ -530,6 +530,11 @@
   const navDots       = scrollNav ? scrollNav.querySelectorAll('.scroll-nav__dot') : [];
   const navCursor     = scrollNav ? scrollNav.querySelector('.scroll-nav__cursor') : null;
   const navTrack      = scrollNav ? scrollNav.querySelector('.scroll-nav__track') : null;
+  // .scroll-nav est display:none sous 1024px (voir style.css) : sur mobile/
+  // tablette, calculer et écrire la position du curseur à chaque scroll ne
+  // sert à rien puisque rien n'est visible — coût de thread principal évité
+  // en dessous de ce seuil.
+  const scrollNavMQ  = window.matchMedia('(min-width: 1025px)');
 
   const hashSections = [
     { hash: 'welcome',      el: document.getElementById('hero') },
@@ -551,8 +556,10 @@
       if (card.getBoundingClientRect().top < vh * 0.5) activeIdx = i;
     });
 
+    const scrollNavVisible = scrollNavMQ.matches;
+
     let cursorTop = null;
-    if (navCursor && navDots[activeIdx] && navTrack) {
+    if (scrollNavVisible && navCursor && navDots[activeIdx] && navTrack) {
       const trackRect = navTrack.getBoundingClientRect();
       const dotRect   = navDots[activeIdx].getBoundingClientRect();
       const cursorH   = navCursor.offsetHeight || 28;
@@ -577,8 +584,10 @@
     });
 
     // ── Écritures ──
-    navDots.forEach((dot, i) => dot.classList.toggle('is-active', i === activeIdx));
-    if (cursorTop !== null) navCursor.style.top = cursorTop + 'px';
+    if (scrollNavVisible) {
+      navDots.forEach((dot, i) => dot.classList.toggle('is-active', i === activeIdx));
+      if (cursorTop !== null) navCursor.style.top = cursorTop + 'px';
+    }
     if (moodClass) {
       MOOD_CLASSES.forEach(c => body.classList.remove(c));
       if (moodInView) body.classList.add(moodClass);
