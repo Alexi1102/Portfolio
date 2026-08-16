@@ -33,10 +33,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
   <noscript><link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
   <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
-  <!-- Image LCP (mockup central de la bannière) : preload en priorité haute
-       pour que la requête démarre dès le head, sans attendre que le
-       parseur atteigne l'<img> dans le body. -->
-  <link rel="preload" as="image" href="images/banner/eke-deka-apercu.png" fetchpriority="high">
+  <!-- Image LCP : elle diffère selon le viewport, car .hero__right (les
+       mockups, dont eke-deka-apercu.png) est display:none sous 600px — sur
+       mobile le LCP réel est l'image principale de la galerie EKE-DEKA, le
+       premier contenu visible sous le hero. Les deux sont préchargées en
+       priorité haute, chacune conditionnée par media pour ne pas gaspiller
+       de bande passante sur l'image que le viewport courant n'affiche pas. -->
+  <link rel="preload" as="image" href="images/banner/eke-deka-apercu.png" media="(min-width: 601px)" fetchpriority="high">
+  <link rel="preload" as="image" href="images/gallery_main/eke_deka_hero.webp" media="(max-width: 600px)" fetchpriority="high">
 
   <!-- style.css charge en asynchrone (meme pattern que les fonts) pour ne pas
        bloquer le rendu, sans dupliquer tout le CSS dans le head (l'inlining
@@ -230,7 +234,7 @@
         </div><!-- /.card__top -->
 
         <div class="card__gallery" data-card="eke-deka">
-          <div class="gallery__main"><img src="images/gallery_main/eke_deka_hero.webp" alt="EKE-DEKA" class="gallery__img" width="1600" height="900" loading="lazy" decoding="async"></div>
+          <div class="gallery__main"><img src="images/gallery_main/eke_deka_hero.webp" alt="EKE-DEKA" class="gallery__img" width="1600" height="900" fetchpriority="high"></div>
           <div class="gallery__grid">
             <div class="gallery__thumb"><img src="images/eke_deka/eke_deka_history.webp" alt="" class="gallery__img" width="1100" height="619" loading="lazy" decoding="async"></div>
             <div class="gallery__thumb gallery__thumb--more" data-more="5" data-more-images="images/eke_deka/eke_deka_context.webp,images/eke_deka/eke_deka_biala.webp,images/eke_deka/eke_deka_presentation.webp,images/eke_deka/eke_deka_donations.webp,images/eke_deka/eke_deka_contact.webp">

@@ -499,77 +499,23 @@
     ).observe(lastCardEl);
   }
 
-  /* ── Scroll nav + scrollspy URL ────────────────────── */
-  const scrollNav = document.getElementById('scrollNav');
+  /* ── Scroll nav + scrollspy URL + hash d'URL ─────────
+     Ces trois logiques lisaient chacune des getBoundingClientRect() sur
+     leurs propres listeners 'scroll'/'resize' : comme les writes de l'une
+     (classList, style.top, history.replaceState) precedent les reads de
+     la suivante dans la meme passe d'evenement, le navigateur devait
+     recalculer le layout de facon synchrone entre les deux (forced
+     reflow / layout thrashing). On fusionne tout en une seule passe —
+     toutes les lectures d'abord, puis toutes les ecritures — declenchee
+     au plus une fois par frame via requestAnimationFrame plutot qu'a
+     chaque evenement de scroll brut. */
+  const scrollNav    = document.getElementById('scrollNav');
   const MOOD_CLASSES = ['mood-eke-deka', 'mood-elmy', 'mood-game-n-chill', 'mood-ameliorama-3'];
-  if (scrollNav) {
-    const projectCards = document.querySelectorAll('#realisations .card');
-    const navDots      = scrollNav.querySelectorAll('.scroll-nav__dot');
-    const navCursor    = scrollNav.querySelector('.scroll-nav__cursor');
-    const navTrack     = scrollNav.querySelector('.scroll-nav__track');
+  const projectCards = scrollNav ? document.querySelectorAll('#realisations .card') : [];
+  const navDots       = scrollNav ? scrollNav.querySelectorAll('.scroll-nav__dot') : [];
+  const navCursor     = scrollNav ? scrollNav.querySelector('.scroll-nav__cursor') : null;
+  const navTrack      = scrollNav ? scrollNav.querySelector('.scroll-nav__track') : null;
 
-    function updateScrollNav() {
-      if (!projectCards.length) return;
-      const vh = window.innerHeight;
-
-      // Toutes les lectures géométriques d'abord, puis toutes les écritures
-      // à la fin : lire un getBoundingClientRect() juste après avoir modifié
-      // une classe force un reflow synchrone (layout thrashing). L'ordre ne
-      // change rien au résultat ici : un scale() centré ne déplace pas le
-      // centre du dot, donc la position du curseur est la même avant/après.
-
-      // Card active : la dernière dont le haut est dans la moitié supérieure de l'écran
-      let activeIdx = 0;
-      projectCards.forEach((card, i) => {
-        if (card.getBoundingClientRect().top < vh * 0.5) activeIdx = i;
-      });
-
-      let cursorTop = null;
-      if (navCursor && navDots[activeIdx] && navTrack) {
-        const trackRect = navTrack.getBoundingClientRect();
-        const dotRect   = navDots[activeIdx].getBoundingClientRect();
-        const cursorH   = navCursor.offsetHeight || 28;
-        cursorTop = Math.max(0, dotRect.top - trackRect.top + (dotRect.height - cursorH) / 2);
-      }
-
-      const activeCard = projectCards[activeIdx];
-      let moodClass = null, moodInView = false;
-      if (activeCard?.id) {
-        // Mood : disparaît quand plus de la moitié de la dernière card est sortie par le haut
-        const lastCard      = projectCards[projectCards.length - 1];
-        const lastCardRect  = lastCard.getBoundingClientRect();
-        const lastCardGone  = lastCardRect.top < -(lastCard.offsetHeight / 2);
-        const inView        = activeCard.getBoundingClientRect().top < vh * 0.8;
-        moodClass   = 'mood-' + activeCard.id;
-        moodInView  = inView && !lastCardGone;
-      }
-
-      // Écritures
-      navDots.forEach((dot, i) => dot.classList.toggle('is-active', i === activeIdx));
-      if (cursorTop !== null) navCursor.style.top = cursorTop + 'px';
-      if (moodClass) {
-        MOOD_CLASSES.forEach(c => body.classList.remove(c));
-        if (moodInView) body.classList.add(moodClass);
-      }
-    }
-
-    // Clic sur un dot → scroll vers la card correspondante
-    navDots.forEach((dot, i) => {
-      dot.addEventListener('click', () => {
-        const target = projectCards[i];
-        if (!target) return;
-        const navH = document.querySelector('.nav')?.offsetHeight ?? 0;
-        const top  = target.getBoundingClientRect().top + window.scrollY - navH - 24;
-        window.scrollTo({ top, behavior: 'smooth' });
-      });
-    });
-
-    window.addEventListener('scroll', updateScrollNav, { passive: true });
-    window.addEventListener('resize', updateScrollNav, { passive: true });
-    setTimeout(updateScrollNav, 120);
-  }
-
-  /* ── Hash d'URL synchronisé sur la section visible ─── */
   const hashSections = [
     { hash: 'welcome',      el: document.getElementById('hero') },
     { hash: 'eke-deka',     el: document.getElementById('eke-deka') },
@@ -579,27 +525,84 @@
     { hash: 'contact',      el: document.getElementById('contact') },
   ].filter((s) => s.el);
 
-  if (hashSections.length) {
-    let lastHash = '';
+  let lastHash = '';
 
-    function updateHashSpy() {
-      const vh = window.innerHeight;
-      let active = hashSections[0];
-      hashSections.forEach((s) => {
-        if (s.el.getBoundingClientRect().top < vh * 0.5) active = s;
-      });
-      if (active.hash !== lastHash) {
-        lastHash = active.hash;
-        // On ne touche qu'au hash : changer le chemin vers une URL absolue
-        // ("/", "/contact"...) lève une SecurityError si le site est ouvert
-        // en local (file://) plutôt que via un serveur.
-        history.replaceState(null, '', location.pathname + location.search + '#' + active.hash);
-      }
+  function updateScrollState() {
+    const vh = window.innerHeight;
+
+    // ── Lectures ──
+    let activeIdx = 0;
+    projectCards.forEach((card, i) => {
+      if (card.getBoundingClientRect().top < vh * 0.5) activeIdx = i;
+    });
+
+    let cursorTop = null;
+    if (navCursor && navDots[activeIdx] && navTrack) {
+      const trackRect = navTrack.getBoundingClientRect();
+      const dotRect   = navDots[activeIdx].getBoundingClientRect();
+      const cursorH   = navCursor.offsetHeight || 28;
+      cursorTop = Math.max(0, dotRect.top - trackRect.top + (dotRect.height - cursorH) / 2);
     }
 
-    window.addEventListener('scroll', updateHashSpy, { passive: true });
-    window.addEventListener('resize', updateHashSpy, { passive: true });
-    setTimeout(updateHashSpy, 150);
+    const activeCard = projectCards[activeIdx];
+    let moodClass = null, moodInView = false;
+    if (activeCard?.id) {
+      // Mood : disparaît quand plus de la moitié de la dernière card est sortie par le haut
+      const lastCard      = projectCards[projectCards.length - 1];
+      const lastCardRect  = lastCard.getBoundingClientRect();
+      const lastCardGone  = lastCardRect.top < -(lastCard.offsetHeight / 2);
+      const inView        = activeCard.getBoundingClientRect().top < vh * 0.8;
+      moodClass   = 'mood-' + activeCard.id;
+      moodInView  = inView && !lastCardGone;
+    }
+
+    let activeHash = hashSections[0];
+    hashSections.forEach((s) => {
+      if (s.el.getBoundingClientRect().top < vh * 0.5) activeHash = s;
+    });
+
+    // ── Écritures ──
+    navDots.forEach((dot, i) => dot.classList.toggle('is-active', i === activeIdx));
+    if (cursorTop !== null) navCursor.style.top = cursorTop + 'px';
+    if (moodClass) {
+      MOOD_CLASSES.forEach(c => body.classList.remove(c));
+      if (moodInView) body.classList.add(moodClass);
+    }
+    if (activeHash && activeHash.hash !== lastHash) {
+      lastHash = activeHash.hash;
+      // On ne touche qu'au hash : changer le chemin vers une URL absolue
+      // ("/", "/contact"...) lève une SecurityError si le site est ouvert
+      // en local (file://) plutôt que via un serveur.
+      history.replaceState(null, '', location.pathname + location.search + '#' + activeHash.hash);
+    }
+  }
+
+  if (scrollNav) {
+    // Clic sur un dot → scroll vers la card correspondante
+    navDots.forEach((dot, i) => {
+      dot.addEventListener('click', () => {
+        const target = projectCards[i];
+        if (!target) return;
+        const top = target.getBoundingClientRect().top + window.scrollY - NAV_H() - 24;
+        window.scrollTo({ top, behavior: 'smooth' });
+      });
+    });
+  }
+
+  if (scrollNav || hashSections.length) {
+    let scrollTicking = false;
+    const requestScrollUpdate = () => {
+      if (scrollTicking) return;
+      scrollTicking = true;
+      requestAnimationFrame(() => {
+        scrollTicking = false;
+        updateScrollState();
+      });
+    };
+
+    window.addEventListener('scroll', requestScrollUpdate, { passive: true });
+    window.addEventListener('resize', requestScrollUpdate, { passive: true });
+    setTimeout(updateScrollState, 150);
   }
 
   // Scroll vers l'ancre demandée dans l'URL au chargement (carte projet,
@@ -609,8 +612,7 @@
   if (window.__initHash) {
     const target = document.querySelector(window.__initHash);
     if (target) {
-      const navH = document.querySelector('.nav')?.offsetHeight ?? 0;
-      scrollToSection(target, navH + 24, 'auto');
+      scrollToSection(target, NAV_H() + 24, 'auto');
       // Remettre le hash dans l'URL une fois bien positionné (pour que le
       // lien reste partageable/rechargeable tel quel).
       history.replaceState(null, '', location.pathname + location.search + window.__initHash);
