@@ -158,6 +158,21 @@
     revealEls.forEach((el) => el.classList.add('is-visible'));
   }
 
+  /* ── Pause des animations du hero hors écran ─────────
+     Les floats des mockups et le rebond du chevron tournent en boucle
+     infinie : les mettre en pause dès que le hero sort du viewport évite
+     de payer leur coût de rendu pendant tout le reste de la visite
+     (voir #hero.hero--in-view dans style.css). */
+  const heroEl = document.getElementById('hero');
+  if (heroEl && 'IntersectionObserver' in window) {
+    new IntersectionObserver(
+      ([entry]) => heroEl.classList.toggle('hero--in-view', entry.isIntersecting),
+      { threshold: 0 }
+    ).observe(heroEl);
+  } else if (heroEl) {
+    heroEl.classList.add('hero--in-view');
+  }
+
   /* ── Smooth scroll sur les ancres ──────────────────── */
   const NAV_H = () => document.querySelector('.nav')?.offsetHeight ?? 0;
 

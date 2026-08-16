@@ -73,7 +73,10 @@ header, main, footer { position: relative; z-index: 1; }
 .blob {
   position: absolute;
   border-radius: 50%;
-  filter: blur(140px);
+  /* Un rayon de flou plus grand coûte cher à peindre (le coût croît avec le
+     carré du rayon) sans gain visuel perceptible passé un certain point sur
+     un dégradé qui va déjà à transparent à 70% : 90px reste très doux. */
+  filter: blur(90px);
 }
 /* 1 — bleu haut-gauche */
 .blob--1 {
@@ -107,7 +110,7 @@ body.show-end-gradient .blob--6 { opacity: 1; }
 .mood {
   position: fixed;
   border-radius: 50%;
-  filter: blur(120px);
+  filter: blur(80px);
   opacity: 0;
   transition: opacity 1.5s cubic-bezier(.4,0,.2,1);
   pointer-events: none;
@@ -617,11 +620,21 @@ button { font-family: var(--f-body); cursor: pointer; }
 .hero__rect--3 { width: 29.80%; height: 34.72%; left: 24.21%; top: 65.00%; }
 .hero__rect--4 { width: 58.55%; height: 69.44%; left: 18.61%; top: 18.89%; z-index: 2; background: #c8deda; }
 .hero__rect--5 { width: 28.29%; height: 32.78%; left: 38.13%; top:  0%;    z-index: 1; background: #e0e0e0; }
-.anim-on .hero__rect--1 { animation: float-a  7s ease-in-out infinite -1.0s; }
-.anim-on .hero__rect--2 { animation: float-b  9s ease-in-out infinite -3.5s; }
-.anim-on .hero__rect--3 { animation: float-a  6s ease-in-out infinite -2.2s; }
-.anim-on .hero__rect--4 { animation: float-b  8s ease-in-out infinite  0.0s; }
-.anim-on .hero__rect--5 { animation: float-a 10s ease-in-out infinite -4.0s; }
+/* Ces animations tournent en boucle infinie : sans les mettre en pause une
+   fois le hero sorti de l'écran, elles continuent à coûter du temps de
+   rendu (compositing) pendant tout le reste de la visite. #hero.hero--in-view
+   (bascule via IntersectionObserver dans script.js) ne les laisse tourner
+   que quand le hero est effectivement visible. */
+.anim-on .hero__rect--1 { animation: float-a  7s ease-in-out infinite -1.0s; animation-play-state: paused; }
+.anim-on .hero__rect--2 { animation: float-b  9s ease-in-out infinite -3.5s; animation-play-state: paused; }
+.anim-on .hero__rect--3 { animation: float-a  6s ease-in-out infinite -2.2s; animation-play-state: paused; }
+.anim-on .hero__rect--4 { animation: float-b  8s ease-in-out infinite  0.0s; animation-play-state: paused; }
+.anim-on .hero__rect--5 { animation: float-a 10s ease-in-out infinite -4.0s; animation-play-state: paused; }
+#hero.hero--in-view.anim-on .hero__rect--1,
+#hero.hero--in-view.anim-on .hero__rect--2,
+#hero.hero--in-view.anim-on .hero__rect--3,
+#hero.hero--in-view.anim-on .hero__rect--4,
+#hero.hero--in-view.anim-on .hero__rect--5 { animation-play-state: running; }
 
 @keyframes float-a {
   0%, 100% { transform: translateY(0px)   translateX(0px); }
@@ -1310,6 +1323,10 @@ button { font-family: var(--f-body); cursor: pointer; }
 }
 .anim-on .hero__scroll {
   animation: bounce 2s ease-in-out infinite;
+  animation-play-state: paused;
+}
+#hero.hero--in-view.anim-on .hero__scroll {
+  animation-play-state: running;
 }
 @keyframes bounce {
   0%, 100% { transform: translateX(-50%) translateY(0); }
@@ -1397,6 +1414,7 @@ button { font-family: var(--f-body); cursor: pointer; }
   }
   .anim-on .hero__scroll {
     animation: bounce-static 2s ease-in-out infinite;
+    animation-play-state: paused;
   }
   @keyframes bounce-static {
     0%, 100% { transform: translateY(0); }
