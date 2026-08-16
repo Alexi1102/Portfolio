@@ -69,7 +69,7 @@
       history.pushState(null, '', route);
     }
     if (target) {
-      setTimeout(() => scrollToSection(target, document.querySelector('.nav')?.offsetHeight + 16 || 0, behavior), 40);
+      setTimeout(() => scrollToSection(target, NAV_H() + 16, behavior), 40);
     }
   }
 
