@@ -42,13 +42,13 @@
   <link rel="preload" as="image" href="images/banner/eke-deka-apercu.png" media="(min-width: 601px)" fetchpriority="high">
   <link rel="preload" as="image" href="images/gallery_main/eke_deka_hero.webp" media="(max-width: 600px)" fetchpriority="high">
 
-  <!-- style.css charge en asynchrone (meme pattern que les fonts) pour ne pas
-       bloquer le rendu, sans dupliquer tout le CSS dans le head (l'inlining
-       precedent gonflait le HTML de ~46 Ko a chaque page et se desynchronisait
-       de style.css). -->
-  <link rel="preload" as="style" href="style.css">
-  <link rel="stylesheet" href="style.css" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="style.css"></noscript>
+  <!-- style.css charge en render-blocking classique : le chargement
+       asynchrone (preload + media=print + onload) le sortait du chemin
+       critique mais laissait apparaître le HTML brut, sans mise en page,
+       le temps que la feuille arrive (FOUC) — visible et genant sur un
+       portfolio. Netlify minifie/compresse déjà le fichier (voir
+       netlify.toml), donc le coût réseau reste faible. -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="page-bg" aria-hidden="true">
