@@ -1618,27 +1618,31 @@ button { font-family: var(--f-body); cursor: pointer; }
      dessous (photo, badge) sont les anciennes valeurs × 1.25, pour un rendu
      visuel identique à avant, juste sans le transform. */
   .hero__hero-row { width: 100%; transform: none; margin-bottom: 2rem; }
-  /* Photo encore réduite (138px → 95px) : laisse assez de place à
-     .hero__hero-title pour que les pointillés et le curseur (réaffichés
-     ci-dessous) rentrent aux côtés d'ALEXIS REY, sans casser l'équilibre
-     avec UI/UX DESIGNER en dessous (alignés au même bord gauche). */
-  .hero__photo-frame { width: 95px; }
+  /* Taille calée sur le ratio photo/texte du desktop (photo ≈ 42% de la
+     largeur du bloc photo+texte, comme .hero__photo-frame:233.51px face à
+     .hero__left sur desktop) plutôt qu'une valeur choisie à l'oeil : on
+     reproduit ainsi le même équilibre visuel qu'en desktop. Les pointillés
+     et le curseur n'ont pas besoin d'une photo plus petite pour rentrer —
+     fitHeroName() (script.js) inclut déjà leur largeur dans son calcul et
+     réduit le nom en conséquence, garantissant qu'ils tiennent toujours
+     dans le conteneur quelle que soit la taille de la photo. */
+  .hero__photo-frame { width: 145px; }
   .hero__photo {
-    height: 95px;
-    border-radius: 9px 9px 19px 19px;
+    height: 145px;
+    border-radius: 14px 14px 29px 29px;
   }
-  .hero__photo-blob  { height: 54px; border-radius: 19px; }
+  .hero__photo-blob  { height: 83px; border-radius: 29px; }
 
   /* Badge proportionnel à la photo */
   .hero__badge {
-    font-size: 6px;
-    padding: 4px;
-    left: -7px;
-    bottom: -9px;
-    border-radius: 7px;
-    gap: 3px;
+    font-size: 9px;
+    padding: 6px;
+    left: -11px;
+    bottom: -14px;
+    border-radius: 11px;
+    gap: 4px;
   }
-  .hero__badge-dot { width: 4px; height: 4px; }
+  .hero__badge-dot { width: 6px; height: 6px; }
 
   /* 50 % droite : texte */
   .hero__text        { gap: 1rem; }
