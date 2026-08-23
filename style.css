@@ -350,11 +350,11 @@ button { font-family: var(--f-body); cursor: pointer; }
 }
 .lang-btn--option {
   width: 100%;
-  /* Zone tactile plus grande (plutôt que padding:0, trop petit au doigt).
-     Pas de padding-left : le texte doit démarrer au même x que "Français"
-     dans .lang-btn (aligné à gauche du dropdown), pas décalé vers la
-     droite. */
-  padding: .75rem 1rem .75rem 0;
+  /* Même padding gauche/haut que .lang-btn (avec la même marge négative
+     compensatoire, pour que "Anglais" démarre au même x que "Français")
+     — agrandi vers le bas (zone de clic plus grande dans ce sens). */
+  padding: .6rem .3rem 1.5rem .3rem;
+  margin: -.6rem 0 0 -.3rem;
   text-align: left;
 }
 .lang-btn--option:hover {
@@ -1590,6 +1590,9 @@ button { font-family: var(--f-body); cursor: pointer; }
   /* Nav */
   .nav__logo { font-size: .82rem; }
   .anim-toggle__label { display: inline; }
+
+  /* 30px de plus que les 3rem (48px) déjà posés au palier tablette. */
+  .hero__scroll { margin-top: calc(3rem + 30px); }
 
   /* Fond décoratif : un filter: blur() large coûte cher à peindre, encore
      plus sur un GPU mobile que sur desktop. Rayon réduit ici uniquement
