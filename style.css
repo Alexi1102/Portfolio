@@ -511,6 +511,32 @@ button { font-family: var(--f-body); cursor: pointer; }
   flex-shrink: 0;
 }
 
+/* Texte réel pour les moteurs de recherche/lecteurs d'écran, invisible à
+   l'oeil : pas de display:none (Google l'ignore alors complètement), ni
+   left:-9999px (déplace le point de scroll au focus) — clip+position:
+   absolute+1px reste la technique la plus fiable. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Le contenu visuel (lettres ALEXIS/REY en images, rôle en texte) est
+   dupliqué par le <span class="sr-only"> ci-dessus pour le SEO/a11y — donc
+   masqué de l'arbre d'accessibilité via aria-hidden sur son wrapper.
+   display:contents : ce wrapper ne doit introduire AUCUNE boîte propre,
+   sinon il casserait la mise en page flex de .hero__title-block (qui
+   traite aujourd'hui .hero__rey-row et .hero__role comme ses enfants
+   flex directs) — avec display:contents, ce sont toujours eux qui sont
+   traités comme tels, le wrapper devient invisible pour le rendu tout en
+   restant présent dans le DOM pour aria-hidden. */
+.hero__title-visual {
+  display: contents;
+}
+
 /* ── Bloc titre : REY / ALEXIS / ROLE ── */
 .hero__title-block {
   /* width:100% (au lieu de fit-content) : le bloc occupe toute la largeur
@@ -1597,11 +1623,14 @@ button { font-family: var(--f-body); cursor: pointer; }
 /* ── Mobile (≤ 600px) ────────────────────────────────── */
 @media (max-width: 600px) {
   /* Nav */
-  .nav__logo { font-size: .82rem; }
+  .nav__logo { font-size: .74rem; }
   .anim-toggle__label { display: inline; }
 
   /* 30px de plus que les 3rem (48px) déjà posés au palier tablette. */
   .hero__scroll { margin-top: calc(3rem + 30px); }
+
+  /* Curseur remonté pour toucher les pointillés. */
+  .hero__cursor { margin-bottom: -1.55rem; }
 
   /* Fond léger sur "Anglais" (le padding haut/bas identique est déjà posé
      dans la règle de base, pas besoin de le resurcharger ici). */

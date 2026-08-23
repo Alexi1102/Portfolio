@@ -132,6 +132,8 @@
     .hero__photo { position: relative; z-index: 1; width: calc(100% + 3px); left: 0px; height: 219.33px; object-fit: cover; object-position: center top; border-radius: 16px 16px 42.67px 42.67px; display: block; top: 1px; }
     .hero__badge { position: absolute; left: -13px; bottom: -16px; z-index: 3; display: flex; align-items: center; gap: 4px; padding: 8px; font-family: var(--f-body); font-size: 11.06px; font-weight: 500; color: #2f2f2f; white-space: nowrap; background: #fff; border-radius: 12px; box-shadow: 0 0 5.82px rgba(0,0,0,.15); }
     .hero__badge-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #22c55e; flex-shrink: 0; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    .hero__title-visual { display: contents; }
     .hero__title-block { display: flex; flex-direction: column; gap: 0; line-height: 1; width: 100%; }
     .hero__rey-row { display: flex; align-items: flex-end; justify-content: flex-start; width: 100%; height: calc(var(--hero-name-h) * 2); max-width: 100%; overflow-x: clip; overflow-y: visible; margin-bottom: calc(var(--hero-name-h) * 0.43); }
     .hero__name-group, .hero__role { opacity: 0; transition: opacity .2s ease; }
@@ -196,9 +198,10 @@
       @keyframes bounce-static { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
     }
     @media (max-width: 600px) {
-      .nav__logo { font-size: .82rem; }
+      .nav__logo { font-size: .74rem; }
       .anim-toggle__label { display: inline; }
       .hero__scroll { margin-top: calc(3rem + 30px); }
+      .hero__cursor { margin-bottom: -1.55rem; }
       .blob { filter: blur(45px); }
       .mood { filter: blur(40px); }
       .hero { padding: 2rem var(--px) 2.5rem; }
@@ -309,29 +312,35 @@
           </div>
 
           <div class="hero__hero-title">
-            <h1 class="hero__title-block" aria-label="Alexis Rey, UI / UX Designer">
-              <!-- ALEXIS + REY + pointillés -->
-              <span class="hero__rey-row">
-                <span class="hero__name-group">
-                  <!-- Lettres ALEXIS -->
-                  <img src="images/ALEXIS-1.svg" alt="A" class="hero__letter" width="44" height="38">
-                  <img src="images/ALEXIS-2.svg" alt="L" class="hero__letter" width="27" height="38">
-                  <img src="images/ALEXIS-3.svg" alt="E" class="hero__letter" width="32" height="38">
-                  <img src="images/ALEXIS-4.svg" alt="X" class="hero__letter" width="44" height="38">
-                  <img src="images/ALEXIS-5.svg" alt="I" class="hero__letter" width="18" height="38">
-                  <img src="images/ALEXIS-6.svg" alt="S" class="hero__letter" width="33" height="39">
-                  <img src="images/REY.svg" alt="REY" class="hero__rey-img" width="121" height="39">
-                  <!-- Pointillés + curseur : voisins directs de REY (et non
-                       dans un groupe séparé) pour garder leur calibrage au
-                       pixel près (marges négatives) relatif au bas de REY. -->
-                  <span class="hero__dots-wrap">
-                    <img src="images/pointillés.svg" class="hero__dots" aria-hidden="true" alt="" width="50" height="4">
+            <h1 class="hero__title-block">
+              <!-- Titre réel pour le SEO/l'accessibilité : le rendu visuel
+                   ci-dessous n'est composé que d'images (une par lettre),
+                   illisible pour les moteurs de recherche sans ce texte. -->
+              <span class="sr-only">Alexis Rey — UI/UX Designer à Lyon</span>
+              <span class="hero__title-visual" aria-hidden="true">
+                <!-- ALEXIS + REY + pointillés -->
+                <span class="hero__rey-row">
+                  <span class="hero__name-group">
+                    <!-- Lettres ALEXIS -->
+                    <img src="images/ALEXIS-1.svg" alt="A" class="hero__letter" width="44" height="38">
+                    <img src="images/ALEXIS-2.svg" alt="L" class="hero__letter" width="27" height="38">
+                    <img src="images/ALEXIS-3.svg" alt="E" class="hero__letter" width="32" height="38">
+                    <img src="images/ALEXIS-4.svg" alt="X" class="hero__letter" width="44" height="38">
+                    <img src="images/ALEXIS-5.svg" alt="I" class="hero__letter" width="18" height="38">
+                    <img src="images/ALEXIS-6.svg" alt="S" class="hero__letter" width="33" height="39">
+                    <img src="images/REY.svg" alt="REY" class="hero__rey-img" width="121" height="39">
+                    <!-- Pointillés + curseur : voisins directs de REY (et non
+                         dans un groupe séparé) pour garder leur calibrage au
+                         pixel près (marges négatives) relatif au bas de REY. -->
+                    <span class="hero__dots-wrap">
+                      <img src="images/pointillés.svg" class="hero__dots" aria-hidden="true" alt="" width="50" height="4">
+                    </span>
+                    <img src="images/figma_cursor.svg" alt="" class="hero__cursor" aria-hidden="true" width="54" height="58">
                   </span>
-                  <img src="images/figma_cursor.svg" alt="" class="hero__cursor" aria-hidden="true" width="54" height="58">
                 </span>
+                <!-- Rôle -->
+                <span class="hero__role">UI / UX DESIGNER</span>
               </span>
-              <!-- Rôle -->
-              <span class="hero__role">UI / UX DESIGNER</span>
             </h1>
           </div>
         </div>
