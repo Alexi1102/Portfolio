@@ -349,6 +349,11 @@ button { font-family: var(--f-body); cursor: pointer; }
   transform: rotate(180deg);
 }
 .lang-btn--option {
+  /* display:block (au lieu du display:inline-flex hérité de .lang-btn) :
+     toute la boîte rectangulaire (padding compris) devient sans ambiguïté
+     une seule zone cliquable, plutôt que de dépendre du contenu inline
+     (le texte) pour déterminer la zone réactive au clic. */
+  display: block;
   width: 100%;
   /* Vrai padding (pas de marge négative) : voir .lang-btn — la zone
      tactile doit réellement grandir, pas juste visuellement le paraître.
@@ -1584,6 +1589,12 @@ button { font-family: var(--f-body); cursor: pointer; }
 
   /* 30px de plus que les 3rem (48px) déjà posés au palier tablette. */
   .hero__scroll { margin-top: calc(3rem + 30px); }
+
+  /* will-change : prévient le GPU mobile de préparer la couche du flou
+     backdrop-filter à l'avance, pour éviter que le texte de la card
+     s'affiche visiblement avant que le fond flouté n'ait fini de se
+     composer (flash contenu-avant-fond au premier rendu). */
+  .card { will-change: backdrop-filter, background; }
 
   /* Fond décoratif : un filter: blur() large coûte cher à peindre, encore
      plus sur un GPU mobile que sur desktop. Rayon réduit ici uniquement
