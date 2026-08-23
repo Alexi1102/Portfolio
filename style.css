@@ -1725,13 +1725,6 @@ button { font-family: var(--f-body); cursor: pointer; }
 }
 .legal__section ul { padding-left: 1.25rem; list-style: disc; }
 .legal__section a { color: var(--c-accent); text-decoration: underline; }
-.legal__placeholder {
-  background: #fff3cd;
-  color: #7a5b00;
-  padding: .1rem .4rem;
-  border-radius: 4px;
-  font-weight: 600;
-}
 
 @media (max-width: 600px) {
   .legal { padding-left: 24px; padding-right: 24px; }
