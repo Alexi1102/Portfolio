@@ -517,7 +517,11 @@ button { font-family: var(--f-body); cursor: pointer; }
   align-items: flex-end;
   justify-content: flex-start;
   width: 100%;
-  margin-bottom: 12px;
+  /* Relatif à --hero-name-h (plutôt qu'un px fixe) : l'écart avec la ligne
+     UI/UX DESIGNER reste proportionnel à la taille du nom, que ce dernier
+     soit petit (mobile) ou grand (desktop) — au lieu d'un écart fixe qui
+     paraissait relativement plus grand quand le nom est petit. */
+  margin-bottom: calc(var(--hero-name-h) * 0.43);
 }
 /* Caché jusqu'à ce que script.js ait calculé la taille finale (images du
    nom chargées + polices prêtes) : évite de voir chaque état intermédiaire
@@ -621,7 +625,9 @@ button { font-family: var(--f-body); cursor: pointer; }
   text-transform: uppercase;
   letter-spacing: .03rem;
   color: #464646;
-  margin-top: .5rem;
+  /* em (relatif à la taille de police du rôle lui-même) plutôt qu'un rem
+     fixe : reste proportionnel que le texte soit petit ou grand. */
+  margin-top: 0.21em;
   transform-origin: center center;
   /* fit-content (pas 100%) : la boîte colle à la largeur réelle du texte
      (première à dernière lettre), pas à celle du parent — nécessaire
