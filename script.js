@@ -173,6 +173,197 @@
     heroEl.classList.add('hero--in-view');
   }
 
+  /* ── ALEXIS/REY : mise à l'échelle pour remplir .hero__rey-row ───
+     Calcul purement analytique à partir des ratios intrinsèques
+     largeur/hauteur de chaque image (connus dès les attributs width/
+     height du HTML, jamais mesurés sur le rendu affiché) : le résultat
+     ne dépend donc jamais de l'état précédent (mêmes chiffres qu'on
+     arrive à cette largeur par un resize progressif ou par un chargement
+     direct — contrairement à l'ancienne version qui mesurait la taille
+     actuellement affichée pour en déduire la suivante, et pouvait donc
+     dériver légèrement selon l'historique des redimensionnements).
+     L'écart fixe de 20px entre ALEXIS et REY ne suit pas cette échelle
+     (ce n'est pas une image), on le retire donc du calcul. */
+  const HERO_NAME_GAP = 10; // px — voir margin-left sur .hero__rey-img
+  // Pas de plafond : --max-w est maintenant borné (1600px, voir le
+  // breakpoint 1440px), donc la largeur disponible ne peut plus exploser —
+  // le nom peut grossir librement jusqu'à remplir cette largeur.
+  const HERO_NAME_MIN_H = 20; // px (≈1.25rem) — filet de sécurité, ne doit normalement jamais être atteint
+
+  function fitHeroName() {
+    const group = document.querySelector('.hero__name-group');
+    const row   = document.querySelector('.hero__rey-row');
+    if (!group || !row) return null;
+    const scalingImages = group.querySelectorAll('.hero__letter, .hero__rey-img');
+    if (!scalingImages.length) return null;
+    // Somme des ratios largeur/hauteur intrinsèques des seules images dont
+    // la hauteur suit --hero-name-h : à une hauteur H, leur largeur totale
+    // vaut exactement ratioSum * H.
+    let ratioSum = 0;
+    scalingImages.forEach((img) => {
+      const w = img.width, h = img.height;
+      if (w > 0 && h > 0) ratioSum += w / h;
+    });
+    if (ratioSum <= 0) return null;
+    // offsetWidth, pas getBoundingClientRect() : sous 1024px, .hero__hero-row
+    // (un ancêtre) est agrandi via transform:scale(1.25) — un
+    // getBoundingClientRect() remonterait alors une largeur déjà multipliée
+    // par 1.25, faussant tout le calcul (la hauteur qui en résulte serait
+    // réappliquée à travers ce même scale, donc appliquée deux fois).
+    const availableWidth = row.offsetWidth;
+    if (!availableWidth) return null;
+    // "ALEXIS REY" (lettres + REY, seuls éléments dont la taille suit
+    // --hero-name-h) doit toujours remplir exactement availableWidth — les
+    // pointillés et le curseur ne font PAS partie de ce calcul, ils viennent
+    // après et débordent volontairement à droite. Les compter tantôt dedans
+    // tantôt dehors (selon une mesure instable de leur taille) est ce qui
+    // faisait osciller la largeur totale visible entre deux valeurs.
+    let newHeight = (availableWidth - HERO_NAME_GAP) / ratioSum;
+    if (!Number.isFinite(newHeight)) return null;
+    newHeight = Math.max(newHeight, HERO_NAME_MIN_H);
+    document.documentElement.style.setProperty('--hero-name-h', newHeight + 'px');
+    // Par construction, une fois cette hauteur appliquée, "ALEXIS REY" seul
+    // occupe exactement availableWidth — c'est cette valeur, et non une
+    // mesure du groupe, qui sert de cible à fitHeroRole() (voir plus bas
+    // pourquoi mesurer le groupe est instable).
+    return availableWidth;
+  }
+  /* ── "UI / UX DESIGNER" : même largeur que le groupe ALEXIS/REY ──
+     Par agrandissement du texte (font-size), pas par étirement des
+     espaces (pas de text-align:justify) : on mesure la largeur naturelle
+     du rôle sur une seule ligne (white-space:nowrap en CSS) et on
+     recalcule la taille de police pour qu'elle égale exactement la
+     largeur du groupe nom, déjà mis à l'échelle par fitHeroName().
+     Le letter-spacing (.03rem, fixe) ne grossit pas avec le font-size —
+     comme pour l'écart de 20px d'ALEXIS/REY, on l'isole de la partie qui
+     scale réellement (les glyphes) pour ne pas sous-estimer la taille
+     nécessaire. */
+  const HERO_ROLE_MIN_FS = 23; // px (≈1.45rem, min d'origine) — filet de sécurité
+  function fitHeroRole(targetWidth) {
+    const role = document.querySelector('.hero__role');
+    if (!role || !targetWidth) return;
+    // targetWidth vient de fitHeroName() (voir ce commentaire) plutôt que
+    // d'une mesure de .hero__name-group : juste après avoir changé
+    // --hero-name-h, une lecture de layout synchrone sur le groupe renvoie
+    // encore sa largeur AVANT changement (transition height .15s en cours,
+    // pas encore avancée), pas la largeur cible — ce décalage dépendait du
+    // temps écoulé depuis le dernier calcul, d'où les tailles différentes
+    // observées entre deux refreshs ou après un resize.
+    // offsetWidth (boîte de layout) plutôt que getBoundingClientRect() :
+    // insensible à un éventuel transform (rotate/scale) sur l'élément, qui
+    // fausserait la boîte englobante mesurée sans changer la vraie largeur
+    // du texte.
+    const currentFontSize = parseFloat(getComputedStyle(role).fontSize);
+    const totalWidth = role.offsetWidth;
+    const originalSpacing = role.style.letterSpacing;
+    role.style.letterSpacing = '0px';
+    const glyphWidth = role.offsetWidth;
+    role.style.letterSpacing = originalSpacing;
+    const spacingContribution = totalWidth - glyphWidth;
+    if (!targetWidth || !currentFontSize || glyphWidth <= 0) return;
+    const targetGlyphWidth = targetWidth - spacingContribution;
+    let newFontSize = currentFontSize * (targetGlyphWidth / glyphWidth);
+    if (!Number.isFinite(newFontSize)) return;
+    newFontSize = Math.max(newFontSize, HERO_ROLE_MIN_FS);
+    role.style.fontSize = newFontSize + 'px';
+  }
+  function fitHero() {
+    const targetWidth = fitHeroName();
+    fitHeroRole(targetWidth);
+  }
+  let heroNameTicking = false;
+  const scheduleFitHero = () => {
+    if (heroNameTicking) return;
+    heroNameTicking = true;
+    requestAnimationFrame(() => {
+      heroNameTicking = false;
+      fitHero();
+    });
+  };
+
+  /* ── Révélation en une seule fois, une fois tout prêt ──────────
+     Recalculer fitHero() à chaque évènement (chargement, police prête...)
+     tant que le nom/rôle sont VISIBLES fait apparaître chaque état
+     intermédiaire (images pas encore chargées, police de secours avant
+     Anton...) comme un saut de taille bien visible. On cache le nom/rôle
+     (opacity, voir style.css) jusqu'à ce que les images du nom soient
+     chargées ET les polices prêtes, on calcule la taille finale à ce
+     moment-là (deux passes à une frame d'écart, pour laisser le layout
+     bien se stabiliser), puis on révèle — aucun état intermédiaire
+     n'est jamais visible.
+     L'écouteur 'resize' n'est attaché qu'APRÈS cette révélation : sinon
+     un resize qui se déclenche tout seul pendant le chargement (ex : une
+     barre de défilement qui apparaît/disparaît) peut recalculer avec des
+     images ou des polices pas encore prêtes et laisser cette valeur-là
+     affichée — une course avec le calcul déterministe ci-dessous,
+     explique le "parfois une taille, parfois une autre" observé. */
+  function heroNameImagesReady() {
+    const imgs = document.querySelectorAll('.hero__name-group img');
+    return Promise.all(Array.from(imgs).map((img) => {
+      if (img.complete) return Promise.resolve();
+      return new Promise((resolve) => {
+        img.addEventListener('load', resolve, { once: true });
+        img.addEventListener('error', resolve, { once: true });
+      });
+    }));
+  }
+  // style.css et la feuille Google Fonts chargent en asynchrone (preload +
+  // media="print" -> "all" au onload, voir <head>) : tant qu'elles n'ont pas
+  // fini, la page ne tourne que sur le <style> critique inliné, un
+  // sous-ensemble figé qui peut différer du rendu final. Calculer la taille
+  // du nom à ce moment-là donnait un résultat qui dépendait de la vitesse de
+  // chargement de ces feuilles (réseau/cache) — d'où deux tailles selon le
+  // refresh. On attend qu'elles soient posées avant de calculer quoi que ce
+  // soit ; fonts.ready est vérifié APRÈS (et non en parallèle) car il ne
+  // "connaît" Anton/Poppins qu'une fois leurs règles @font-face enregistrées,
+  // donc seulement après le chargement de la feuille Google Fonts.
+  function linkReady(selector) {
+    const link = document.querySelector(selector);
+    if (!link) return Promise.resolve();
+    if (link.media === 'all') return Promise.resolve();
+    return new Promise((resolve) => {
+      link.addEventListener('load', resolve, { once: true });
+      link.addEventListener('error', resolve, { once: true });
+    });
+  }
+  function heroReady() {
+    return Promise.all([
+      heroNameImagesReady(),
+      // rel="stylesheet" précisé : il existe aussi un <link rel="preload">
+      // vers la même URL (voir <head>), dont le 'load' ne correspond pas à
+      // l'application de la feuille et qu'un sélecteur trop large attraperait
+      // en premier (ordre du DOM).
+      linkReady('link[rel="stylesheet"][href*="fonts.googleapis.com"]'),
+      linkReady('link[rel="stylesheet"][href="style.css"]'),
+    ]).then(() => (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve());
+  }
+  heroReady().then(() => {
+    // .hero__letter/.hero__rey-img/.hero__role ont une transition (height/
+    // font-size) pensée pour un resize ultérieur, pas pour ce tout premier
+    // calcul : sans ça, ce calcul fait passer la taille de la valeur de
+    // repli CSS à la taille finale via cette transition (150ms), qui démarre
+    // à peine avant la révélation (opacity) — le nom apparaît donc en fondu
+    // PENDANT qu'il grossit encore vers sa taille finale, perçu comme un
+    // effet de zoom. On coupe la transition pour cette application initiale
+    // uniquement, puis on la restaure avant de révéler.
+    const transitionEls = [
+      ...document.querySelectorAll('.hero__letter, .hero__rey-img'),
+      document.querySelector('.hero__role'),
+    ].filter(Boolean);
+    transitionEls.forEach((el) => { el.style.transition = 'none'; });
+    fitHero();
+    requestAnimationFrame(() => {
+      fitHero();
+      // Force l'application de la taille avant de réactiver la transition,
+      // pour qu'un futur resize démarre bien sa propre transition depuis
+      // cette valeur-ci (et non depuis une valeur pas encore "gelée").
+      transitionEls.forEach((el) => void el.offsetHeight);
+      transitionEls.forEach((el) => { el.style.transition = ''; });
+      if (heroEl) heroEl.classList.add('hero--name-ready');
+      window.addEventListener('resize', scheduleFitHero, { passive: true });
+    });
+  });
+
   /* ── Smooth scroll sur les ancres ──────────────────── */
   const NAV_H = () => document.querySelector('.nav')?.offsetHeight ?? 0;
 
@@ -217,6 +408,7 @@
       const fmsg     = form.querySelector('#fmessage');
       const fconsent = form.querySelector('#fconsent');
       const btn      = form.querySelector('[type="submit"]');
+      const ferror   = form.querySelector('#formError');
 
       // Validation minimale côté client
       [fname, femail, fmsg].forEach((f) => {
@@ -229,19 +421,39 @@
       }
       if (!fconsent.checked) return;
 
-      // Feedback visuel d'envoi
+      if (ferror) ferror.hidden = true;
       const original = btn.textContent;
-      btn.textContent = 'Envoyé ✓';
-      btn.style.background = '#16a34a';
       btn.disabled = true;
 
-      setTimeout(() => {
-        btn.textContent      = original;
-        btn.style.background = '';
-        btn.disabled         = false;
-        form.reset();
-        [fname, femail, fmsg].forEach((f) => (f.style.borderColor = ''));
-      }, 3500);
+      // FormData(form) reprend tous les champs du <form>, y compris l'input
+      // caché form-name (obligatoire pour que Netlify route l'envoi vers le
+      // bon formulaire déclaré au build) et le honeypot bot-field.
+      fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(new FormData(form)).toString(),
+      })
+        .then((response) => {
+          if (!response.ok) throw new Error('Netlify Forms a répondu ' + response.status);
+
+          btn.textContent      = 'Envoyé ✓';
+          btn.style.background = '#16a34a';
+          form.reset();
+          [fname, femail, fmsg].forEach((f) => (f.style.borderColor = ''));
+
+          setTimeout(() => {
+            btn.textContent      = original;
+            btn.style.background = '';
+            btn.disabled         = false;
+          }, 3500);
+        })
+        .catch(() => {
+          // Échec (réseau ou réponse non ok) : on laisse les champs saisis
+          // tels quels pour que la personne puisse simplement réessayer.
+          btn.disabled    = false;
+          btn.textContent = original;
+          if (ferror) ferror.hidden = false;
+        });
     });
 
     // Reset la bordure rouge à la saisie
@@ -269,18 +481,20 @@
       'eke.date':       '28 mars 2025',
       'eke.note':       "En allant au Togo j'ai rencontré l'équipe d'Eke-Deka et j'ai pu me rendre à la ferme Biala, coeur de l'association. M'imprégner du lieu, des gens et de leurs valeurs a nourri toute la refonte. Le défi : construire une identité forte, inspirée des maisons de la ferme, mais assez simple pour que les membres, qui ne sont pas développeurs, puissent la faire vivre eux-mêmes dans les limites de Wix.",
       'elmy.desc':      "elmy est un fournisseur et producteur d'énergie verte basé principalement sur Lyon. Voici la refonte que j'ai eu l'occasion de faire sur l'espace client B2B, suite notamment à une évolution de l'identité graphique.",
-      'elmy.subject':   'Refonte espace B2B',
+      'elmy.subject':   'Refonte espace client B2B',
       'elmy.date':      '28 mars 2025',
       'elmy.note':      "J'ai retravaillé l'interface de l'espace client B2B avec les développeurs et le directeur artistique, qui venait de poser la nouvelle direction artistique elmy Pro. La difficulté était de garder un espace client accueillant sans perdre le sérieux attendu par des professionnels, et de rendre les informations de consommation et de contrat lisibles du premier coup d'œil.",
       'gnc.desc':       "Game'n Chill est une association loi 1901 qui organise des tournois de jeux vidéo, du rétro au plus récent, dans une ambiance volontairement détendue. Le site sert de point de rendez-vous à la communauté : agenda des événements, classements, galerie photo, inscriptions, et même un randomizer pour tirer les jeux au sort. L'esprit reste le même à chaque édition, jouer sérieusement sans se prendre au sérieux.",
+      'gnc.role':       'Directeur artistique',
+      'gnc.subject':    "Association d'événements gaming",
       'gnc.note':       "J'y suis directeur artistique bénévole. J'ai dessiné le logo et mené une refonte complète du site, aujourd'hui en cours d'intégration. En parallèle, je reprends petit à petit les autres supports, affiches, réseaux sociaux, visuels de tournois, pour que tout parle la même langue visuelle. Un travail de fond, qui avance au rythme de l'association et de ses événements.",
       'ameliorama.desc': "Ameliorama III est une map moddée pour Call of Duty Black Ops III, développée par Gogu (pseudo Steam). Les joueurs y récoltent des ressources pour améliorer leur base et leur personnage, affrontent des vagues infinies de zombies sur le champ de bataille et se renforcent entre deux assauts dans la safe zone. Les deux volets précédents ont bien marché, le dernier a dépassé 95 000 téléchargements.",
+      'ameliorama.subject': 'Map Call of Duty BO III',
       'ameliorama.note': "Gogu m'a confié le design de l'interface. Le pari : faire tenir ensemble Call of Duty et un RPG heroic fantasy, sans tomber dans le pastiche médiéval. J'ai gardé des formes simples et travaillé les reliefs avec un or bien marqué, en regardant du côté de Hearthstone. La map n'est pas encore sortie, l'interface continue d'évoluer et d'autres écrans arrivent.",
       'card.typo':      'Typographie',
       'card.colors':    'Couleurs',
-      'card.tbd':       'À compléter',
       'other.title':    'Autres projets',
-      'other.text':     "Non, on ne vit pas dans une saucisse — mais c'est une image amusante pour parler de notre perception limitée du monde. En réalité, on vit dans un univers immense, en expansion, structuré par des lois physiques complexes comme la gravité et la relativité. L'idée de la \"saucisse\" pourrait venir d'une métaphore.",
+      'other.text':     "Mon cœur de métier, c'est l'UI/UX. Ma curiosité va plus loin : j'ai par exemple exploré le monde de YouTube en gérant la direction artistique, le logo et les miniatures de la chaîne YouTube Ledok. Si vous avez un projet de création digitale qui sort de ce que vous voyez ici, n'hésitez pas à me contacter également !",
       'contact.title':  'Contactez moi !',
       'contact.sub':    "Un projet ? Besoin d'un designer pour votre interface ?",
       'contact.name':   'Nom et Prénom',
@@ -288,10 +502,12 @@
       'contact.msg':    'Objet de la demande',
       'contact.consentPre': "J'accepte que mes données soient utilisées pour me recontacter, conformément à la",
       'contact.send':   'Envoyer',
-      'footer.baseline': 'UI / UX Designer',
-      'footer.location': 'Lyon, France',
+      'contact.error':  'Une erreur est survenue. Merci de réessayer.',
+      'footer.contactTitle':   'Contact',
+      'footer.socialTitle':    'Réseaux sociaux',
+      'footer.legalStatus':    'Entrepreneur individuel (EI)',
       'footer.legal':    'Mentions légales',
-      'footer.privacy':  'Politique de confidentialité',
+      'footer.privacyShort': 'Confidentialité',
       'footer.privacyLower': 'politique de confidentialité',
       'footer.linkedinAria':  "Profil LinkedIn d'Alexis Rey",
       'footer.instagramAria': "Profil Instagram d'Alexis Rey",
@@ -317,14 +533,16 @@
       'elmy.date':      'March 28, 2025',
       'elmy.note':      "I reworked the B2B client portal interface with the developers and the art director, who had just set the new elmy Pro visual direction. The challenge was to keep the portal approachable without losing the seriousness expected by professionals, and to make consumption and contract information readable at a glance.",
       'gnc.desc':       "Game'n Chill is a French non-profit association that organizes video game tournaments, from retro classics to the latest releases, in a deliberately relaxed atmosphere. The site is the community's meeting point: event schedule, leaderboards, photo gallery, sign-ups, and even a randomizer to draw games at random. The spirit stays the same every time: play seriously without taking yourself too seriously.",
+      'gnc.role':       'Art director',
+      'gnc.subject':    'Gaming events association',
       'gnc.note':       "I'm the volunteer art director there. I designed the logo and led a full redesign of the site, now being implemented. Alongside that, I'm gradually reworking the other materials — posters, social media, tournament visuals — so everything speaks the same visual language. It's ongoing work that moves at the pace of the association and its events.",
       'ameliorama.desc': "Ameliorama III is a custom map mod for Call of Duty: Black Ops III, developed by Gogu (Steam handle). Players gather resources to upgrade their base and character, face endless waves of zombies on the battlefield, and gear up between assaults in the safe zone. The two previous installments did well, with the last one passing 95,000 downloads.",
+      'ameliorama.subject': 'Call of Duty BO III map',
       'ameliorama.note': "Gogu entrusted me with the interface design. The challenge: making Call of Duty and a heroic-fantasy RPG coexist, without falling into medieval pastiche. I kept the shapes simple and worked the depth with a strong, well-defined gold, taking cues from Hearthstone. The map hasn't been released yet — the interface keeps evolving, with more screens on the way.",
       'card.typo':      'Typography',
       'card.colors':    'Colors',
-      'card.tbd':       'To be added',
       'other.title':    'Other projects',
-      'other.text':     'No, we don\'t live inside a sausage — but it\'s a fun image to describe our limited perception of the world. In reality, we live in a vast, expanding universe structured by complex physical laws like gravity and relativity. The "sausage" idea might come from a metaphor.',
+      'other.text':     "My core expertise is UI/UX. My curiosity goes further: for example, I explored the world of YouTube, handling the art direction, logo, and thumbnails for the Ledok YouTube channel. If you have a digital design project that falls outside what you see here, feel free to reach out to me as well!",
       'contact.title':  'Contact me!',
       'contact.sub':    'A project? Looking for a designer for your interface?',
       'contact.name':   'Full name',
@@ -332,10 +550,12 @@
       'contact.msg':    'Subject',
       'contact.consentPre': 'I agree that my data will be used to reply to me, in accordance with the',
       'contact.send':   'Send',
-      'footer.baseline': 'UI / UX Designer',
-      'footer.location': 'Lyon, France',
+      'contact.error':  'Something went wrong. Please try again.',
+      'footer.contactTitle':   'Contact',
+      'footer.socialTitle':    'Social media',
+      'footer.legalStatus':    'Sole proprietor (EI)',
       'footer.legal':    'Legal notice',
-      'footer.privacy':  'Privacy policy',
+      'footer.privacyShort': 'Privacy',
       'footer.privacyLower': 'privacy policy',
       'footer.linkedinAria':  "Alexis Rey's LinkedIn profile",
       'footer.instagramAria': "Alexis Rey's Instagram profile",

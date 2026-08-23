@@ -32,6 +32,11 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;500;600&display=swap">
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
   <noscript><link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+  <!-- Neutronic (logo du nav) via Adobe Fonts, même technique async -->
+  <link rel="preconnect" href="https://use.typekit.net">
+  <link rel="preload" as="style" href="https://use.typekit.net/zgx7xkn.css">
+  <link href="https://use.typekit.net/zgx7xkn.css" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://use.typekit.net/zgx7xkn.css" rel="stylesheet"></noscript>
   <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
   <!-- Image LCP : elle diffère selon le viewport, car .hero__right (les
        mockups, dont eke-deka-apercu.png) est display:none sous 600px — sur
@@ -60,9 +65,10 @@
       --f-ui: 'Anton', sans-serif; --f-body: 'Poppins', sans-serif;
       --max-w: 1300px; --nav-h: 58px; --px: clamp(24px, 4.3vw, 80px); --r-card: 30px;
       --shadow: 0 2px 24px rgba(0,0,0,.07); --ease: cubic-bezier(.4,0,.2,1); --dur: 220ms;
+      --hero-name-h: clamp(1.3rem, 2.1vw, 1.9rem);
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; scrollbar-gutter: stable; }
     body {
       font-family: var(--f-body); color: var(--c-text); background: #f8fffe;
       -webkit-font-smoothing: antialiased; overflow-x: hidden; position: relative;
@@ -88,7 +94,7 @@
     .btn--outline { background: transparent; color: #8C56D3; border: 1.5px solid #8C56D3; }
     .nav { background: transparent; height: var(--nav-h); }
     .nav__inner { max-width: var(--max-w); margin: 0 auto; padding: 0 var(--px); height: 100%; display: flex; align-items: center; }
-    .nav__logo { font-family: var(--f-ui); font-weight: 400; font-size: 1rem; color: #464646; text-transform: uppercase; letter-spacing: .02em; flex: 1; }
+    .nav__logo { font-family: 'neutronic', sans-serif; font-weight: 700; font-size: 1rem; color: #464646; text-transform: uppercase; letter-spacing: .02em; flex: 1; }
     .nav__links { display: flex; justify-content: center; gap: 2.5rem; }
     .nav__link { font-size: .875rem; font-weight: 400; color: #2f2f2f; transition: color var(--dur); }
     .nav__actions { display: flex; align-items: center; justify-content: flex-end; gap: 1rem; flex: 1; }
@@ -104,11 +110,11 @@
     .lang-dropdown { position: relative; }
     .lang-dropdown__menu { position: absolute; top: calc(100% + 6px); left: 0; opacity: 0; pointer-events: none; transform: translateY(-4px); transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease); }
     .hero { position: relative; min-height: calc(100vh - var(--nav-h)); padding: 0 var(--px) 4rem; display: flex; flex-direction: column; justify-content: center; }
-    .hero__inner { max-width: var(--max-w); margin: 0 auto; width: 100%; display: flex; gap: 2rem; align-items: center; justify-content: space-between; }
+    .hero__inner { max-width: var(--max-w); margin: 0 auto; width: 100%; display: flex; gap: 4rem; align-items: center; justify-content: space-between; }
     .hero__left { flex: 1; min-width: 0; display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto auto; gap: 2rem; align-items: start; }
     .hero__hero-row { display: flex; align-items: flex-end; gap: 2rem; width: 100%; grid-column: 1 / -1; grid-row: 1; }
     .hero__photo-wrap { grid-column: 1; grid-row: 1 / span 2; justify-self: start; align-self: start; display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
-    .hero__hero-title { display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-end; align-self: flex-end; min-width: 0; }
+    .hero__hero-title { display: flex; flex: 1; flex-direction: column; justify-content: flex-end; align-items: flex-end; align-self: flex-end; min-width: 0; }
     .hero__text { grid-column: 1 / -1; grid-row: 2; display: flex; flex-direction: column; gap: 2rem; }
     .hero__actions { grid-column: 1 / -1; grid-row: 3; justify-self: stretch; display: flex; gap: .875rem; flex-wrap: wrap; }
     .hero__actions .btn { flex: 1; }
@@ -117,52 +123,54 @@
     .hero__photo { position: relative; z-index: 1; width: calc(100% + 3px); left: 0px; height: 219.33px; object-fit: cover; object-position: center top; border-radius: 16px 16px 42.67px 42.67px; display: block; top: 1px; }
     .hero__badge { position: absolute; left: -13px; bottom: -16px; z-index: 3; display: flex; align-items: center; gap: 4px; padding: 8px; font-family: var(--f-body); font-size: 11.06px; font-weight: 500; color: #2f2f2f; white-space: nowrap; background: #fff; border-radius: 12px; box-shadow: 0 0 5.82px rgba(0,0,0,.15); }
     .hero__badge-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #22c55e; flex-shrink: 0; }
-    .hero__title-block { display: flex; flex-direction: column; gap: 0; line-height: 1; width: fit-content; flex-shrink: 0; }
-    .hero__rey-row { display: flex; align-items: flex-end; gap: 0; margin-bottom: 12px; }
-    .hero__rey-img { height: clamp(2rem, 3.21vw, 2.9rem); width: auto; display: block; flex-shrink: 0; }
-    .hero__dots-wrap { display: block; flex-shrink: 0; overflow: hidden; margin-left: clamp(-1.207rem, -1.336vw, -0.832rem); margin-bottom: 0.19px; max-width: 300px; }
-    .anim-on .hero__dots-wrap { max-width: 0; animation: dots-grow 1.6s cubic-bezier(.4,0,.2,1) 0.2s forwards; }
+    .hero__title-block { display: flex; flex-direction: column; gap: 0; line-height: 1; width: 100%; }
+    .hero__rey-row { display: flex; align-items: flex-end; justify-content: flex-start; width: 100%; margin-bottom: 12px; }
+    .hero__name-group, .hero__role { opacity: 0; transition: opacity .2s ease; }
+    #hero.hero--name-ready .hero__name-group, #hero.hero--name-ready .hero__role { opacity: 1; }
+    .hero__name-group { display: flex; align-items: flex-end; gap: 0; }
+    .hero__rey-img { height: var(--hero-name-h); width: auto; display: block; transition: height .15s ease; flex-shrink: 0; margin-left: 10px; }
+    .hero__dots-wrap { display: block; flex-shrink: 0; overflow: hidden; margin-left: calc(clamp(-1.207rem, -1.336vw, -0.832rem) + 4px); margin-bottom: -0.81px; max-width: 300px; }
+    .anim-on #hero.hero--name-ready .hero__dots-wrap { max-width: 0; animation: dots-grow 1.8s cubic-bezier(.4,0,.2,1) 0.4s forwards; }
     .hero__dots { display: block; flex-shrink: 0; height: clamp(0.147rem, 0.235vw, 0.213rem); width: auto; }
-    .hero__alexis-row { display: flex; align-items: flex-end; gap: 0; }
-    .hero__letter { height: clamp(2rem, 3.33vw, 3rem); width: auto; display: block; }
-    .anim-on .hero__letter { animation: letter-bounce 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
-    .anim-on .hero__alexis-row .hero__letter:nth-child(1) { animation-delay: 0.30s; }
-    .anim-on .hero__alexis-row .hero__letter:nth-child(2) { animation-delay: 0.42s; }
-    .anim-on .hero__alexis-row .hero__letter:nth-child(3) { animation-delay: 0.54s; }
-    .anim-on .hero__alexis-row .hero__letter:nth-child(4) { animation-delay: 0.66s; }
-    .anim-on .hero__alexis-row .hero__letter:nth-child(5) { animation-delay: 0.78s; }
-    .anim-on .hero__alexis-row .hero__letter:nth-child(6) { animation-delay: 0.90s; }
+    .hero__letter { height: var(--hero-name-h); width: auto; display: block; transition: height .15s ease; }
+    .anim-on #hero.hero--name-ready .hero__letter { animation: letter-bounce 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+    .anim-on #hero.hero--name-ready .hero__name-group .hero__letter:nth-child(1) { animation-delay: 0.30s; }
+    .anim-on #hero.hero--name-ready .hero__name-group .hero__letter:nth-child(2) { animation-delay: 0.42s; }
+    .anim-on #hero.hero--name-ready .hero__name-group .hero__letter:nth-child(3) { animation-delay: 0.54s; }
+    .anim-on #hero.hero--name-ready .hero__name-group .hero__letter:nth-child(4) { animation-delay: 0.66s; }
+    .anim-on #hero.hero--name-ready .hero__name-group .hero__letter:nth-child(5) { animation-delay: 0.78s; }
+    .anim-on #hero.hero--name-ready .hero__name-group .hero__letter:nth-child(6) { animation-delay: 0.90s; }
     @keyframes letter-bounce { 0% { transform: translateY(0); } 40% { transform: translateY(-10px); } 100% { transform: translateY(0); } }
     .hero__cursor { height: clamp(1rem, 1.8vw, 1.5rem); width: auto; display: block; margin-left: -0.14rem; margin-bottom: -1.28rem; }
-    .hero__role { display: block; font-family: var(--f-ui); font-weight: 400; font-size: clamp(1.45rem, 2.91vw, 2.38rem); text-transform: uppercase; letter-spacing: .03rem; color: #464646; margin-top: .5rem; transform-origin: center center; width: 100%; }
-    .anim-on .hero__role { animation: role-enter 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s both; }
+    .hero__role { display: block; font-family: var(--f-ui); font-weight: 400; font-size: clamp(1.45rem, 2.91vw, 2.38rem); text-transform: uppercase; letter-spacing: .03rem; color: #464646; margin-top: .5rem; transform-origin: center center; width: fit-content; white-space: nowrap; transition: font-size .15s ease; }
+    .anim-on #hero.hero--name-ready .hero__role { animation: role-enter 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
     @keyframes dots-grow { to { max-width: 300px; } }
-    @keyframes role-enter { from { transform: rotate(-11.58deg); } to { transform: rotate(0deg); } }
+    @keyframes role-enter { from { transform: rotate(-9deg); } to { transform: rotate(0deg); } }
     .hero__tagline { font-size: .875rem; font-weight: 500; line-height: 1.65; color: #2f2f2f; max-width: 100%; }
     .hero__right { flex: 0 0 50%; min-width: 0; align-self: center; }
     .hero__mockups { position: relative; width: 100%; aspect-ratio: 661 / 360; }
-    .hero__rect { position: absolute; border-radius: 0; overflow: hidden; box-shadow: 0 0 6.27px 0 rgba(0,0,0,.15); background: #d9d9d9; display: flex; }
+    .hero__rect { position: absolute; border-radius: 0; overflow: hidden; box-shadow: 0 0 6.27px 0 rgba(0,0,0,.15); background: #fff; display: flex; }
     .hero__rect picture { display: contents; }
     .hero__rect img { flex: 1; min-width: 0; min-height: 0; object-fit: contain; object-position: top; display: block; }
     .hero__rect--1 { width: 39.94%; height: 46.39%; left: 0%; top: 30.28%; }
     .hero__rect--2 { width: 39.79%; height: 46.39%; left: 60.21%; top: 30.28%; }
     .hero__rect--3 { width: 29.80%; height: 34.72%; left: 24.21%; top: 65.00%; }
-    .hero__rect--4 { width: 58.55%; height: 69.44%; left: 18.61%; top: 18.89%; z-index: 2; background: #c8deda; }
-    .hero__rect--5 { width: 28.29%; height: 32.78%; left: 38.13%; top: 0%; z-index: 1; background: #e0e0e0; }
+    .hero__rect--4 { width: 58.09%; height: 69.44%; left: 18.61%; top: 18.89%; z-index: 2; background-image: url('images/banner/eke-deka-apercu.png'); background-size: cover; background-position: top center; background-repeat: no-repeat; }
+    .hero__rect--5 { width: 28.29%; height: 32.78%; left: 38.13%; top: 0%; z-index: 1; }
     .anim-on .hero__rect--1 { animation: float-a 7s ease-in-out infinite -1.0s; animation-play-state: paused; }
     .anim-on .hero__rect--2 { animation: float-b 9s ease-in-out infinite -3.5s; animation-play-state: paused; }
     .anim-on .hero__rect--3 { animation: float-a 6s ease-in-out infinite -2.2s; animation-play-state: paused; }
     .anim-on .hero__rect--4 { animation: float-b 8s ease-in-out infinite 0.0s; animation-play-state: paused; }
     .anim-on .hero__rect--5 { animation: float-a 10s ease-in-out infinite -4.0s; animation-play-state: paused; }
-    #hero.hero--in-view.anim-on .hero__rect--1, #hero.hero--in-view.anim-on .hero__rect--2, #hero.hero--in-view.anim-on .hero__rect--3, #hero.hero--in-view.anim-on .hero__rect--4, #hero.hero--in-view.anim-on .hero__rect--5 { animation-play-state: running; }
+    #hero.hero--in-view .hero__rect--1, #hero.hero--in-view .hero__rect--2, #hero.hero--in-view .hero__rect--3, #hero.hero--in-view .hero__rect--4, #hero.hero--in-view .hero__rect--5 { animation-play-state: running; }
     @keyframes float-a { 0%, 100% { transform: translateY(0px) translateX(0px); } 50% { transform: translateY(-9px) translateX(3px); } }
     @keyframes float-b { 0%, 100% { transform: translateY(0px) translateX(0px); } 33% { transform: translateY(-7px) translateX(-3px); } 66% { transform: translateY(-4px) translateX(4px); } }
     .hero__scroll { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); opacity: .50; cursor: pointer; transition: opacity .2s; }
     .anim-on .hero__scroll { animation: bounce 2s ease-in-out infinite; animation-play-state: paused; }
-    #hero.hero--in-view.anim-on .hero__scroll { animation-play-state: running; }
+    #hero.hero--in-view .hero__scroll { animation-play-state: running; }
     @keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(6px); } }
     @media (min-width: 1440px) {
-      :root { --px: 124px; --max-w: 100%; }
+      :root { --px: 124px; --max-w: 1600px; }
       .hero__right { flex: 0 0 52%; }
       .mood--a { width: 1100px; height: 1100px; }
       .mood--b { width: 950px; height: 950px; }
@@ -184,8 +192,7 @@
       .hero__photo-frame { width: 190px; }
       .hero__photo-blob { height: 103px; }
       .hero__photo { height: 178px; }
-      .hero__rey-img { height: 3.1rem; }
-      .hero__letter { height: 3.2rem; }
+      :root { --hero-name-h: 2rem; }
       .hero__role { font-size: 2.5rem; }
       .hero__scroll { position: static; transform: none; align-self: center; margin-top: 2rem; }
       .anim-on .hero__scroll { animation: bounce-static 2s ease-in-out infinite; animation-play-state: paused; }
@@ -214,9 +221,8 @@
       .hero__cursor { display: none; }
       .hero__text { gap: 1rem; }
       .hero__title-block { width: 100%; min-width: 0; flex-shrink: 1; }
-      .hero__rey-row, .hero__alexis-row { min-width: 0; }
-      .hero__rey-img { height: clamp(1rem, 6vw, 1.4rem); }
-      .hero__letter { height: clamp(1rem, 6vw, 1.4rem); }
+      .hero__rey-row { min-width: 0; }
+      :root { --hero-name-h: clamp(1rem, 6vw, 1.4rem); }
       .hero__role { font-size: 1rem; }
       .hero__tagline { max-width: 100%; width: 100%; }
       .hero__actions { gap: .5rem; flex-wrap: wrap; }
@@ -249,7 +255,7 @@
   ═══════════════════════════════ -->
   <header class="nav" role="banner">
     <div class="nav__inner">
-      <a href="/" class="nav__logo" data-route="/" aria-label="Logo Rey Alexis, retour à l'accueil">REY ALEXIS</a>
+      <a href="/" class="nav__logo" data-route="/" aria-label="Logo Rey Alexis, retour à l'accueil">alexis rey</a>
 
       <nav aria-label="Navigation principale">
         <ul class="nav__links">
@@ -304,23 +310,26 @@
           </div>
 
           <div class="hero__hero-title">
-            <h1 class="hero__title-block" aria-label="Rey Alexis, UI / UX Designer">
-              <!-- REY + pointillés -->
+            <h1 class="hero__title-block" aria-label="Alexis Rey, UI / UX Designer">
+              <!-- ALEXIS + REY + pointillés -->
               <span class="hero__rey-row">
-                <img src="images/REY.svg" alt="REY" class="hero__rey-img" width="143" height="47">
-                <span class="hero__dots-wrap">
-                  <img src="images/pointillés.svg" class="hero__dots" aria-hidden="true" alt="" width="137" height="4">
+                <span class="hero__name-group">
+                  <!-- Lettres ALEXIS -->
+                  <img src="images/ALEXIS-1.svg" alt="A" class="hero__letter" width="44" height="38">
+                  <img src="images/ALEXIS-2.svg" alt="L" class="hero__letter" width="27" height="38">
+                  <img src="images/ALEXIS-3.svg" alt="E" class="hero__letter" width="32" height="38">
+                  <img src="images/ALEXIS-4.svg" alt="X" class="hero__letter" width="44" height="38">
+                  <img src="images/ALEXIS-5.svg" alt="I" class="hero__letter" width="18" height="38">
+                  <img src="images/ALEXIS-6.svg" alt="S" class="hero__letter" width="33" height="39">
+                  <img src="images/REY.svg" alt="REY" class="hero__rey-img" width="121" height="39">
+                  <!-- Pointillés + curseur : voisins directs de REY (et non
+                       dans un groupe séparé) pour garder leur calibrage au
+                       pixel près (marges négatives) relatif au bas de REY. -->
+                  <span class="hero__dots-wrap">
+                    <img src="images/pointillés.svg" class="hero__dots" aria-hidden="true" alt="" width="50" height="4">
+                  </span>
+                  <img src="images/Figma Cursor.svg" alt="" class="hero__cursor" aria-hidden="true" width="54" height="58">
                 </span>
-                <img src="images/Figma Cursor.svg" alt="" class="hero__cursor" aria-hidden="true" width="54" height="58">
-              </span>
-              <!-- Lettres ALEXIS -->
-              <span class="hero__alexis-row">
-                <img src="images/ALEXIS-1.svg"   alt="A" class="hero__letter" width="54" height="47">
-                <img src="images/ALEXIS-2.svg" alt="L" class="hero__letter" width="33" height="47">
-                <img src="images/ALEXIS-3.svg" alt="E" class="hero__letter" width="39" height="47">
-                <img src="images/ALEXIS-4.svg" alt="X" class="hero__letter" width="54" height="47">
-                <img src="images/ALEXIS-5.svg" alt="I" class="hero__letter" width="22" height="47">
-                <img src="images/ALEXIS-6.svg" alt="S" class="hero__letter" width="40" height="48">
               </span>
               <!-- Rôle -->
               <span class="hero__role">UI / UX DESIGNER</span>
@@ -353,7 +362,7 @@
             <div class="hero__rect hero__rect--1"><picture><source media="(min-width: 601px)" srcset="images/banner/elmy_dashboard.webp"><img alt="" width="500" height="321"></picture></div>
             <div class="hero__rect hero__rect--2"><picture><source media="(min-width: 601px)" srcset="images/banner/game_n_chill_gallery.webp"><img alt="" width="500" height="321"></picture></div>
             <div class="hero__rect hero__rect--3"><picture><source media="(min-width: 601px)" srcset="images/banner/eke_deka_biala.webp"><img alt="" width="500" height="321"></picture></div>
-            <div class="hero__rect hero__rect--4"><picture><source media="(min-width: 601px)" srcset="images/banner/eke-deka-apercu.png"><img alt="" width="384" height="250" fetchpriority="high"></picture></div>
+            <div class="hero__rect hero__rect--4"></div>
             <div class="hero__rect hero__rect--5"><picture><source media="(min-width: 601px)" srcset="images/banner/game_n_chill_hero.webp"><img alt="" width="500" height="321"></picture></div>
           </div>
         </div>
@@ -475,7 +484,7 @@
             </div>
             <div class="card__meta-group">
               <dt data-i18n="dt.subject">Sujet</dt>
-              <dd data-i18n="elmy.subject">Refonte espace B2B</dd>
+              <dd data-i18n="elmy.subject">Refonte espace client B2B</dd>
             </div>
             <div class="card__meta-group">
               <dt>Date</dt>
@@ -538,12 +547,11 @@
           <dl class="card__meta">
             <div class="card__meta-group">
               <dt>Role</dt>
-              <dd>UX Design</dd>
-              <dd>UI Design</dd>
+              <dd data-i18n="gnc.role">Directeur artistique</dd>
             </div>
             <div class="card__meta-group">
               <dt data-i18n="dt.subject">Sujet</dt>
-              <dd data-i18n="card.tbd">À compléter</dd>
+              <dd data-i18n="gnc.subject">Association d'événements gaming</dd>
             </div>
             <div class="card__meta-group">
               <dt>Date</dt>
@@ -611,7 +619,7 @@
             </div>
             <div class="card__meta-group">
               <dt data-i18n="dt.subject">Sujet</dt>
-              <dd data-i18n="card.tbd">À compléter</dd>
+              <dd data-i18n="ameliorama.subject">Map Call of Duty BO III</dd>
             </div>
             <div class="card__meta-group">
               <dt>Date</dt>
@@ -696,10 +704,9 @@
           <h2 class="other__title" data-i18n="other.title">Autres projets</h2>
         </div>
         <p class="other__text" data-i18n="other.text">
-          Non, on ne vit pas dans une saucisse — mais c'est une image amusante pour parler de notre
-          perception limitée du monde. En réalité, on vit dans un univers immense, en expansion,
-          structuré par des lois physiques complexes comme la gravité et la relativité. L'idée de la
-          "saucisse" pourrait venir d'une métaphore.
+          Mon cœur de métier, c'est l'UI/UX. Ma curiosité va plus loin : j'ai par exemple exploré le
+          monde de YouTube en gérant la direction artistique, le logo et les miniatures de la chaîne Ledok. Si vous avez un projet de création digitale qui sort de ce que vous voyez ici,
+          n'hésitez pas à me contacter également !
         </p>
       </div>
     </section>
@@ -713,7 +720,11 @@
         <h2 class="contact__title" data-i18n="contact.title">Contactez moi !</h2>
         <p class="contact__sub" data-i18n="contact.sub">Un projet ? Besoin d'un designer pour votre interface ?</p>
 
-        <form class="contact__form" id="contactForm" novalidate>
+        <form class="contact__form" id="contactForm" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+          <input type="hidden" name="form-name" value="contact">
+          <p class="form__honeypot">
+            <label>Ne pas remplir si vous êtes humain : <input name="bot-field"></label>
+          </p>
           <div class="field">
             <label class="field__label" for="fname" data-i18n="contact.name">Nom et Prénom</label>
             <input class="field__input" type="text" id="fname" name="name"
@@ -736,6 +747,7 @@
             </label>
           </div>
           <button type="submit" class="btn btn--filled btn--send" data-i18n="contact.send">Envoyer</button>
+          <p class="field__error" id="formError" role="alert" data-i18n="contact.error" hidden>Une erreur est survenue. Merci de réessayer.</p>
         </form>
       </div>
     </section>
@@ -759,46 +771,27 @@
        FOOTER
   ═══════════════════════════════ -->
   <footer class="footer" role="contentinfo">
-    <div class="footer__inner">
-
-      <div class="footer__col footer__brand">
-        <span class="footer__name">REY ALEXIS</span>
-        <span class="footer__baseline" data-i18n="footer.baseline">UI / UX Designer</span>
-        <span class="footer__location" data-i18n="footer.location">Lyon, France</span>
+    <div class="footer__nav">
+      <div class="footer__col">
+        <span class="footer__col-title" data-i18n="footer.contactTitle">Contact</span>
+        <a href="mailto:alexis.rey709@gmail.com" class="footer__link">alexis.rey709@gmail.com</a>
+        <a href="tel:+33635454725" class="footer__link">06 35 45 47 25</a>
       </div>
 
       <div class="footer__col">
-        <div class="footer__social">
-          <!-- TODO : remplacer par l'URL réelle du profil LinkedIn -->
-          <a href="#" class="footer__social-link" target="_blank" rel="noopener noreferrer" aria-label="Profil LinkedIn d'Alexis Rey" data-i18n-aria="footer.linkedinAria">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-              <rect x="2" y="9" width="4" height="12"></rect>
-              <circle cx="4" cy="4" r="2"></circle>
-            </svg>
-          </a>
-          <!-- TODO : remplacer par l'URL réelle du profil Instagram -->
-          <a href="#" class="footer__social-link" target="_blank" rel="noopener noreferrer" aria-label="Profil Instagram d'Alexis Rey" data-i18n-aria="footer.instagramAria">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-            </svg>
-          </a>
-        </div>
-        <div class="footer__contact">
-          <a href="mailto:alexis.rey709@gmail.com" class="footer__link">alexis.rey709@gmail.com</a>
-          <a href="tel:+33635454725" class="footer__link">06 35 45 47 25</a>
-        </div>
+        <span class="footer__col-title" data-i18n="footer.socialTitle">Réseaux sociaux</span>
+        <a href="https://www.linkedin.com/in/alexis-rey-479897226/" class="footer__link" target="_blank" rel="noopener noreferrer" aria-label="Profil LinkedIn d'Alexis Rey" data-i18n-aria="footer.linkedinAria">LinkedIn</a>
+        <a href="https://www.instagram.com/alexis.rey.design/" class="footer__link" target="_blank" rel="noopener noreferrer" aria-label="Profil Instagram d'Alexis Rey" data-i18n-aria="footer.instagramAria">Instagram</a>
       </div>
-
     </div>
 
     <div class="footer__bottom">
-      <span class="footer__copyright">© <span id="footerYear">2026</span> Alexis Rey</span>
-      <nav class="footer__legal" aria-label="Mentions légales et confidentialité">
+      <!-- TODO : confirmer le statut juridique (Entrepreneur individuel) avant mise en ligne -->
+      <span class="footer__copyright">© <span id="footerYear">2026</span> Alexis Rey — <span data-i18n="footer.legalStatus">Entrepreneur individuel (EI)</span></span>
+      <nav class="footer__legal-nav" aria-label="Mentions légales et confidentialité">
         <a href="/mentions-legales" class="footer__legal-link" data-i18n="footer.legal">Mentions légales</a>
-        <a href="/politique-de-confidentialite" class="footer__legal-link" data-i18n="footer.privacy">Politique de confidentialité</a>
+        <span class="footer__legal-sep" aria-hidden="true">·</span>
+        <a href="/politique-de-confidentialite" class="footer__legal-link" data-i18n="footer.privacyShort">Confidentialité</a>
       </nav>
     </div>
   </footer>

@@ -44,11 +44,23 @@
   --shadow: 0 2px 24px rgba(0,0,0,.07);
   --ease:   cubic-bezier(.4,0,.2,1);
   --dur:    220ms;
+
+  /* Hauteur des lettres ALEXIS + REY : une seule variable partagée par les
+     deux sélecteurs, pour qu'ils aient toujours exactement la même
+     hauteur. script.js la recalcule au chargement/resize pour que le
+     groupe remplisse exactement la largeur de .hero__rey-row. */
+  --hero-name-h: clamp(1.3rem, 2.1vw, 1.9rem);
 }
 
 /* ── Reset ─────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html  { scroll-behavior: smooth; }
+/* scrollbar-gutter:stable réserve la place de la barre de défilement dès
+   le premier rendu, même quand la page ne dépasse pas encore la hauteur
+   du viewport — sans ça, la largeur disponible change (de quelques px)
+   entre le tout premier rendu et une fois la page assez haute pour
+   scroller, ce qui fait légèrement rétrécir ALEXIS/REY (dont la taille
+   dépend de cette largeur) une fois tout le contenu chargé. */
+html  { scroll-behavior: smooth; scrollbar-gutter: stable; }
 body  {
   font-family: var(--f-body);
   color: var(--c-text);
@@ -217,8 +229,8 @@ button { font-family: var(--f-body); cursor: pointer; }
 }
 
 .nav__logo {
-  font-family: var(--f-ui);
-  font-weight: 400;
+  font-family: 'neutronic', sans-serif;
+  font-weight: 700;
   font-size: 1rem;
   color: #464646;
   text-transform: uppercase;
@@ -351,7 +363,7 @@ button { font-family: var(--f-body); cursor: pointer; }
   margin: 0 auto;
   width: 100%;
   display: flex;
-  gap: 2rem;
+  gap: 4rem;
   align-items: center;
   justify-content: space-between;
 }
@@ -379,7 +391,13 @@ button { font-family: var(--f-body); cursor: pointer; }
 .hero__photo-wrap { grid-column: 1; grid-row: 1 / span 2; justify-self: start; align-self: start; }
 
 .hero__hero-title {
+  /* flex:1 : prend exactement le reste de la largeur de .hero__hero-row
+     après la photo (qui est flex-shrink:0), la même largeur que .hero__text
+     et .hero__actions en dessous — le groupe ALEXIS/REY et le rôle,
+     alignés à droite dans cette boîte, s'arrêtent donc pile au bord droit
+     des boutons, jamais au-delà. */
   display: flex;
+  flex: 1;
   flex-direction: column;
   justify-content: flex-end;
   align-items: flex-end;
@@ -467,39 +485,74 @@ button { font-family: var(--f-body); cursor: pointer; }
 
 /* ── Bloc titre : REY / ALEXIS / ROLE ── */
 .hero__title-block {
+  /* width:100% (au lieu de fit-content) : le bloc occupe toute la largeur
+     de .hero__hero-title, ALEXIS/REY et le rôle restant alignés à droite
+     à l'intérieur (voir justify-content/text-align ci-dessous). */
   display: flex;
   flex-direction: column;
   gap: 0;
   line-height: 1;
-  width: fit-content;
-  flex-shrink: 0;
+  width: 100%;
 }
 
-/* Ligne REY + pointillés */
+/* Ligne ALEXIS + REY + pointillés (ordre visuel : ALEXIS plein, REY en contour).
+   Un seul groupe (name-group) aligné à droite dans la ligne : pointillés et
+   curseur restent voisins directs de REY pour garder leur calibrage au
+   pixel près (marges négatives) relatif à son bas. */
 .hero__rey-row {
+  /* justify-content:flex-start (et non flex-end) : le groupe ALEXIS/REY
+     démarre au bord gauche de .hero__title-block, aligné avec le début de
+     "UI / UX DESIGNER" en dessous (text-align-last:justify démarre aussi
+     à gauche) — tout en restant width:100% du même parent. */
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  width: 100%;
+  margin-bottom: 12px;
+}
+/* Caché jusqu'à ce que script.js ait calculé la taille finale (images du
+   nom chargées + polices prêtes) : évite de voir chaque état intermédiaire
+   (police de secours, taille pas encore ajustée) comme un saut visible. */
+.hero__name-group,
+.hero__role {
+  opacity: 0;
+  transition: opacity .2s ease;
+}
+#hero.hero--name-ready .hero__name-group,
+#hero.hero--name-ready .hero__role {
+  opacity: 1;
+}
+.hero__name-group {
   display: flex;
   align-items: flex-end;
   gap: 0;
-  margin-bottom: 12px;
 }
-/* REY image — Figma : 142.7 × 46.2px à 1440px */
 .hero__rey-img {
-  height: clamp(2rem, 3.21vw, 2.9rem);
+  /* Même hauteur exacte que .hero__letter (via --hero-name-h) — et 20px
+     d'écart avec la dernière lettre ALEXIS. */
+  height: var(--hero-name-h);
   width: auto;
   display: block;
+  transition: height .15s ease;
   flex-shrink: 0;
+  margin-left: 10px;
 }
 .hero__dots-wrap {
   display: block;
   flex-shrink: 0;
   overflow: hidden;
-  margin-left: clamp(-1.207rem, -1.336vw, -0.832rem);
-  margin-bottom: 0.19px;
+  margin-left: calc(clamp(-1.207rem, -1.336vw, -0.832rem) + 4px);
+  margin-bottom: -0.81px;
   max-width: 300px;
 }
-.anim-on .hero__dots-wrap {
+/* Gaté sur #hero.hero--name-ready (comme .hero__letter/.hero__role plus
+   bas) et pas seulement .anim-on : sans ça, son décompte démarrerait au
+   chargement de la page — un repère différent de celui de role-enter (le
+   décompte de la rotation démarre à la révélation) — et "juste après la
+   rotation" ne voudrait plus dire la même chose selon la vitesse de charge. */
+.anim-on #hero.hero--name-ready .hero__dots-wrap {
   max-width: 0;
-  animation: dots-grow 1.6s cubic-bezier(.4,0,.2,1) 0.2s forwards;
+  animation: dots-grow 1.8s cubic-bezier(.4,0,.2,1) 0.4s forwards;
 }
 .hero__dots {
   display: block;
@@ -508,27 +561,31 @@ button { font-family: var(--f-body); cursor: pointer; }
   width: auto;
 }
 
-/* Ligne ALEXIS + curseur — Figma : 249.6 × 47.9px total */
-.hero__alexis-row {
-  display: flex;
-  align-items: flex-end;
-  gap: 0;
-}
-/* Chaque lettre : hauteur proportionnelle à la grille Figma */
+/* Chaque lettre ALEXIS : hauteur proportionnelle à la grille Figma */
 .hero__letter {
-  height: clamp(2rem, 3.33vw, 3rem);
+  /* Hauteur pilotée par --hero-name-h, recalculée par script.js pour
+     remplir exactement la largeur disponible (voir fitHeroName()).
+     transition : les changements de taille au resize s'animent au lieu
+     de sauter brutalement d'une valeur à l'autre. */
+  height: var(--hero-name-h);
   width: auto;
   display: block;
+  transition: height .15s ease;
 }
-.anim-on .hero__letter {
+/* Rebond d'entrée : déclenché par #hero.hero--name-ready (ajouté par
+   script.js une fois la taille finale figée et révélée), pas par .anim-on
+   seul — sinon le décompte démarrait dès le chargement de la page, avant
+   même que le nom soit visible, et pouvait être déjà terminé au moment de
+   la révélation. */
+.anim-on #hero.hero--name-ready .hero__letter {
   animation: letter-bounce 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
-.anim-on .hero__alexis-row .hero__letter:nth-child(1) { animation-delay: 0.30s; }
-.anim-on .hero__alexis-row .hero__letter:nth-child(2) { animation-delay: 0.42s; }
-.anim-on .hero__alexis-row .hero__letter:nth-child(3) { animation-delay: 0.54s; }
-.anim-on .hero__alexis-row .hero__letter:nth-child(4) { animation-delay: 0.66s; }
-.anim-on .hero__alexis-row .hero__letter:nth-child(5) { animation-delay: 0.78s; }
-.anim-on .hero__alexis-row .hero__letter:nth-child(6) { animation-delay: 0.90s; }
+.anim-on #hero.hero--name-ready .hero__name-group .hero__letter:nth-child(1) { animation-delay: 0.30s; }
+.anim-on #hero.hero--name-ready .hero__name-group .hero__letter:nth-child(2) { animation-delay: 0.42s; }
+.anim-on #hero.hero--name-ready .hero__name-group .hero__letter:nth-child(3) { animation-delay: 0.54s; }
+.anim-on #hero.hero--name-ready .hero__name-group .hero__letter:nth-child(4) { animation-delay: 0.66s; }
+.anim-on #hero.hero--name-ready .hero__name-group .hero__letter:nth-child(5) { animation-delay: 0.78s; }
+.anim-on #hero.hero--name-ready .hero__name-group .hero__letter:nth-child(6) { animation-delay: 0.90s; }
 @keyframes letter-bounce {
   0%   { transform: translateY(0); }
   40%  { transform: translateY(-10px); }
@@ -548,24 +605,35 @@ button { font-family: var(--f-body); cursor: pointer; }
   display: block;
   font-family: var(--f-ui);
   font-weight: 400;
+  /* Valeur de repli avant que script.js (fitHeroRole) ne recalcule la
+     taille exacte pour que le texte fasse la même largeur que le groupe
+     ALEXIS/REY — sans toucher aux espaces entre les mots/le "/". */
   font-size: clamp(1.45rem, 2.91vw, 2.38rem);
   text-transform: uppercase;
   letter-spacing: .03rem;
   color: #464646;
   margin-top: .5rem;
   transform-origin: center center;
-  width: 100%;
+  /* fit-content (pas 100%) : la boîte colle à la largeur réelle du texte
+     (première à dernière lettre), pas à celle du parent — nécessaire
+     aussi pour que script.js mesure la vraie largeur du texte (offsetWidth)
+     plutôt que celle, artificielle, du parent. */
+  width: fit-content;
+  white-space: nowrap;
+  transition: font-size .15s ease;
 }
-
-.anim-on .hero__role {
-  animation: role-enter 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s both;
-}
-@keyframes dots-grow {
-  to { max-width: 300px; }
+/* Rotation d'entrée : gatée sur #hero.hero--name-ready pour la même raison
+   que le rebond des lettres ci-dessus. */
+.anim-on #hero.hero--name-ready .hero__role {
+  animation: role-enter 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 @keyframes role-enter {
-  from { transform: rotate(-11.58deg); }
+  from { transform: rotate(-9deg); }
   to   { transform: rotate(0deg); }
+}
+
+@keyframes dots-grow {
+  to { max-width: 300px; }
 }
 
 /* Description + CTA */
@@ -601,7 +669,10 @@ button { font-family: var(--f-body); cursor: pointer; }
   border-radius: 0;
   overflow: hidden;
   box-shadow: 0 0 6.27px 0 rgba(0,0,0,.15);
-  background: #d9d9d9;
+  /* Blanc neutre plutôt qu'une couleur marquée : en object-fit:contain,
+     l'espace qui peut apparaître autour de l'image (ratio different de
+     la case) se voit moins qu'avec une teinte saturée. */
+  background: #fff;
   display: flex;
 }
 /* Le <picture> ajouté pour le chargement conditionnel par media ne doit pas
@@ -613,21 +684,32 @@ button { font-family: var(--f-body); cursor: pointer; }
   flex: 1;
   min-width: 0;
   min-height: 0;
-  /* contain plutôt que cover : on garde 100% de la largeur de chaque
-     capture visible, quitte à laisser apparaître le fond du cadre
-     (background du .hero__rect) en haut/bas si le ratio ne correspond
-     pas exactement à la case. */
+  /* contain (pas cover) : 100% de l'image doit être visible, sans
+     rognage — l'espace éventuel autour (si le ratio de l'image ne
+     correspond pas exactement à la case) est comblé par le fond blanc
+     de .hero__rect ci-dessus, plutôt qu'une couleur marquée. */
   object-fit: contain;
   object-position: top;
   display: block;
 }
-
 /* Positions en % du conteneur 661×360px (pixel-perfect Figma) */
 .hero__rect--1 { width: 39.94%; height: 46.39%; left: 0%;     top: 30.28%; }
 .hero__rect--2 { width: 39.79%; height: 46.39%; left: 60.21%; top: 30.28%; }
 .hero__rect--3 { width: 29.80%; height: 34.72%; left: 24.21%; top: 65.00%; }
-.hero__rect--4 { width: 58.55%; height: 69.44%; left: 18.61%; top: 18.89%; z-index: 2; background: #c8deda; }
-.hero__rect--5 { width: 28.29%; height: 32.78%; left: 38.13%; top:  0%;    z-index: 1; background: #e0e0e0; }
+/* Capture eke-deka en background-image (pas <img>+object-fit comme les
+   autres mockups) : object-fit:cover se dérègle sur cette case à certains
+   niveaux de zoom navigateur (l'image ne remplit plus la case, laissant voir
+   le fond derrière) — un bug connu de rendu, pas de notre calcul. Un
+   background-size:cover n'est jamais affecté par ce bug, quel que soit le
+   zoom. */
+.hero__rect--4 {
+  width: 58.09%; height: 69.44%; left: 18.61%; top: 18.89%; z-index: 2;
+  background-image: url('images/banner/eke-deka-apercu.png');
+  background-size: cover;
+  background-position: top center;
+  background-repeat: no-repeat;
+}
+.hero__rect--5 { width: 28.29%; height: 32.78%; left: 38.13%; top:  0%;    z-index: 1; }
 /* Ces animations tournent en boucle infinie : sans les mettre en pause une
    fois le hero sorti de l'écran, elles continuent à coûter du temps de
    rendu (compositing) pendant tout le reste de la visite. #hero.hero--in-view
@@ -638,11 +720,11 @@ button { font-family: var(--f-body); cursor: pointer; }
 .anim-on .hero__rect--3 { animation: float-a  6s ease-in-out infinite -2.2s; animation-play-state: paused; }
 .anim-on .hero__rect--4 { animation: float-b  8s ease-in-out infinite  0.0s; animation-play-state: paused; }
 .anim-on .hero__rect--5 { animation: float-a 10s ease-in-out infinite -4.0s; animation-play-state: paused; }
-#hero.hero--in-view.anim-on .hero__rect--1,
-#hero.hero--in-view.anim-on .hero__rect--2,
-#hero.hero--in-view.anim-on .hero__rect--3,
-#hero.hero--in-view.anim-on .hero__rect--4,
-#hero.hero--in-view.anim-on .hero__rect--5 { animation-play-state: running; }
+#hero.hero--in-view .hero__rect--1,
+#hero.hero--in-view .hero__rect--2,
+#hero.hero--in-view .hero__rect--3,
+#hero.hero--in-view .hero__rect--4,
+#hero.hero--in-view .hero__rect--5 { animation-play-state: running; }
 
 @keyframes float-a {
   0%, 100% { transform: translateY(0px)   translateX(0px); }
@@ -1177,6 +1259,9 @@ button { font-family: var(--f-body); cursor: pointer; }
   flex-direction: column;
   gap: 1rem;
 }
+/* Honeypot Netlify Forms : display:none (pas l'attribut hidden) pour rester
+   un champ "normal" que les bots naïfs remplissent quand même. */
+.form__honeypot { display: none; }
 .field { display: flex; flex-direction: column; gap: .35rem; }
 .field--consent { flex-direction: row; }
 .field__consent {
@@ -1197,6 +1282,10 @@ button { font-family: var(--f-body); cursor: pointer; }
 .field__consent a {
   color: var(--c-text);
   text-decoration: underline;
+}
+.field__error {
+  font-size: .82rem;
+  color: #ef4444;
 }
 .field__label {
   font-size: .82rem;
@@ -1224,98 +1313,70 @@ button { font-family: var(--f-body); cursor: pointer; }
    FOOTER
 ════════════════════════════════════════════════════════ */
 .footer {
-  padding: 56px var(--px) 0;
+  /* padding (pas de margin sur les enfants) pour cet espace du bas : une
+     margin sur le dernier enfant peut laisser un espace en bas de body non
+     couvert par le fond dégradé de la page (.page-bg suit la hauteur de
+     body, pas celle d'un enfant + sa margin qui dépasse). */
+  padding: 56px var(--px) 40px;
+  border-top: 1px solid #c2d0cb;
 }
-.footer__inner {
+.footer__nav {
   max-width: var(--max-w);
   margin: 0 auto;
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 2rem;
+  gap: 4rem;
   flex-wrap: wrap;
 }
 .footer__col {
   display: flex;
   flex-direction: column;
-  gap: .5rem;
+  gap: .6rem;
+}
+.footer__col-title {
+  font-size: .78rem;
+  color: #5c6b76;
 }
 .footer__link {
   display: inline-block;
-  padding: 8px 0;
-  font-size: .78rem;
+  width: fit-content;
+  font-size: .82rem;
+  font-weight: 400;
   color: #2F2F2F;
   transition: color var(--dur);
 }
 .footer__link:hover { color: var(--c-accent); }
 
-/* Zone identité */
-.footer__name {
-  font-family: var(--f-ui);
-  font-size: 1rem;
-  text-transform: uppercase;
-  letter-spacing: .02em;
-  color: #464646;
-}
-.footer__baseline,
-.footer__location {
-  font-size: .78rem;
-  color: #5c6b76; /* contraste AA garanti sur le fond du footer */
-}
-
-/* Zone réseaux */
-.footer__social {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 1rem;
-  /* Le bouton (34px) est plus large que l'icône (20px) : décaler pour
-     aligner le bord gauche visible de l'icône sur celui du mail/numéro. */
-  margin-left: -7px;
-}
-.footer__social-link {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 34px;
-  height: 34px;
-  color: #2F2F2F;
-  transition: color var(--dur);
-}
-.footer__social-link:hover { color: var(--c-accent); }
-.footer__social-link svg { width: 20px; height: 20px; }
-.footer__contact {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-/* Barre du bas */
+/* Barre du bas : copyright à gauche, identité légale (raison sociale,
+   SIRET) + liens légaux empilés et alignés à droite. Pas de séparateur :
+   les colonnes Contact/Réseaux sociaux au-dessus s'enchaînent directement. */
 .footer__bottom {
   max-width: var(--max-w);
-  margin: 2.5rem auto 0;
-  padding: 1.5rem 0;
-  border-top: 1px solid var(--c-border);
+  margin: 1.75rem auto 0;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
   gap: 1.5rem;
   flex-wrap: wrap;
+}
+.footer__legal-nav {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.footer__legal-link {
+  font-size: .8rem;
+  color: #5c6b76;
+  transition: color var(--dur);
+}
+.footer__legal-link:hover { color: var(--c-accent); }
+.footer__legal-sep {
+  font-size: .8rem;
+  color: #5c6b76;
 }
 .footer__copyright {
   font-size: .74rem;
   color: #5c6b76;
 }
-.footer__legal {
-  display: flex;
-  gap: 1.5rem;
-}
-.footer__legal-link {
-  font-size: .74rem;
-  color: #5c6b76;
-  transition: color var(--dur);
-}
-.footer__legal-link:hover { color: var(--c-accent); }
 
 /* ═══════════════════════════════════════════════════════
    ANIMATIONS — pilotées par .anim-on sur <body>
@@ -1333,7 +1394,7 @@ button { font-family: var(--f-body); cursor: pointer; }
   animation: bounce 2s ease-in-out infinite;
   animation-play-state: paused;
 }
-#hero.hero--in-view.anim-on .hero__scroll {
+#hero.hero--in-view .hero__scroll {
   animation-play-state: running;
 }
 @keyframes bounce {
@@ -1347,7 +1408,13 @@ button { font-family: var(--f-body); cursor: pointer; }
 
 /* ── Grand écran (≥ 1440px) ─────────────────────────── */
 @media (min-width: 1440px) {
-  :root { --px: 124px; --max-w: 100%; }
+  /* --max-w était à 100% (pas de limite) : sur très grand écran, le
+     conteneur grandissait sans plafond et le nom (mis à l'échelle par
+     script.js) débordait de sa boîte. 1600px reste plus généreux que le
+     1300px de base, sans grandir indéfiniment. (zoom avait été tenté
+     comme correctif global, mais entrait en conflit avec les mesures
+     getBoundingClientRect() de script.js — retiré.) */
+  :root { --px: 124px; --max-w: 1600px; }
   .hero__right { flex: 0 0 52%; }
 
   /* Blobs mood plus grands + plus intenses pour couvrir les cards élargies */
@@ -1406,8 +1473,7 @@ button { font-family: var(--f-body); cursor: pointer; }
   .hero__photo-frame { width: 190px; }
   .hero__photo-blob  { height: 103px; }
   .hero__photo       { height: 178px; }
-  .hero__rey-img     { height: 3.1rem; }
-  .hero__letter      { height: 3.2rem; }
+  :root { --hero-name-h: 2rem; }
   .hero__role        { font-size: 2.5rem; }
 
   /* Flèche scroll — en flux normal sous le contenu, centrée via
@@ -1455,7 +1521,7 @@ button { font-family: var(--f-body); cursor: pointer; }
 
 /* ── Footer : empilé et centré (≤ 768px) ─────────────── */
 @media (max-width: 768px) {
-  .footer__inner {
+  .footer__nav {
     flex-direction: column;
     align-items: center;
     text-align: center;
@@ -1464,6 +1530,7 @@ button { font-family: var(--f-body); cursor: pointer; }
   .footer__col { align-items: center; }
   .footer__bottom {
     flex-direction: column;
+    align-items: center;
     text-align: center;
     gap: 1rem;
   }
@@ -1522,12 +1589,10 @@ button { font-family: var(--f-body); cursor: pointer; }
   .hero__cursor      { display: none; }
   .hero__text        { gap: 1rem; }
   .hero__title-block { width: 100%; min-width: 0; flex-shrink: 1; }
-  .hero__rey-row,
-  .hero__alexis-row  { min-width: 0; }
+  .hero__rey-row     { min-width: 0; }
   /* Hauteur fluide (vw) plutôt que fixe : sur les très petits écrans,
      REY/ALEXIS rétrécit avec la largeur au lieu de dépasser le padding. */
-  .hero__rey-img     { height: clamp(1rem, 6vw, 1.4rem); }
-  .hero__letter      { height: clamp(1rem, 6vw, 1.4rem); }
+  :root { --hero-name-h: clamp(1rem, 6vw, 1.4rem); }
   .hero__role        { font-size: 1rem; }
   .hero__tagline     { max-width: 100%; width: 100%; }
 
@@ -1605,17 +1670,6 @@ button { font-family: var(--f-body); cursor: pointer; }
 /* ═══════════════════════════════════════════════════════
    PAGES LÉGALES (mentions légales, confidentialité)
 ════════════════════════════════════════════════════════ */
-.legal-nav {
-  height: auto;
-  padding: 24px var(--px);
-}
-.legal-nav__inner {
-  max-width: 760px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
 .legal__back {
   display: inline-flex;
   align-items: center;
@@ -1671,9 +1725,6 @@ button { font-family: var(--f-body); cursor: pointer; }
   font-weight: 600;
 }
 
-.legal-footer { padding-top: 0; }
-.legal-footer .footer__bottom { margin-top: 0; }
-
 @media (max-width: 600px) {
-  .legal-nav, .legal { padding-left: 24px; padding-right: 24px; }
+  .legal { padding-left: 24px; padding-right: 24px; }
 }

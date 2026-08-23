@@ -8,15 +8,29 @@
   <meta name="robots" content="noindex">
 
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://use.typekit.net/zgx7xkn.css" rel="stylesheet">
   <link rel="icon" type="image/svg+xml" href="../images/favicon.svg">
   <link rel="stylesheet" href="../style.css">
 </head>
 <body>
 
-  <header class="nav legal-nav" role="banner">
-    <div class="legal-nav__inner">
-      <a href="/" class="nav__logo" aria-label="Rey Alexis — Retour à l'accueil">REY ALEXIS</a>
+  <header class="nav" role="banner">
+    <div class="nav__inner">
       <a href="/" class="legal__back">&larr;&nbsp; Retour à l'accueil</a>
+
+      <div class="nav__actions">
+        <div class="lang-dropdown">
+          <button class="lang-btn" aria-label="Choisir la langue" aria-expanded="false">
+            <span class="lang-btn__text" data-i18n="lang.current">Français</span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="lang-btn__icon" aria-hidden="true">
+              <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+            </svg>
+          </button>
+          <div class="lang-dropdown__menu" role="listbox" inert>
+            <button class="lang-btn lang-btn--option" role="option" aria-selected="true" data-i18n="lang.option">Anglais</button>
+          </div>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -25,106 +39,74 @@
     <p class="legal__updated">Dernière mise à jour : août 2026</p>
 
     <section class="legal__section">
-      <h2>1. Éditeur du site</h2>
+      <h2>Éditeur du site</h2>
       <p>
-        Le présent site est édité par <strong>Alexis Rey</strong>,
-        <span class="legal__placeholder">[statut à compléter : micro‑entrepreneur / salarié / étudiant]</span>,
-        domicilié à <span class="legal__placeholder">[adresse à compléter]</span>.
-      </p>
-      <p>
-        Contact : <a href="mailto:alexis.rey709@gmail.com">alexis.rey709@gmail.com</a>
-        — <a href="tel:+33635454725">06 35 45 47 25</a>
+        Alexis Rey — Entrepreneur individuel (EI)<br>
+        SIRET 103 806 873 00016<br>
+        11 rue Pierre Larousse, 69100 Villeurbanne<br>
+        Téléphone : <a href="tel:+33635454725">06 35 45 47 25</a><br>
+        Email : <a href="mailto:alexis.rey709@gmail.com">alexis.rey709@gmail.com</a>
       </p>
     </section>
 
     <section class="legal__section">
-      <h2>2. Immatriculation</h2>
-      <p>Section applicable uniquement en cas d'activité professionnelle déclarée.</p>
-      <p>
-        SIRET : <span class="legal__placeholder">[SIRET à compléter]</span><br>
-        Code APE : 7410Z (activités spécialisées de design)<br>
-        Immatriculé au Registre National des Entreprises (RNE).
-      </p>
+      <h2>Directeur de la publication</h2>
+      <p>Alexis Rey</p>
     </section>
 
     <section class="legal__section">
-      <h2>3. TVA</h2>
-      <p>TVA non applicable, article 293 B du Code général des impôts.</p>
-      <p>
-        <span class="legal__placeholder">À vérifier : si l'activité n'est plus (ou pas) en franchise en base
-        de TVA, remplacer la mention ci‑dessus par le numéro de TVA intracommunautaire.</span>
-      </p>
-    </section>
-
-    <section class="legal__section">
-      <h2>4. Directeur de la publication</h2>
-      <p>Alexis Rey.</p>
-    </section>
-
-    <section class="legal__section">
-      <h2>5. Hébergeur</h2>
+      <h2>Hébergeur</h2>
       <p>
         Netlify, Inc.<br>
-        44 Montgomery Street, Suite 300, San Francisco, CA 94104, États‑Unis<br>
-        <a href="https://www.netlify.com" target="_blank" rel="noopener noreferrer">www.netlify.com</a>
-      </p>
-      <p><span class="legal__placeholder">Adresse à vérifier sur le site de Netlify avant publication.</span></p>
-    </section>
-
-    <section class="legal__section">
-      <h2>6. Propriété intellectuelle</h2>
-      <p>
-        L'ensemble des contenus présents sur ce site (textes, maquettes, captures d'écran, code)
-        est la propriété d'Alexis Rey, sauf mention contraire.
-      </p>
-      <p>
-        Les logos, identités visuelles et captures des projets présentés (Eke‑Deka, elmy,
-        Game'N Chill, Ameliorama 3) restent la propriété de leurs détenteurs respectifs et sont
-        reproduits ici à titre d'illustration du travail de design réalisé.
+        101 2nd Street, San Francisco, CA 94105, États-Unis<br>
+        <a href="mailto:support@netlify.com">support@netlify.com</a><br>
+        <a href="https://www.netlify.com" target="_blank" rel="noopener noreferrer">https://www.netlify.com</a>
       </p>
     </section>
 
     <section class="legal__section">
-      <h2>7. Crédits typographiques</h2>
+      <h2>Propriété intellectuelle</h2>
       <p>
-        Oswald, Poppins, Rajdhani, Nunito, Montserrat — Google Fonts, licence SIL Open Font License.<br>
-        Strawford — utilisée dans le cadre du projet elmy.
+        L'ensemble des contenus présents sur ce site — textes, images, graphismes, logo — est
+        protégé par le droit d'auteur. Toute reproduction ou diffusion sans autorisation préalable
+        est interdite.
       </p>
     </section>
 
     <section class="legal__section">
-      <h2>8. Limitation de responsabilité</h2>
+      <h2>Données personnelles</h2>
       <p>
-        Alexis Rey s'efforce d'assurer l'exactitude et la mise à jour des informations diffusées sur
-        ce site, mais ne saurait être tenu responsable des erreurs, omissions, ou de l'indisponibilité
-        temporaire du site, quelle qu'en soit la cause.
+        Le traitement des données collectées via le formulaire de contact est décrit dans la
+        <a href="/politique-de-confidentialite">politique de confidentialité</a>.
       </p>
-    </section>
-
-    <section class="legal__section">
-      <h2>9. Liens externes</h2>
-      <p>
-        Ce site peut contenir des liens vers des sites tiers. Alexis Rey n'exerce aucun contrôle sur
-        ces sites et décline toute responsabilité quant à leur contenu.
-      </p>
-    </section>
-
-    <section class="legal__section">
-      <h2>10. Droit applicable</h2>
-      <p>Les présentes mentions légales sont soumises au droit français.</p>
     </section>
   </main>
 
-  <footer class="footer legal-footer" role="contentinfo">
+  <footer class="footer" role="contentinfo">
+    <div class="footer__nav">
+      <div class="footer__col">
+        <span class="footer__col-title" data-i18n="footer.contactTitle">Contact</span>
+        <a href="mailto:alexis.rey709@gmail.com" class="footer__link">alexis.rey709@gmail.com</a>
+        <a href="tel:+33635454725" class="footer__link">06 35 45 47 25</a>
+      </div>
+
+      <div class="footer__col">
+        <span class="footer__col-title" data-i18n="footer.socialTitle">Réseaux sociaux</span>
+        <a href="https://www.linkedin.com/in/alexis-rey-479897226/" class="footer__link" target="_blank" rel="noopener noreferrer" aria-label="Profil LinkedIn d'Alexis Rey" data-i18n-aria="footer.linkedinAria">LinkedIn</a>
+        <a href="https://www.instagram.com/alexis.rey.design/" class="footer__link" target="_blank" rel="noopener noreferrer" aria-label="Profil Instagram d'Alexis Rey" data-i18n-aria="footer.instagramAria">Instagram</a>
+      </div>
+    </div>
+
     <div class="footer__bottom">
-      <span class="footer__copyright">© <span id="footerYear">2026</span> Alexis Rey</span>
-      <nav class="footer__legal" aria-label="Mentions légales et confidentialité">
-        <a href="/mentions-legales" class="footer__legal-link">Mentions légales</a>
-        <a href="/politique-de-confidentialite" class="footer__legal-link">Politique de confidentialité</a>
+      <span class="footer__copyright">© <span id="footerYear">2026</span> Alexis Rey — <span data-i18n="footer.legalStatus">Entrepreneur individuel (EI)</span></span>
+      <nav class="footer__legal-nav" aria-label="Mentions légales et confidentialité">
+        <a href="/mentions-legales" class="footer__legal-link" data-i18n="footer.legal">Mentions légales</a>
+        <span class="footer__legal-sep" aria-hidden="true">·</span>
+        <a href="/politique-de-confidentialite" class="footer__legal-link" data-i18n="footer.privacyShort">Confidentialité</a>
       </nav>
     </div>
   </footer>
 
-  <script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
+  <script src="../script.js"></script>
 </body>
 </html>
