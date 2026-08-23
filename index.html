@@ -719,12 +719,12 @@
       <div class="contact__inner">
         <h2 class="contact__title" data-i18n="contact.title">Contactez moi !</h2>
         <p class="contact__sub" data-i18n="contact.sub">Un projet ? Besoin d'un designer pour votre interface ?</p>
-
         <form class="contact__form" id="contactForm" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
-          <input type="hidden" name="form-name" value="contact">
-          <p class="form__honeypot">
-            <label>Ne pas remplir si vous êtes humain : <input name="bot-field"></label>
-          </p>
+          <input type="hidden" name="form-name" value="contact" />
+  <p hidden><input name="bot-field" /></p>
+        <form class="contact__form" id="contactForm" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+          <input type="hidden" name="form-name" value="contact" />
+          <p hidden><input name="bot-field" /></p>
           <div class="field">
             <label class="field__label" for="fname" data-i18n="contact.name">Nom et Prénom</label>
             <input class="field__input" type="text" id="fname" name="name"
