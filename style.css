@@ -1570,6 +1570,8 @@ button { font-family: var(--f-body); cursor: pointer; }
 /* ── Mobile (≤ 600px) ────────────────────────────────── */
 @media (max-width: 600px) {
   /* Nav */
+  .nav__logo { font-size: .82rem; }
+  .anim-toggle__label { display: inline; }
 
   /* Fond décoratif : un filter: blur() large coûte cher à peindre, encore
      plus sur un GPU mobile que sur desktop. Rayon réduit ici uniquement
