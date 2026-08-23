@@ -539,12 +539,14 @@ button { font-family: var(--f-body); cursor: pointer; }
      rejoué après un changement de mise en page, ex. photo redimensionnée),
      le groupe ALEXIS/REY ne doit jamais déborder HORIZONTALEMENT de son
      conteneur — on le coupe plutôt que de laisser le texte dépasser
-     visuellement. overflow-y reste visible : le curseur a un gros
-     margin-bottom négatif qui le fait dépasser VERTICALEMENT du haut de la
-     ligne par design (voir .hero__cursor) — un overflow:hidden général le
-     couperait entièrement au lieu de ne couper que l'axe horizontal. */
+     visuellement. clip et non hidden : hidden forcerait overflow-y en
+     auto (par spec CSS, dès qu'un axe n'est pas visible, l'autre axe
+     visible est recalculé en auto) et ferait apparaître une barre de
+     défilement à cause du dépassement voulu du curseur (margin-bottom
+     négatif, voir .hero__cursor) — clip ne crée pas de conteneur de
+     défilement, donc ne force pas l'autre axe. */
   max-width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
   overflow-y: visible;
   /* Relatif à --hero-name-h (plutôt qu'un px fixe) : l'écart avec la ligne
      UI/UX DESIGNER reste proportionnel à la taille du nom, que ce dernier
