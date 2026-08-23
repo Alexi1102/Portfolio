@@ -229,20 +229,33 @@
     // réappliquée à travers ce même scale, donc appliquée deux fois).
     const availableWidth = row.offsetWidth;
     if (!availableWidth) return null;
-    // "ALEXIS REY" (lettres + REY, seuls éléments dont la taille suit
-    // --hero-name-h) doit toujours remplir exactement availableWidth — les
-    // pointillés et le curseur ne font PAS partie de ce calcul, ils viennent
-    // après et débordent volontairement à droite. Les compter tantôt dedans
-    // tantôt dehors (selon une mesure instable de leur taille) est ce qui
-    // faisait osciller la largeur totale visible entre deux valeurs.
-    let newHeight = (availableWidth - HERO_NAME_GAP) / ratioSum;
+    // Pointillés et curseur ont une taille propre (clamp() en vw/rem), pas
+    // pilotée par --hero-name-h : on mesure directement l'image (jamais le
+    // wrapper .hero__dots-wrap, dont le max-width est animé à l'arrivée sur
+    // la page) et on ajoute la marge du wrapper séparément. Leur largeur
+    // DOIT être intégrée au calcul pour qu'ALEXIS REY + pointillés + curseur
+    // tiennent ensemble exactement dans availableWidth, sans jamais déborder
+    // — .hero__rey-row a overflow:hidden (garde-fou), donc tout débordement
+    // serait invisible, pas juste visuellement coupé.
+    const dotsImg  = group.querySelector('.hero__dots');
+    const dotsWrap = group.querySelector('.hero__dots-wrap');
+    const cursor   = group.querySelector('.hero__cursor');
+    let fixedWidth = HERO_NAME_GAP;
+    if (dotsImg && dotsWrap && getComputedStyle(dotsWrap).display !== 'none') {
+      fixedWidth += dotsImg.offsetWidth + parseFloat(getComputedStyle(dotsWrap).marginLeft || '0');
+    }
+    if (cursor && getComputedStyle(cursor).display !== 'none') {
+      const cs = getComputedStyle(cursor);
+      fixedWidth += cursor.offsetWidth + parseFloat(cs.marginLeft || '0') + parseFloat(cs.marginRight || '0');
+    }
+    let newHeight = (availableWidth - fixedWidth) / ratioSum;
     if (!Number.isFinite(newHeight)) return null;
     newHeight = Math.max(newHeight, HERO_NAME_MIN_H);
     document.documentElement.style.setProperty('--hero-name-h', newHeight + 'px');
-    // Par construction, une fois cette hauteur appliquée, "ALEXIS REY" seul
-    // occupe exactement availableWidth — c'est cette valeur, et non une
-    // mesure du groupe, qui sert de cible à fitHeroRole() (voir plus bas
-    // pourquoi mesurer le groupe est instable).
+    // Par construction, une fois cette hauteur appliquée, le groupe entier
+    // (lettres + REY + pointillés + curseur) occupe exactement availableWidth
+    // — c'est cette valeur, et non une mesure du groupe, qui sert de cible à
+    // fitHeroRole() (voir plus bas pourquoi mesurer le groupe est instable).
     return availableWidth;
   }
   /* ── "UI / UX DESIGNER" : même largeur que le groupe ALEXIS/REY ──
