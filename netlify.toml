@@ -4,3 +4,10 @@
 [build.processing.css]
   bundle = false
   minify = true
+
+[[redirects]]
+  from = "/"
+  to = "/"
+  status = 200
+  force = true
+  conditions = {Method = ["POST"]}
