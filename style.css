@@ -54,13 +54,12 @@
 
 /* ── Reset ─────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-/* scrollbar-gutter:stable réserve la place de la barre de défilement dès
-   le premier rendu, même quand la page ne dépasse pas encore la hauteur
-   du viewport — sans ça, la largeur disponible change (de quelques px)
-   entre le tout premier rendu et une fois la page assez haute pour
-   scroller, ce qui fait légèrement rétrécir ALEXIS/REY (dont la taille
-   dépend de cette largeur) une fois tout le contenu chargé. */
-html  { scroll-behavior: smooth; scrollbar-gutter: stable; scrollbar-width: none; -ms-overflow-style: none; }
+/* La scrollbar est masquée (::-webkit-scrollbar / scrollbar-width plus bas) :
+   scrollbar-gutter:stable réservait un espace pour compenser son
+   apparition/disparition, mais comme elle est maintenant toujours
+   invisible, cet espace réservé restait vide et non couvert — une fine
+   bande sur le bord droit, plus visible après une rotation d'écran mobile. */
+html  { scroll-behavior: smooth; scrollbar-width: none; -ms-overflow-style: none; }
 html::-webkit-scrollbar { display: none; }
 body  {
   font-family: var(--f-body);
@@ -333,7 +332,7 @@ button { font-family: var(--f-body); cursor: pointer; }
 }
 .lang-dropdown__menu {
   position: absolute;
-  top: calc(100% + 6px);
+  top: calc(100% + 16px);
   left: 0;
   opacity: 0;
   pointer-events: none;
@@ -358,8 +357,9 @@ button { font-family: var(--f-body); cursor: pointer; }
   /* Vrai padding (pas de marge négative) : voir .lang-btn — la zone
      tactile doit réellement grandir, pas juste visuellement le paraître.
      Même padding gauche que .lang-btn pour qu'"Anglais" démarre au même x
-     que "Français" ; agrandi vers le bas pour une zone de clic plus haute. */
-  padding: .6rem .3rem 1.5rem .3rem;
+     que "Français" ; haut et bas identiques (pas d'extension asymétrique
+     vers le bas). */
+  padding: .9rem .3rem .9rem .3rem;
   text-align: left;
 }
 .lang-btn--option:hover {
@@ -530,6 +530,11 @@ button { font-family: var(--f-body); cursor: pointer; }
   align-items: flex-end;
   justify-content: flex-start;
   width: 100%;
+  /* Hauteur de la ligne doublée par rapport à --hero-name-h (la hauteur
+     réelle d'ALEXIS/REY) : align-items:flex-end garde le nom collé en bas,
+     l'espace supplémentaire apparaît au-dessus — la taille du nom/texte
+     lui-même n'est pas affectée, seule la boîte de la ligne s'agrandit. */
+  height: calc(var(--hero-name-h) * 2);
   /* Garde-fou : si --hero-name-h est calculé trop grand (JS pas encore
      rejoué après un changement de mise en page, ex. photo redimensionnée),
      le groupe ALEXIS/REY ne doit jamais déborder HORIZONTALEMENT de son
@@ -1590,12 +1595,11 @@ button { font-family: var(--f-body); cursor: pointer; }
   /* 30px de plus que les 3rem (48px) déjà posés au palier tablette. */
   .hero__scroll { margin-top: calc(3rem + 30px); }
 
-  /* Fond léger + padding haut/bas un peu plus généreux sur "Anglais". */
+  /* Fond léger sur "Anglais" (le padding haut/bas identique est déjà posé
+     dans la règle de base, pas besoin de le resurcharger ici). */
   .lang-btn--option {
     background: rgba(0, 0, 0, .04);
     border-radius: 6px;
-    padding-top: .9rem;
-    padding-bottom: 1.8rem;
   }
 
   /* will-change : prévient le GPU mobile de préparer la couche du flou
