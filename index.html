@@ -54,7 +54,15 @@
        style.css (le reste des styles, cards/footer/modale...) charge en
        asynchrone juste après et prend le relais dès qu'il arrive, sans
        jamais laisser voir de HTML non stylé (nav/hero déjà corrects dès
-       le premier rendu grâce au bloc ci-dessous). -->
+       le premier rendu grâce au bloc ci-dessous).
+       Exception volontaire : les animations d'entrée du nom (pointillés,
+       lettres, rôle — .anim-on #hero.hero--name-ready ...) ne sont PAS
+       dupliquées ici. script.js (heroReady()) attend explicitement que
+       style.css ait fini de charger avant même d'ajouter la classe
+       hero--name-ready qui les déclenche — ces règles sont donc TOUJOURS
+       lues depuis style.css au moment où elles s'appliquent, jamais
+       depuis ce bloc. Les dupliquer ici n'apporterait rien et ajouterait
+       une source de divergence de plus à maintenir. -->
   <style>
     @property --c-text { syntax: '<color>'; inherits: true; initial-value: #111118; }
     @property --c-muted { syntax: '<color>'; inherits: true; initial-value: #6b7a86; }
@@ -106,7 +114,7 @@
     .anim-toggle input:checked ~ .anim-toggle__track { background: #22888D; }
     .anim-toggle input:checked ~ .anim-toggle__track .anim-toggle__thumb { transform: translateX(16px); }
     .anim-toggle__label { font-size: .875rem; color: #2f2f2f; }
-    .lang-btn { font-size: .875rem; color: #2f2f2f; background: none; border: none; display: inline-flex; align-items: center; gap: .2rem; transition: color var(--dur); padding: .6rem .3rem; margin: -.6rem -.3rem; }
+    .lang-btn { font-size: .875rem; color: #2f2f2f; background: none; border: none; display: inline-flex; align-items: center; gap: .2rem; transition: color var(--dur); padding: .6rem .3rem; }
     .lang-btn__icon { width: 1.1em; height: 1.1em; flex-shrink: 0; transition: transform var(--dur) var(--ease); }
     .lang-dropdown { position: relative; }
     .lang-dropdown__menu { position: absolute; top: calc(100% + 6px); left: 0; opacity: 0; pointer-events: none; transform: translateY(-4px); transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease); }
@@ -131,22 +139,10 @@
     .hero__name-group { display: flex; align-items: flex-end; gap: 0; }
     .hero__rey-img { height: var(--hero-name-h); width: auto; display: block; transition: height .15s ease; flex-shrink: 0; margin-left: 10px; }
     .hero__dots-wrap { display: block; flex-shrink: 0; overflow: hidden; margin-left: calc(clamp(-1.207rem, -1.336vw, -0.832rem) + 4px); margin-bottom: -0.81px; max-width: 300px; }
-    .anim-on #hero.hero--name-ready .hero__dots-wrap { max-width: 0; animation: dots-grow 1.8s cubic-bezier(.4,0,.2,1) 0.4s forwards; }
     .hero__dots { display: block; flex-shrink: 0; height: clamp(0.147rem, 0.235vw, 0.213rem); width: auto; }
     .hero__letter { height: var(--hero-name-h); width: auto; display: block; transition: height .15s ease; }
-    .anim-on #hero.hero--name-ready .hero__letter { animation: letter-bounce 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
-    .anim-on #hero.hero--name-ready .hero__name-group .hero__letter:nth-child(1) { animation-delay: 0.30s; }
-    .anim-on #hero.hero--name-ready .hero__name-group .hero__letter:nth-child(2) { animation-delay: 0.42s; }
-    .anim-on #hero.hero--name-ready .hero__name-group .hero__letter:nth-child(3) { animation-delay: 0.54s; }
-    .anim-on #hero.hero--name-ready .hero__name-group .hero__letter:nth-child(4) { animation-delay: 0.66s; }
-    .anim-on #hero.hero--name-ready .hero__name-group .hero__letter:nth-child(5) { animation-delay: 0.78s; }
-    .anim-on #hero.hero--name-ready .hero__name-group .hero__letter:nth-child(6) { animation-delay: 0.90s; }
-    @keyframes letter-bounce { 0% { transform: translateY(0); } 40% { transform: translateY(-10px); } 100% { transform: translateY(0); } }
     .hero__cursor { height: clamp(1rem, 1.8vw, 1.5rem); width: auto; display: block; margin-left: -0.14rem; margin-bottom: -1.28rem; }
     .hero__role { display: block; font-family: var(--f-ui); font-weight: 400; font-size: clamp(1.45rem, 2.91vw, 2.38rem); text-transform: uppercase; letter-spacing: .03rem; color: #464646; margin-top: 0.21em; transform-origin: center center; width: fit-content; max-width: 100%; overflow: hidden; white-space: nowrap; transition: font-size .15s ease; }
-    .anim-on #hero.hero--name-ready .hero__role { animation: role-enter 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
-    @keyframes dots-grow { to { max-width: 300px; } }
-    @keyframes role-enter { from { transform: rotate(-9deg); } to { transform: rotate(0deg); } }
     .hero__tagline { font-size: .875rem; font-weight: 500; line-height: 1.65; color: #2f2f2f; max-width: 100%; }
     .hero__right { flex: 0 0 50%; min-width: 0; align-self: center; }
     .hero__mockups { position: relative; width: 100%; aspect-ratio: 661 / 360; }

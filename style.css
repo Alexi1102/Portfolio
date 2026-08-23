@@ -348,18 +348,24 @@ button { font-family: var(--f-body); cursor: pointer; }
   transform: rotate(180deg);
 }
 .lang-btn--option {
-  /* display:block (au lieu du display:inline-flex hérité de .lang-btn) :
-     toute la boîte rectangulaire (padding compris) devient sans ambiguïté
-     une seule zone cliquable, plutôt que de dépendre du contenu inline
-     (le texte) pour déterminer la zone réactive au clic. */
-  display: block;
-  width: 100%;
-  /* Vrai padding (pas de marge négative) : voir .lang-btn — la zone
-     tactile doit réellement grandir, pas juste visuellement le paraître.
-     Même padding gauche que .lang-btn pour qu'"Anglais" démarre au même x
-     que "Français" ; haut et bas identiques (pas d'extension asymétrique
-     vers le bas). */
-  padding: .9rem .3rem .9rem .3rem;
+  /* inline-flex (pas block+width:100%) : .lang-dropdown__menu (le parent)
+     n'a pas de largeur propre, il se dimensionne sur son contenu — un
+     enfant en width:100% y est ambigu (100% de quoi ?) et ne garantit pas
+     que le fond épouse le texte. En inline-flex, la boîte se dimensionne
+     sur SON PROPRE contenu (texte + padding), donc épouse le texte
+     naturellement, tout en restant garantie d'être une seule zone
+     cliquable (fond visible = zone de clic = même boîte). */
+  display: inline-flex;
+  align-items: center;
+  /* 44×44px : taille minimale recommandée pour une zone tactile, garantie
+     même si le texte seul est plus petit — le texte reste centré dedans
+     grâce à align-items ci-dessus plutôt que collé en haut ou en bas. */
+  min-width: 44px;
+  min-height: 44px;
+  /* Padding horizontal identique à .lang-btn : le texte "Anglais" démarre
+     au même x que "Français". Pas de padding vertical : min-height suffit
+     à garantir la zone tactile sans étirer artificiellement la boîte. */
+  padding: 0 .3rem;
   text-align: left;
 }
 .lang-btn--option:hover {
