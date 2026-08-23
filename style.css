@@ -517,6 +517,12 @@ button { font-family: var(--f-body); cursor: pointer; }
   align-items: flex-end;
   justify-content: flex-start;
   width: 100%;
+  /* Garde-fou : si --hero-name-h est calculé trop grand (JS pas encore
+     rejoué après un changement de mise en page, ex. photo redimensionnée),
+     le groupe ALEXIS/REY ne doit jamais déborder de son conteneur — on le
+     coupe plutôt que de laisser le texte dépasser visuellement. */
+  max-width: 100%;
+  overflow: hidden;
   /* Relatif à --hero-name-h (plutôt qu'un px fixe) : l'écart avec la ligne
      UI/UX DESIGNER reste proportionnel à la taille du nom, que ce dernier
      soit petit (mobile) ou grand (desktop) — au lieu d'un écart fixe qui
@@ -634,6 +640,13 @@ button { font-family: var(--f-body); cursor: pointer; }
      aussi pour que script.js mesure la vraie largeur du texte (offsetWidth)
      plutôt que celle, artificielle, du parent. */
   width: fit-content;
+  /* Garde-fou, comme sur .hero__rey-row : si le font-size calculé est trop
+     grand (JS pas encore rejoué après un changement de mise en page), le
+     texte ne doit jamais déborder de son conteneur — max-width le limite,
+     overflow:hidden coupe le texte (nowrap) plutôt que de le laisser
+     déborder visuellement. */
+  max-width: 100%;
+  overflow: hidden;
   white-space: nowrap;
   transition: font-size .15s ease;
 }
