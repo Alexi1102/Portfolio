@@ -1583,12 +1583,16 @@ button { font-family: var(--f-body); cursor: pointer; }
   .hero__hero-row { display: flex; flex-direction: row; align-items: flex-end; gap: 1rem; }
   .hero__photo-wrap { flex: 0 0 auto; width: auto; }
   .hero__hero-title { flex: 1; min-width: 0; }
-  .hero__photo-frame { width: 145px; }
+  /* Photo réduite (145px → 110px) : sur mobile, .hero__hero-title (flex:1)
+     récupère cette largeur en plus — fitHeroName()/fitHeroRole() (script.js)
+     recalculent alors ALEXIS REY / UI-UX DESIGNER pour remplir cette place
+     disponible plus grande, jusqu'à occuper toute la largeur de l'écran. */
+  .hero__photo-frame { width: 110px; }
   .hero__photo {
-    height: 145px;
-    border-radius: 12px 12px 28px 28px;
+    height: 110px;
+    border-radius: 10px 10px 22px 22px;
   }
-  .hero__photo-blob  { height: 83px; border-radius: 28px; }
+  .hero__photo-blob  { height: 63px; border-radius: 22px; }
 
   /* Badge proportionnel à la photo */
   .hero__badge {
