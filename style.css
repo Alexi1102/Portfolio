@@ -317,10 +317,10 @@ button { font-family: var(--f-body); cursor: pointer; }
   align-items: center;
   gap: .2rem;
   transition: color var(--dur);
-  /* Padding + marge négative égale : agrandit la zone tactile sans
-     déplacer visuellement le bouton ni pousser le reste de la nav. */
+  /* Vrai padding (pas de marge négative pour compenser) : la marge
+     négative ne rendait pas la zone tactile réellement cliquable, seul le
+     texte répondait au clic. */
   padding: .6rem .3rem;
-  margin: -.6rem -.3rem;
 }
 .lang-btn:hover { color: #000; }
 .lang-btn__icon {
@@ -350,11 +350,11 @@ button { font-family: var(--f-body); cursor: pointer; }
 }
 .lang-btn--option {
   width: 100%;
-  /* Même padding gauche/haut que .lang-btn (avec la même marge négative
-     compensatoire, pour que "Anglais" démarre au même x que "Français")
-     — agrandi vers le bas (zone de clic plus grande dans ce sens). */
+  /* Vrai padding (pas de marge négative) : voir .lang-btn — la zone
+     tactile doit réellement grandir, pas juste visuellement le paraître.
+     Même padding gauche que .lang-btn pour qu'"Anglais" démarre au même x
+     que "Français" ; agrandi vers le bas pour une zone de clic plus haute. */
   padding: .6rem .3rem 1.5rem .3rem;
-  margin: -.6rem 0 0 -.3rem;
   text-align: left;
 }
 .lang-btn--option:hover {
@@ -1422,15 +1422,6 @@ button { font-family: var(--f-body); cursor: pointer; }
 /* ═══════════════════════════════════════════════════════
    ANIMATIONS — pilotées par .anim-on sur <body>
 ════════════════════════════════════════════════════════ */
-.anim-on .reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity .6s var(--ease), transform .6s var(--ease);
-}
-.anim-on .reveal.is-visible {
-  opacity: 1;
-  transform: none;
-}
 .anim-on .hero__scroll {
   animation: bounce 2s ease-in-out infinite;
   animation-play-state: paused;
