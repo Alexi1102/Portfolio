@@ -60,7 +60,8 @@
    entre le tout premier rendu et une fois la page assez haute pour
    scroller, ce qui fait légèrement rétrécir ALEXIS/REY (dont la taille
    dépend de cette largeur) une fois tout le contenu chargé. */
-html  { scroll-behavior: smooth; scrollbar-gutter: stable; }
+html  { scroll-behavior: smooth; scrollbar-gutter: stable; scrollbar-width: none; -ms-overflow-style: none; }
+html::-webkit-scrollbar { display: none; }
 body  {
   font-family: var(--f-body);
   color: var(--c-text);

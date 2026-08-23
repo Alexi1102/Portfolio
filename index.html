@@ -68,7 +68,8 @@
       --hero-name-h: clamp(1.3rem, 2.1vw, 1.9rem);
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; scrollbar-gutter: stable; }
+    html { scroll-behavior: smooth; scrollbar-gutter: stable; scrollbar-width: none; -ms-overflow-style: none; }
+    html::-webkit-scrollbar { display: none; }
     body {
       font-family: var(--f-body); color: var(--c-text); background: #f8fffe;
       -webkit-font-smoothing: antialiased; overflow-x: hidden; position: relative;
