@@ -312,11 +312,14 @@ button { font-family: var(--f-body); cursor: pointer; }
   color: #2f2f2f;
   background: none;
   border: none;
-  padding: 0;
   display: inline-flex;
   align-items: center;
   gap: .2rem;
   transition: color var(--dur);
+  /* Padding + marge négative égale : agrandit la zone tactile sans
+     déplacer visuellement le bouton ni pousser le reste de la nav. */
+  padding: .6rem .3rem;
+  margin: -.6rem -.3rem;
 }
 .lang-btn:hover { color: #000; }
 .lang-btn__icon {
@@ -346,7 +349,8 @@ button { font-family: var(--f-body); cursor: pointer; }
 }
 .lang-btn--option {
   width: 100%;
-  padding: 0;
+  /* Zone tactile plus grande (plutôt que padding:0, trop petit au doigt). */
+  padding: .75rem 1rem;
   text-align: left;
 }
 .lang-btn--option:hover {
@@ -1520,7 +1524,7 @@ button { font-family: var(--f-body); cursor: pointer; }
     position: static;
     transform: none;
     align-self: center;
-    margin-top: 2rem;
+    margin-top: 3rem;
   }
   .anim-on .hero__scroll {
     animation: bounce-static 2s ease-in-out infinite;
@@ -1614,27 +1618,29 @@ button { font-family: var(--f-body); cursor: pointer; }
      dessous (photo, badge) sont les anciennes valeurs × 1.25, pour un rendu
      visuel identique à avant, juste sans le transform. */
   .hero__hero-row { width: 100%; transform: none; margin-bottom: 2rem; }
-  .hero__photo-frame { width: 138px; }
+  /* Photo encore réduite (138px → 95px) : laisse assez de place à
+     .hero__hero-title pour que les pointillés et le curseur (réaffichés
+     ci-dessous) rentrent aux côtés d'ALEXIS REY, sans casser l'équilibre
+     avec UI/UX DESIGNER en dessous (alignés au même bord gauche). */
+  .hero__photo-frame { width: 95px; }
   .hero__photo {
-    height: 138px;
-    border-radius: 13px 13px 28px 28px;
+    height: 95px;
+    border-radius: 9px 9px 19px 19px;
   }
-  .hero__photo-blob  { height: 79px; border-radius: 28px; }
+  .hero__photo-blob  { height: 54px; border-radius: 19px; }
 
   /* Badge proportionnel à la photo */
   .hero__badge {
-    font-size: 9px;
-    padding: 6px;
-    left: -10px;
-    bottom: -13px;
-    border-radius: 10px;
-    gap: 4px;
+    font-size: 6px;
+    padding: 4px;
+    left: -7px;
+    bottom: -9px;
+    border-radius: 7px;
+    gap: 3px;
   }
-  .hero__badge-dot { width: 6px; height: 6px; }
+  .hero__badge-dot { width: 4px; height: 4px; }
 
   /* 50 % droite : texte */
-  .hero__dots-wrap   { display: none; }
-  .hero__cursor      { display: none; }
   .hero__text        { gap: 1rem; }
   .hero__title-block { width: 100%; min-width: 0; flex-shrink: 1; }
   .hero__rey-row     { min-width: 0; }

@@ -105,7 +105,7 @@
     .anim-toggle input:checked ~ .anim-toggle__track { background: #22888D; }
     .anim-toggle input:checked ~ .anim-toggle__track .anim-toggle__thumb { transform: translateX(16px); }
     .anim-toggle__label { font-size: .875rem; color: #2f2f2f; }
-    .lang-btn { font-size: .875rem; color: #2f2f2f; background: none; border: none; padding: 0; display: inline-flex; align-items: center; gap: .2rem; transition: color var(--dur); }
+    .lang-btn { font-size: .875rem; color: #2f2f2f; background: none; border: none; display: inline-flex; align-items: center; gap: .2rem; transition: color var(--dur); padding: .6rem .3rem; margin: -.6rem -.3rem; }
     .lang-btn__icon { width: 1.1em; height: 1.1em; flex-shrink: 0; transition: transform var(--dur) var(--ease); }
     .lang-dropdown { position: relative; }
     .lang-dropdown__menu { position: absolute; top: calc(100% + 6px); left: 0; opacity: 0; pointer-events: none; transform: translateY(-4px); transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease); }
@@ -194,7 +194,7 @@
       .hero__photo { height: 178px; }
       :root { --hero-name-h: 2rem; }
       .hero__role { font-size: 2.5rem; }
-      .hero__scroll { position: static; transform: none; align-self: center; margin-top: 2rem; }
+      .hero__scroll { position: static; transform: none; align-self: center; margin-top: 3rem; }
       .anim-on .hero__scroll { animation: bounce-static 2s ease-in-out infinite; animation-play-state: paused; }
       @keyframes bounce-static { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
     }
@@ -213,13 +213,11 @@
       .hero__photo-wrap { flex: 0 0 auto; width: auto; }
       .hero__hero-title { flex: 1; min-width: 0; }
       .hero__hero-row { width: 100%; transform: none; margin-bottom: 2rem; }
-      .hero__photo-frame { width: 138px; }
-      .hero__photo { height: 138px; border-radius: 13px 13px 28px 28px; }
-      .hero__photo-blob { height: 79px; border-radius: 28px; }
-      .hero__badge { font-size: 9px; padding: 6px; left: -10px; bottom: -13px; border-radius: 10px; gap: 4px; }
-      .hero__badge-dot { width: 6px; height: 6px; }
-      .hero__dots-wrap { display: none; }
-      .hero__cursor { display: none; }
+      .hero__photo-frame { width: 95px; }
+      .hero__photo { height: 95px; border-radius: 9px 9px 19px 19px; }
+      .hero__photo-blob { height: 54px; border-radius: 19px; }
+      .hero__badge { font-size: 6px; padding: 4px; left: -7px; bottom: -9px; border-radius: 7px; gap: 3px; }
+      .hero__badge-dot { width: 4px; height: 4px; }
       .hero__text { gap: 1rem; }
       .hero__title-block { width: 100%; min-width: 0; flex-shrink: 1; }
       .hero__rey-row { min-width: 0; }

@@ -152,7 +152,19 @@
       },
       { threshold: 0.07, rootMargin: '0px 0px -32px 0px' }
     );
-    revealEls.forEach((el) => io.observe(el));
+    // observe() déclenche un premier callback immédiat reflétant l'état
+    // ACTUEL (avant tout scroll) : si la première card est déjà à moins de
+    // 32px du bas de l'écran au chargement (selon la hauteur de viewport,
+    // qui varie avec l'affichage/masquage de la barre d'adresse mobile),
+    // elle se révélait tout de suite — de façon incohérente d'un chargement
+    // à l'autre. On repousse observe() au premier scroll réel : tant que
+    // rien n'a été touché, rien ne se révèle.
+    const startReveal = () => revealEls.forEach((el) => io.observe(el));
+    if (window.scrollY > 0) {
+      startReveal();
+    } else {
+      window.addEventListener('scroll', startReveal, { once: true, passive: true });
+    }
   } else {
     // Fallback : tout afficher d'emblée
     revealEls.forEach((el) => el.classList.add('is-visible'));
