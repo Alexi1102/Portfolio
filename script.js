@@ -188,7 +188,12 @@
   // Pas de plafond : --max-w est maintenant borné (1600px, voir le
   // breakpoint 1440px), donc la largeur disponible ne peut plus exploser —
   // le nom peut grossir librement jusqu'à remplir cette largeur.
-  const HERO_NAME_MIN_H = 20; // px (≈1.25rem) — filet de sécurité, ne doit normalement jamais être atteint
+  // Filet de sécurité contre un calcul dégénéré (ratioSum ~0) uniquement —
+  // pas une taille "minimale voulue" : sur mobile, la largeur locale
+  // disponible pour le nom (après la photo) peut naturellement demander
+  // une hauteur sous 20px. Un plancher trop haut forçait alors le nom à
+  // dépasser son conteneur au lieu de rétrécir davantage.
+  const HERO_NAME_MIN_H = 8; // px
 
   function fitHeroName() {
     const group = document.querySelector('.hero__name-group');
@@ -238,7 +243,10 @@
      comme pour l'écart de 20px d'ALEXIS/REY, on l'isole de la partie qui
      scale réellement (les glyphes) pour ne pas sous-estimer la taille
      nécessaire. */
-  const HERO_ROLE_MIN_FS = 23; // px (≈1.45rem, min d'origine) — filet de sécurité
+  // Même logique que HERO_NAME_MIN_H : un plancher trop haut forçait le
+  // rôle à dépasser son conteneur sur les écrans les plus étroits au lieu
+  // de rétrécir davantage.
+  const HERO_ROLE_MIN_FS = 10; // px
   function fitHeroRole(targetWidth) {
     const role = document.querySelector('.hero__role');
     if (!role || !targetWidth) return;

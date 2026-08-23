@@ -1602,27 +1602,35 @@ button { font-family: var(--f-body); cursor: pointer; }
   .hero__hero-row { display: flex; flex-direction: row; align-items: flex-end; gap: 1rem; }
   .hero__photo-wrap { flex: 0 0 auto; width: auto; }
   .hero__hero-title { flex: 1; min-width: 0; }
-  /* Photo réduite (145px → 110px) : sur mobile, .hero__hero-title (flex:1)
-     récupère cette largeur en plus — fitHeroName()/fitHeroRole() (script.js)
-     recalculent alors ALEXIS REY / UI-UX DESIGNER pour remplir cette place
-     disponible plus grande, jusqu'à occuper toute la largeur de l'écran. */
-  .hero__photo-frame { width: 110px; }
+  /* Sous 600px, on abandonne le transform:scale(1.25) hérité du breakpoint
+     1024px : il agrandissait tout le bloc APRÈS coup, mais l'espace
+     réellement disponible pour le nom (mesuré par script.js AVANT le scale,
+     voir offsetWidth dans fitHeroName) restait celui, plus étroit, de la
+     boîte non agrandie — sur les écrans les plus étroits, ça ne laissait
+     pas assez de place et forçait le nom/rôle à dépasser malgré le plafond
+     de sécurité (HERO_NAME_MIN_H/HERO_ROLE_MIN_FS). En direct (sans scale),
+     script.js mesure la largeur RÉELLEMENT disponible et ajuste le nom/rôle
+     pour la remplir exactement, sans jamais la dépasser. Les tailles ci-
+     dessous (photo, badge) sont les anciennes valeurs × 1.25, pour un rendu
+     visuel identique à avant, juste sans le transform. */
+  .hero__hero-row { width: 100%; transform: none; margin-bottom: 2rem; }
+  .hero__photo-frame { width: 138px; }
   .hero__photo {
-    height: 110px;
-    border-radius: 10px 10px 22px 22px;
+    height: 138px;
+    border-radius: 13px 13px 28px 28px;
   }
-  .hero__photo-blob  { height: 63px; border-radius: 22px; }
+  .hero__photo-blob  { height: 79px; border-radius: 28px; }
 
   /* Badge proportionnel à la photo */
   .hero__badge {
-    font-size: 7px;
-    padding: 5px;
-    left: -8px;
-    bottom: -10px;
-    border-radius: 8px;
-    gap: 3px;
+    font-size: 9px;
+    padding: 6px;
+    left: -10px;
+    bottom: -13px;
+    border-radius: 10px;
+    gap: 4px;
   }
-  .hero__badge-dot { width: 5px; height: 5px; }
+  .hero__badge-dot { width: 6px; height: 6px; }
 
   /* 50 % droite : texte */
   .hero__dots-wrap   { display: none; }
