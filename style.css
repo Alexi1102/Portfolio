@@ -523,10 +523,15 @@ button { font-family: var(--f-body); cursor: pointer; }
   width: 100%;
   /* Garde-fou : si --hero-name-h est calculé trop grand (JS pas encore
      rejoué après un changement de mise en page, ex. photo redimensionnée),
-     le groupe ALEXIS/REY ne doit jamais déborder de son conteneur — on le
-     coupe plutôt que de laisser le texte dépasser visuellement. */
+     le groupe ALEXIS/REY ne doit jamais déborder HORIZONTALEMENT de son
+     conteneur — on le coupe plutôt que de laisser le texte dépasser
+     visuellement. overflow-y reste visible : le curseur a un gros
+     margin-bottom négatif qui le fait dépasser VERTICALEMENT du haut de la
+     ligne par design (voir .hero__cursor) — un overflow:hidden général le
+     coupait entièrement au lieu de ne couper que l'axe horizontal. */
   max-width: 100%;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: visible;
   /* Relatif à --hero-name-h (plutôt qu'un px fixe) : l'écart avec la ligne
      UI/UX DESIGNER reste proportionnel à la taille du nom, que ce dernier
      soit petit (mobile) ou grand (desktop) — au lieu d'un écart fixe qui
@@ -1618,28 +1623,28 @@ button { font-family: var(--f-body); cursor: pointer; }
      dessous (photo, badge) sont les anciennes valeurs × 1.25, pour un rendu
      visuel identique à avant, juste sans le transform. */
   .hero__hero-row { width: 100%; transform: none; margin-bottom: 2rem; }
-  /* Répartition 2/3 (photo) — 1/3 (nom/rôle) demandée explicitement pour
+  /* Répartition 1/3 (photo) — 2/3 (nom/rôle) demandée explicitement pour
      mobile : .hero__photo-wrap se dimensionne sur .hero__photo-frame (flex:
-     0 0 auto), donc sa largeur en px cible ~2/3 d'une largeur de contenu
-     mobile typique (~360px) ; .hero__hero-title (flex:1) récupère le tiers
-     restant automatiquement. */
-  .hero__photo-frame { width: 230px; }
+     0 0 auto), donc sa largeur en px cible ~1/3 d'une largeur de contenu
+     mobile typique (~360px) ; .hero__hero-title (flex:1) récupère les deux
+     tiers restants automatiquement. */
+  .hero__photo-frame { width: 115px; }
   .hero__photo {
-    height: 230px;
-    border-radius: 22px 22px 46px 46px;
+    height: 115px;
+    border-radius: 11px 11px 23px 23px;
   }
-  .hero__photo-blob  { height: 132px; border-radius: 46px; }
+  .hero__photo-blob  { height: 66px; border-radius: 23px; }
 
   /* Badge proportionnel à la photo */
   .hero__badge {
-    font-size: 14px;
-    padding: 10px;
-    left: -17px;
-    bottom: -22px;
-    border-radius: 17px;
-    gap: 6px;
+    font-size: 7px;
+    padding: 5px;
+    left: -8px;
+    bottom: -11px;
+    border-radius: 8px;
+    gap: 3px;
   }
-  .hero__badge-dot { width: 10px; height: 10px; }
+  .hero__badge-dot { width: 5px; height: 5px; }
 
   /* 50 % droite : texte */
   .hero__text        { gap: 1rem; }

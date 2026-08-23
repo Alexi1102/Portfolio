@@ -124,7 +124,7 @@
     .hero__badge { position: absolute; left: -13px; bottom: -16px; z-index: 3; display: flex; align-items: center; gap: 4px; padding: 8px; font-family: var(--f-body); font-size: 11.06px; font-weight: 500; color: #2f2f2f; white-space: nowrap; background: #fff; border-radius: 12px; box-shadow: 0 0 5.82px rgba(0,0,0,.15); }
     .hero__badge-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #22c55e; flex-shrink: 0; }
     .hero__title-block { display: flex; flex-direction: column; gap: 0; line-height: 1; width: 100%; }
-    .hero__rey-row { display: flex; align-items: flex-end; justify-content: flex-start; width: 100%; max-width: 100%; overflow: hidden; margin-bottom: calc(var(--hero-name-h) * 0.43); }
+    .hero__rey-row { display: flex; align-items: flex-end; justify-content: flex-start; width: 100%; max-width: 100%; overflow-x: hidden; overflow-y: visible; margin-bottom: calc(var(--hero-name-h) * 0.43); }
     .hero__name-group, .hero__role { opacity: 0; transition: opacity .2s ease; }
     #hero.hero--name-ready .hero__name-group, #hero.hero--name-ready .hero__role { opacity: 1; }
     .hero__name-group { display: flex; align-items: flex-end; gap: 0; }
@@ -213,11 +213,11 @@
       .hero__photo-wrap { flex: 0 0 auto; width: auto; }
       .hero__hero-title { flex: 1; min-width: 0; }
       .hero__hero-row { width: 100%; transform: none; margin-bottom: 2rem; }
-      .hero__photo-frame { width: 230px; }
-      .hero__photo { height: 230px; border-radius: 22px 22px 46px 46px; }
-      .hero__photo-blob { height: 132px; border-radius: 46px; }
-      .hero__badge { font-size: 14px; padding: 10px; left: -17px; bottom: -22px; border-radius: 17px; gap: 6px; }
-      .hero__badge-dot { width: 10px; height: 10px; }
+      .hero__photo-frame { width: 115px; }
+      .hero__photo { height: 115px; border-radius: 11px 11px 23px 23px; }
+      .hero__photo-blob { height: 66px; border-radius: 23px; }
+      .hero__badge { font-size: 7px; padding: 5px; left: -8px; bottom: -11px; border-radius: 8px; gap: 3px; }
+      .hero__badge-dot { width: 5px; height: 5px; }
       .hero__text { gap: 1rem; }
       .hero__title-block { width: 100%; min-width: 0; flex-shrink: 1; }
       .hero__rey-row { min-width: 0; }
