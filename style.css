@@ -350,8 +350,11 @@ button { font-family: var(--f-body); cursor: pointer; }
 }
 .lang-btn--option {
   width: 100%;
-  /* Zone tactile plus grande (plutôt que padding:0, trop petit au doigt). */
-  padding: .75rem 1rem;
+  /* Zone tactile plus grande (plutôt que padding:0, trop petit au doigt).
+     Pas de padding-left : le texte doit démarrer au même x que "Français"
+     dans .lang-btn (aligné à gauche du dropdown), pas décalé vers la
+     droite. */
+  padding: .75rem 1rem .75rem 0;
   text-align: left;
 }
 .lang-btn--option:hover {
