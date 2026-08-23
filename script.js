@@ -363,6 +363,15 @@
       transitionEls.forEach((el) => { el.style.transition = ''; });
       if (heroEl) heroEl.classList.add('hero--name-ready');
       window.addEventListener('resize', scheduleFitHero, { passive: true });
+      // 'resize' seul ne suffit pas toujours sur mobile : après une rotation
+      // d'écran, certains navigateurs le déclenchent avant que les
+      // dimensions du viewport (et donc --px, --max-w, la largeur de la
+      // photo, etc.) ne soient réellement stabilisées, laissant le hero
+      // calculé pour l'ancienne orientation. Un second recalcul avec un
+      // léger délai après 'orientationchange' rattrape ce cas.
+      window.addEventListener('orientationchange', () => {
+        setTimeout(scheduleFitHero, 300);
+      });
     });
   });
 
@@ -848,6 +857,12 @@
 
     window.addEventListener('scroll', requestScrollUpdate, { passive: true });
     window.addEventListener('resize', requestScrollUpdate, { passive: true });
+    // Comme pour le hero : après une rotation d'écran mobile, 'resize' peut
+    // se déclencher avant que les dimensions ne soient stabilisées, ce qui
+    // laisse le mood/fond calculé pour l'ancienne orientation.
+    window.addEventListener('orientationchange', () => {
+      setTimeout(requestScrollUpdate, 300);
+    });
     setTimeout(updateScrollState, 150);
   }
 

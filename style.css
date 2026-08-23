@@ -1590,6 +1590,14 @@ button { font-family: var(--f-body); cursor: pointer; }
   /* 30px de plus que les 3rem (48px) déjà posés au palier tablette. */
   .hero__scroll { margin-top: calc(3rem + 30px); }
 
+  /* Fond léger + padding haut/bas un peu plus généreux sur "Anglais". */
+  .lang-btn--option {
+    background: rgba(0, 0, 0, .04);
+    border-radius: 6px;
+    padding-top: .9rem;
+    padding-bottom: 1.8rem;
+  }
+
   /* will-change : prévient le GPU mobile de préparer la couche du flou
      backdrop-filter à l'avance, pour éviter que le texte de la card
      s'affiche visiblement avant que le fond flouté n'ait fini de se
