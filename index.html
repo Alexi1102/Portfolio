@@ -94,7 +94,7 @@
     .btn--outline { background: transparent; color: #8C56D3; border: 1.5px solid #8C56D3; }
     .nav { background: transparent; height: var(--nav-h); }
     .nav__inner { max-width: var(--max-w); margin: 0 auto; padding: 0 var(--px); height: 100%; display: flex; align-items: center; }
-    .nav__logo { font-family: 'neutronic', sans-serif; font-weight: 700; font-size: 1rem; color: #464646; text-transform: uppercase; letter-spacing: .02em; flex: 1; }
+    .nav__logo { font-family: 'neutronic', sans-serif; font-weight: 700; font-size: 1rem; color: #464646; text-transform: uppercase; letter-spacing: .02em; flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .nav__links { display: flex; justify-content: center; gap: 2.5rem; }
     .nav__link { font-size: .875rem; font-weight: 400; color: #2f2f2f; transition: color var(--dur); }
     .nav__actions { display: flex; align-items: center; justify-content: flex-end; gap: 1rem; flex: 1; }

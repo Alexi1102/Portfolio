@@ -236,6 +236,15 @@ button { font-family: var(--f-body); cursor: pointer; }
   text-transform: uppercase;
   letter-spacing: .02em;
   flex: 1;
+  /* min-width:0 : sans ça, un flex item ne rétrécit jamais sous la largeur
+     de son contenu (ici "ALEXIS REY" sur une ligne) — sur mobile, si ce
+     texte ne tient pas dans sa moitié de .nav__inner, il forçait tout le
+     nav (et donc la page entière) à déborder horizontalement au lieu de
+     simplement rétrécir/passer à la ligne. */
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .nav__links {
@@ -1524,7 +1533,7 @@ button { font-family: var(--f-body); cursor: pointer; }
   /* Spacing */
   .other   { margin-top: 80px; }
   .contact { padding: 80px var(--px) 3rem; }
-  .footer  { padding: 40px var(--px) 0; }
+  .footer  { padding: 40px var(--px) 32px; }
 }
 
 /* ── Footer : empilé et centré (≤ 768px) ─────────────── */
@@ -1672,7 +1681,7 @@ button { font-family: var(--f-body); cursor: pointer; }
   /* Bas de page */
   .other   { margin-top: 60px; }
   .contact { padding: 60px var(--px) 2.5rem; }
-  .footer  { padding: 32px var(--px) 0; }
+  .footer  { padding: 32px var(--px) 24px; }
 }
 
 /* ═══════════════════════════════════════════════════════
