@@ -252,18 +252,19 @@
     if (!Number.isFinite(newHeight)) return null;
     newHeight = Math.max(newHeight, HERO_NAME_MIN_H);
     document.documentElement.style.setProperty('--hero-name-h', newHeight + 'px');
-    // Par construction, une fois cette hauteur appliquée, le groupe entier
-    // (lettres + REY + pointillés + curseur) occupe exactement availableWidth
-    // — c'est cette valeur, et non une mesure du groupe, qui sert de cible à
-    // fitHeroRole() (voir plus bas pourquoi mesurer le groupe est instable).
-    return availableWidth;
+    // fitHeroRole() doit cibler la largeur du texte "ALEXIS REY" seul (sans
+    // les pointillés/curseur, qui débordent volontairement) : UI/UX DESIGNER
+    // doit toujours faire la même taille que ce texte, pas s'ajuster à la
+    // largeur totale du groupe (qui inclut les pointillés/curseur).
+    return newHeight * ratioSum + HERO_NAME_GAP;
   }
-  /* ── "UI / UX DESIGNER" : même largeur que le groupe ALEXIS/REY ──
+  /* ── "UI / UX DESIGNER" : même largeur que le texte "ALEXIS REY" seul
+     (sans les pointillés/curseur, qui débordent volontairement à droite) ──
      Par agrandissement du texte (font-size), pas par étirement des
      espaces (pas de text-align:justify) : on mesure la largeur naturelle
      du rôle sur une seule ligne (white-space:nowrap en CSS) et on
      recalcule la taille de police pour qu'elle égale exactement la
-     largeur du groupe nom, déjà mis à l'échelle par fitHeroName().
+     largeur d'ALEXIS REY, déjà mise à l'échelle par fitHeroName().
      Le letter-spacing (.03rem, fixe) ne grossit pas avec le font-size —
      comme pour l'écart de 20px d'ALEXIS/REY, on l'isole de la partie qui
      scale réellement (les glyphes) pour ne pas sous-estimer la taille

@@ -1618,31 +1618,28 @@ button { font-family: var(--f-body); cursor: pointer; }
      dessous (photo, badge) sont les anciennes valeurs × 1.25, pour un rendu
      visuel identique à avant, juste sans le transform. */
   .hero__hero-row { width: 100%; transform: none; margin-bottom: 2rem; }
-  /* Taille calée sur le ratio photo/texte du desktop (photo ≈ 42% de la
-     largeur du bloc photo+texte, comme .hero__photo-frame:233.51px face à
-     .hero__left sur desktop) plutôt qu'une valeur choisie à l'oeil : on
-     reproduit ainsi le même équilibre visuel qu'en desktop. Les pointillés
-     et le curseur n'ont pas besoin d'une photo plus petite pour rentrer —
-     fitHeroName() (script.js) inclut déjà leur largeur dans son calcul et
-     réduit le nom en conséquence, garantissant qu'ils tiennent toujours
-     dans le conteneur quelle que soit la taille de la photo. */
-  .hero__photo-frame { width: 145px; }
+  /* Répartition 2/3 (photo) — 1/3 (nom/rôle) demandée explicitement pour
+     mobile : .hero__photo-wrap se dimensionne sur .hero__photo-frame (flex:
+     0 0 auto), donc sa largeur en px cible ~2/3 d'une largeur de contenu
+     mobile typique (~360px) ; .hero__hero-title (flex:1) récupère le tiers
+     restant automatiquement. */
+  .hero__photo-frame { width: 230px; }
   .hero__photo {
-    height: 145px;
-    border-radius: 14px 14px 29px 29px;
+    height: 230px;
+    border-radius: 22px 22px 46px 46px;
   }
-  .hero__photo-blob  { height: 83px; border-radius: 29px; }
+  .hero__photo-blob  { height: 132px; border-radius: 46px; }
 
   /* Badge proportionnel à la photo */
   .hero__badge {
-    font-size: 9px;
-    padding: 6px;
-    left: -11px;
-    bottom: -14px;
-    border-radius: 11px;
-    gap: 4px;
+    font-size: 14px;
+    padding: 10px;
+    left: -17px;
+    bottom: -22px;
+    border-radius: 17px;
+    gap: 6px;
   }
-  .hero__badge-dot { width: 6px; height: 6px; }
+  .hero__badge-dot { width: 10px; height: 10px; }
 
   /* 50 % droite : texte */
   .hero__text        { gap: 1rem; }
