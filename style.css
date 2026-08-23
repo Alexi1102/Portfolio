@@ -1461,8 +1461,16 @@ button { font-family: var(--f-body); cursor: pointer; }
   /* hero__left occupe désormais toute la largeur : le bloc photo+titre
      est agrandi en bloc (transform: scale) pour garder strictement les
      mêmes proportions internes, avec une marge pour compenser le débord
-     visuel (le scale ne modifie pas la taille de la grille sous-jacente). */
+     visuel (le scale ne modifie pas la taille de la grille sous-jacente).
+     width:80% AVANT le scale(1.25) : 80% × 1.25 = 100% — la boîte, une
+     fois agrandie visuellement, occupe exactement la largeur disponible
+     au lieu de déborder de 25% sur la droite (transform ne change pas la
+     largeur réservée dans la mise en page, seulement le rendu visuel —
+     sans ce recalage, la partie droite du bloc, ALEXIS REY et UI/UX
+     DESIGNER, sortait de l'écran et était invisible, coupée par
+     l'overflow-x:hidden du body). */
   .hero__hero-row {
+    width: 80%;
     transform: scale(1.25);
     transform-origin: top left;
     margin-bottom: 3.5rem;
